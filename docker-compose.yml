@@ -10,14 +10,14 @@ services:
       - gems_volume:/gems:cached
     env_file:
       - .env
-    ports:
-      - 3000:3000
+    #ports:
+    #  - 3000:3000
     tty: true
 
   redis:
     image: redis
-    ports:
-      - 6378:6379
+    #ports:
+    #  - 6378:6379
     volumes:
       - redis_data:/data
 
@@ -25,8 +25,8 @@ services:
     image: postgres:16.1
     env_file:
       - .env
-    ports:
-      - 5432:5432
+    #ports:
+    #  - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
     
@@ -37,8 +37,8 @@ services:
       - .env
     depends_on:
       - database
-    ports:
-      - 7000:80
+    #ports:
+    #  - 7000:80
     volumes:
       - pgadmin-data:/var/lib/pgadmin
 
