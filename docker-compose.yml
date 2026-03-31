@@ -9,9 +9,7 @@ services:
       - storage_data:/var/www/app_storage
       - gems_volume:/gems:cached
     env_file:
-      - .env.web
-      - .env.database
-      - .env.pg
+      - .env
     ports:
       - 3000:3000
     tty: true
@@ -36,7 +34,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4:latest
     env_file:
-      - .env.pg
+      - .env
     depends_on:
       - database
     ports:
