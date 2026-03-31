@@ -14,7 +14,7 @@ services:
     #  - 3000:3000
     tty: true
     networks:
-      - dokploy-network
+      - dokploy-pat-network
 
   redis:
     image: redis
@@ -23,7 +23,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - dokploy-network
+      - dokploy-pat-network
 
   database:
     image: postgres:16.1
@@ -34,7 +34,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
-      - dokploy-network
+      - dokploy-pat-network
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -47,10 +47,10 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     networks:
-      - dokploy-network
+      - dokploy-pat-network
 
 networks:
-  dokploy-network:
+  dokploy-pat-network:
     external: true
 
 volumes:
