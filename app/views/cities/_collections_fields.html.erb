@@ -1,0 +1,109 @@
+<%
+  if form.object && form.object.persisted? 
+    city_id = form.object.city.id
+    state_id = form.object.city.state.id
+    country_id = form.object.city.state.country.id
+    states = form.object.city.state.country.states
+    cities = form.object.city.state.cities
+  else
+    city_id = nil
+    state_id = nil
+    country_id = nil
+    states = []
+    cities = []
+  end
+%>
+
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xl-4">
+    <div class="form-floating mb-3">
+      <%= form.select :country_id, Country.all.map{ |country| [ country.name, country.id ] }, 
+        { selected: country_id, prompt: "Seleccione País"},
+        { id: "country_id", class: "form-select", required: true, onchange: "changeCountry(event, 'state_id')" }
+      %>
+    </div>
+  </div>
+
+  <div class="col-xl-4 col-md-12 col-sm-12">
+    <div id='return_state' class="form-floating mb-3">
+      <%= form.select :state_id, states.map{ |state| [ state.name, state.id ] }, 
+      { selected: state_id, prompt: "Seleccione una Provincia" },
+      { id: "state_id", class: "form-select", required: true, onchange: "changeState(event, 'city_id')"} 
+      %>
+    </div>
+  </div>
+
+  <div class="col-xl-4 col-md-12 col-sm-12">
+    <div  id='return_city'  class="form-floating mb-3">
+      <%= form.select :city_id, cities.map{ |city| [ city.name, city.id ] }, 
+        { selected: city_id, prompt: "Seleccione una Ciudad" },
+        { id: "city_id", class: "form-select", required: true }
+      %>
+    </div>
+  </div>
+</div>
+
+
+<script type='text/javascript'>
+  function changeCountry(event, selected){ 
+    var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    var country_id = document.getElementById(event.target.id).value;
+
+    body = { country_id: country_id };
+    $('#city_id').empty().append('<option selected="selected" value="">Seleccione una Ciudad</option>');;
+
+    return fetch('<%= select_country_path %>', {
+    method: 'post',
+    body: JSON.stringify(body),
+    headers: {
+      'content-type': 'application/json',
+      'X-CSRF-Token': token,
+    }
+    }).then(function(response) {
+      if (response.status == 200) {
+        console.log(response)
+        response.text().then((content) => {
+          result = JSON.parse(content)
+          $('#' + selected).empty()
+          .append('<option selected="selected" value="">Seleccione una Provincia</option>');
+
+          result.forEach(function(state) {
+            $('#' + selected).append('<option value="' + state.id + '">' + state.name +'</option>');
+          });
+        })
+      }
+    });
+  }
+  function changeState(event, selected){
+    var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    var state_id = document.getElementById(event.target.id).value;
+    body = { state_id: state_id };
+    $('#city_id').empty().append('<option selected="selected" value="">Seleccione una Ciudad</option>');
+
+    return fetch('<%= select_state_path %>', {
+    method: 'post',
+    body: JSON.stringify(body),
+    headers: {
+      'content-type': 'application/json',
+      'X-CSRF-Token': token,
+    }
+    }).then(function(response) {
+      if (response.status == 200) {
+        console.log(response)
+        response.text().then((content) => {
+          result = JSON.parse(content)
+          $('#' + selected).empty()
+          .append('<option selected="selected" value="">Seleccione una Ciudad</option>');
+
+          result.forEach(function(city) {
+            $('#' + selected).append('<option value="' + city.id + '">' + city.name +'</option>');
+          });
+        })
+      }
+    });
+
+  }
+
+
+</script> 

@@ -1,0 +1,165 @@
+
+<div class="row justify-content-md-center">
+  <div class="col-xl-8 col-lg-6">
+    <div class="card tilebox-one card border-primary border">
+      <div class="card-body">
+
+        <%= form_with(model: movement, data:{
+            # turbo: true, 
+            controller: 'companySetting', 
+            companySetting_current_conversion_value: conversion, 
+            companySetting_current_discount_value: discount,
+            companySetting_current_type_value: type
+          }) do |form| %>
+
+          <%= render "shared/error_messages", resource: form.object %>
+          <%= form.hidden_field :movement_type, value: @type %>
+          <%= form.hidden_field :customer_id, value: customer.id %>
+
+          <!------------- Este es el titulo ------------------->
+          <h3 class="text-uppercase mt-0 text-center"><%= Movement.movement_types[type]%></h3>
+
+          <% if movement.movement_type_exchange? %>
+            <div class="text-danger my-3" >*Recuerde que en la anulacion de canje por venta se debe realizar el reingreso del monto descontado en el canje </div>
+            <%# , es decir el Importe - Importe a pagar, por lo que se debería haber registrado un reingreso de <%= number_to_currency(movement.amount - movement.total_import) antes de confirmar ésta anulación. %>
+          <% end %>
+
+          <%= form.hidden_field :movement_id, value: movement.id %>
+
+          <table class="table table-nowrap table-centered mb-0">
+            <tbody>
+
+              <!------------- Aqui tenemos el SUCURSAL------------------->
+              <%= form.hidden_field :branch_id, value: movement.branch.id %>
+              <tr>
+                <td><p class="m-0 d-inline-block align-middle">
+                  Sucursal<br>
+                </p></td>
+                <td class="text-end">
+                  <%= form.text_field :branch_id, class: 'form-control', value: movement.branch.name, disabled: true%>
+                </td>
+              </tr>
+              
+              <!------------- Aqui tenemos el IMPORTE que se ingresa ------------------->
+              <tr>
+                <td>
+                  <p class="m-0 d-inline-block align-middle">
+                    Importe
+                    <br>
+                  </p>
+                </td>
+
+                <td class="text-end">
+                  <%= form.number_field :amount, 
+                  class: "form-control", 
+                  placeholder:"Ingrese importe", 
+                  step: :any, 
+                  data: {
+                    companySetting_target: "field", 
+                    action: "keyup->companySetting#sale_method"
+                  }, 
+                  readonly: type.in?([:sale_annulment, :exchange_annulment]) %>
+                </td>
+              </tr>
+              
+              
+              <!---------------- Aqui tenemos el IMPORTE DESCONTADO---------------------->
+              <tr>
+                <td>
+                  <p class="m-0 d-inline-block align-middle">
+                    Importe descontado
+                    <br>
+                      <small class="text-muted"><%= "Descuento del " + number_to_percentage(movement.discount, precision: 2, separator: ',') %> </small>
+                  </p>
+                </td>
+                <td class="text-end">
+                  <%= form.number_field :amount_discounted, 
+                  class: "form-control", 
+                  step: :any, 
+                  data:{companySetting_target: "importDiscounted"}, 
+                  readonly: true%>
+                </td>
+              </tr>  
+
+              <!---------------- Aqui tenemos el IMPORTE CON DESCUENTO ---------------------->
+              <tr>
+                <td>
+                  <p class="m-0 d-inline-block align-middle">
+                    Importe con descuento
+                    <br>
+                  </p>
+                </td>
+                <td class="text-end">
+                  <%= form.number_field :amount_with_discount, 
+                  class: "form-control", 
+                  step: :any, 
+                  data:{
+                    companySetting_target: "amountWithDiscount"
+                  }, 
+                  readonly: true%>
+                </td>
+              </tr>
+
+              <!---------------- Aqui tenemos el IMPORTE A PAGAR ---------------------->
+              <tr>
+                <td>
+                  <p class="m-0 d-inline-block align-middle">
+                    Importe a pagar
+                    <br>
+                  </p>
+                </td>
+
+                <td class="text-end">
+                  <%= form.number_field :total_import, 
+                  class: "form-control", 
+                  placeholder:"Ingrese importe", 
+                  step: :any, 
+                  data: {
+                    companySetting_target: "totalImport", 
+                    action: "keyup->companySetting#sale_method"
+                  }, 
+                  readonly: type.in?([:sale_annulment, :exchange_annulment]) %>
+                </td>
+              </tr>
+
+              <!------------- Aqui tenemos los PUNTOS --------------------->
+              <tr>
+                <td>
+                  <p class="m-0 d-inline-block align-middle">
+                    Cantidad de Puntos <%= type == :sale_annulment ? "Acumulados" : "Canjeados"%>
+                    <br>
+                      <% if type == :sale_annulment %>
+                        <small class="text-muted"><%= "Conversion del " + number_with_precision(movement.conversion, precision: 2, separator: ',', delimiter: '.') %> </small>
+                      <% end %>
+                  </p>
+                </td>
+
+                <td class="text-end">
+                  <% if type == :exchange_annulment %>
+                    <%= form.text_field :points, 
+                    class: "form-control", 
+                    placeholder:"Ingrese points", 
+                    value: movement.try(:points), 
+                    readonly: type!=:exchange %>
+                  <% else %>
+                    <%= form.text_field :points, 
+                    class: "form-control", 
+                    placeholder:"Ingrese points", 
+                    data:{companySetting_target: "points", action: "keyup->companySetting#exchange_method"}, 
+                    readonly: type!=:exchange %>
+                  <% end %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br/>
+          <div class="justify-between items-center">
+            <%= form.button "Aceptar", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div> <!-- end card-body-->
+    </div>
+  </div> <!-- end col -->
+</div>
+
+

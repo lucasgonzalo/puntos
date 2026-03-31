@@ -1,0 +1,14 @@
+<!-- lib/templates/erb/scaffold/_form.html.erb.tt -->
+
+<%= form_with(model: country) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+  
+  <div class="form-floating mb-3">
+    <%= form.text_field :name, class: "form-control", placeholder:"Ingrese name" %>
+    <%= form.label :name, for: "floatingInput" %>
+  </div>
+  
+  <div class="justify-between items-center">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>

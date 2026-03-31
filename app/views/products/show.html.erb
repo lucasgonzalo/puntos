@@ -1,0 +1,35 @@
+<p style="color: green"><%= notice %></p>
+
+
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+
+<% set_page_title("#{@product.name}") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="container mx-auto my-2 px-4">
+            <div class="col-lg-4">
+              <%= render partial: 'product', locals: { product: @product } %>
+            </div>
+
+            <div class="d-flex bd-highlight mt-4">
+              <div class="p-2 bd-highlight">
+                <%= link_to 'Volver', :back, class: "btn btn-secondary" %>
+              </div>
+
+              <div class="ms-auto p-2 bd-highlight">
+                <% if can? :destroy, @product %>
+                  <%= render 'shared/destroy', element: catalog_product_path(@catalog, @product) %>
+                <% end %>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
+  
+  

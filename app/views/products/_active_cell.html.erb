@@ -1,0 +1,10 @@
+<!-- app/views/products/_active_cell.html.erb -->
+<turbo-frame id="active_<%= product.id %>">
+  <%= button_to (product.active ? 'Activado' : 'Desactivado'),
+    toggle_active_product_path(product, catalog_id: @catalog.id),
+    method: :patch, params: { active: !product.active },
+    class: "btn btn-sm btn-#{product.active ? 'success' : 'danger'}",
+    data: { turbo: true, product_status: product.active ? 'active' : 'inactive' },
+    title:"#{product.active ? '¿Desactivar?' : '¿Activar?'}" 
+  %>
+</turbo-frame>

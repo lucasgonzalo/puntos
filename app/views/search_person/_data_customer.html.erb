@@ -1,0 +1,52 @@
+<%= turbo_frame_tag 'customer_search_result', class: 'col-12' do %>
+    
+    <!--USED on QR ?-->
+    <%# Used on new movements %>
+
+  <% if customer %>
+    <div class="card border">
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <h6 class="text-uppercase mt-0">Puntos Disponibles</h6>
+            <h2 class="my-2" id="active-views-count"><%= customer.points_balance_amount(customer.company) %></h2>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <h6 class="text-uppercase mt-0">Cantidad de Canjes</h6>
+            <h2 class="my-2" id="active-views-count"><%= customer.get_count_exchange(customer.company) %></h2>
+          </div>
+          
+          <div class="col-12 col-lg-6">
+            <p class="mb-0 text-muted">
+              <span class="fw-bold me-2"><%= "CLIENTE DE #{customer.company.name.upcase}" %>
+            </p>
+          </div>
+
+          <div class="col-12 col-lg-6">
+            <p class="mb-0 text-muted">
+              <% unless customer.status_inactive? %>
+                <%= link_to 'Ir a Cta. Cte.', current_account_exteneral_path(customer), class: "btn btn-primary btn-sm", target: '_blank'  %>
+              <% end %>
+            </p>
+          </div>
+          
+          <div class="col-12 col-lg-6">
+            <p class="mb-0 text-muted">
+              <span class="fw-bold me-2">Estado:</span>
+              <%= get_badges_customer(customer) %>
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="card border " style="height: 4rem;">
+      <div class="card-body"> 
+        <h4 class="header-title mb-3">NO ES CLIENTE AÚN DE ESTE COMERCIO</h4> 
+      </div>
+    </div>
+  <% end %>
+<% end %>

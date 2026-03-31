@@ -1,0 +1,121 @@
+
+<!----------------------------FORM PARA CANJE ---------------------------------->
+<%= turbo_frame_tag 'product_exchange_form' do %>
+
+    <div data-controller="product-exchange-movements" class=" col-12">
+      <div class=" ">
+        <div class="">
+
+          <div class="mb-3 row">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3 class="mb-0">CANJE POR CATALOGO </h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-10 offset-md-1">
+              
+              <div class="mb-3">
+                <%  if @current_group
+                      @catalogs = @current_group.account_type_store? ? Catalog.where(group: @current_group, company: @current_company).last : Catalog.find_by(group: @current_group)
+                    else
+                      @catalogs = Catalog.all
+                    end
+                %>
+                <% if @catalogs %>
+                  <div data-product-exchange-movements-target="defaultCatalogId" data-catalog-id="<%= @catalogs.id.to_s %>"></div>
+                <% else %>
+                  Sin Catalogo
+                <% end %>
+              </div>
+
+              <%= turbo_frame_tag "catalog_content", data: { product_exchange_movements_target: "catalogContent" } do %>
+                <!-- Products will be loaded here automatically -->
+              <% end %>
+
+
+                <div  class=" p-2 mt-3" id="form_exchange_products_container">
+                <h5 class="mb-2">Productos Seleccionados:</h5>
+                  <div data-product-exchange-movements-target="selectedProductsDisplay">
+                    <div class="card p-2">
+                      <p class="text-muted">Ningún producto seleccionado</p>
+                    </div>
+                  </div>
+                  
+                  <!-- Total Points Summary Section -->
+                  <div class="card mt-3 p-3 ">
+                    <div class="row align-items-center">
+                      <div class="col-md-8">
+                        <h6 class="mb-0">Total de Puntos Requeridos:</h6>
+                      </div>
+                      <div class="col-md-4 text-end">
+                        <span class=" fs-5" data-product-exchange-movements-target="totalPointsDisplay">0</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Total Money Summary Section - NEW -->
+                  <div class="card mt-3 p-3 " data-product-exchange-movements-target="totalMoneySection" style="display: none;">
+                    <div class="row align-items-center">
+                      <div class="col-md-8">
+                        <h6 class="mb-0">Total de Dinero Necesario:</h6>
+                      </div>
+                      <div class="col-md-4 text-end">
+                        <span class="fs-5" data-product-exchange-movements-target="totalMoneyDisplay">$0</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Error Message Display -->
+                  <div class="mt-2" data-product-exchange-movements-target="errorFeedbackPoints" style="display: none;">
+                    <div class="alert alert-danger mb-0">
+                      Los puntos del cliente no son suficientes para canjear los items seleccionados
+                    </div>
+                  </div>
+                  <% movement = Movement.new %>
+                  <%= form_with(model: movement, method: :post, html: { class: 'needs-validation', novalidate: true }) do |form| %>
+                    <%= render "shared/error_messages", resource: form.object %>
+
+                    <%= form.hidden_field :movement_type, value: 'product_exchange' %>
+                    <%= form.hidden_field :customer_id, value: customer.id %>
+                    <%= form.hidden_field :movement_id, value: movement.id %>
+
+                    <%= form.hidden_field :points, value: 0 %>
+                    <%= form.hidden_field :amount, value: 0 %>
+                    <%= form.hidden_field :amount_discounted, value: 0 %>
+                    <%= form.hidden_field :total_import, value: 0 %>
+                    <%= form.hidden_field :customer_available_points, value: customer.points_balance_amount(customer.company).to_i, data: { product_exchange_movements_target: "customerAvailablePoints" } %>
+
+                    <!-- Updated hidden field to store array of selected product IDs -->
+                    <%= form.hidden_field :selected_products_array, value: '[]', data: { product_exchange_movements_target: "selectedProductsArray" } %>
+
+                    <div class=" mt-2 mb-3 row">
+                      <div class="col-sm-8">
+                      <label for="inputField" class="">Sucursal</label>
+                        <% if @branch %>
+                          <%= form.hidden_field :branch_id, value: @branch.id, data: { product_exchange_movements_target: "branchValue" } %>
+                          <%= form.text_field :branch_name, class: 'form-control', value: @branch.name, disabled: true %>
+                        <% elsif @company %>
+                          <%= form.collection_select :branch_id, @company.branches, :id, :name, { prompt: "Seleccione una Sucursal" }, { 
+                          class: "form-select", 
+                          data: { 
+                            product_exchange_movements_target: "branchValue", action: "change->product-exchange-movements#validateInputs"
+                          }}%>
+                        <% end %>
+                      </div>
+                      <div class="invalid-feedback" data-product-exchange-movements-target="errorFeedbackBranch"></div>
+                    </div>
+                    <%= form.submit "Aceptar", class: "btn btn-primary mt-3",
+                      data: { product_exchange_movements_target: "submitExchangeForm", loading_text: "Cargando..." },
+                      onclick: "this.disabled=true; this.textContent=this.dataset.loadingText || 'Procesando...'; this.form.submit();"
+                    %>
+                  <% end %>
+                </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<% end %>

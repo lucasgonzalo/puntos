@@ -1,0 +1,340 @@
+es:
+  date:
+    formats:
+      default: "%d/%m/%Y"
+
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+
+  Back: "Volver"
+  Delete: "Eliminar"
+  Destroy: "Eliminar"
+  Edit: "Editar"
+  Show: "Ver"
+  View: "Ver"
+  
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      required: "es requerido"
+      invalid: "inválido"
+      blank: "está en blanco"
+      greater_than: debe ser mayor que %{count}
+      not_a_number: no es un número
+      not_an_integer: debe ser un entero
+
+      
+  attributes:
+    active: Activo?
+    address: Dirección
+    area_code: Código de Area
+    amount: Importe
+    basic_role: Rol Basico
+    birth_date: Fecha de nacimiento
+    branch: Sucursal
+    branch_id: Sucursal
+    branches: Sucursales
+    city: Ciudad
+    city_id: Ciudad
+    cities: Ciudades
+    company: Comercio
+    company_id: Comercio
+    country_code: Código de País
+    companies: Comercios
+    conversion: Conversión
+    country: País
+    country_id: País
+    countries: Países
+    created_at: Creado el
+    customer: Cliente
+    customer_id: Cliente
+    customers: Clientes
+    document_type: Tipo de documento
+    document_number: Número de documento
+    days_sleep: Días para Cliente Dormido
+    first_name: Nombre
+    geolocation_link: Link geolocalización
+    gender: Sexo
+    intermediate_role: Rol Supervisor
+    last_name: Apellido
+    latitude: Latitud
+    longitude: Longitud   
+    main: Principal?
+    manager_role: Rol Gerente Sucursal
+    name: Nombre
+    observation: Observación
+    person: Persona
+    person_address: Dirección de Persona
+    person_address_id: Dirección de Persona
+    person_addresses: Direcciones de Personas
+    person_email: Email de Persona
+    person_email_id: Email de Persona
+    person_emails: Emails de Personas
+    person_phone: Teléfono de Persona
+    person_phone_id: Teléfono de Persona
+    person_phones: Teléfonos de Personas
+    person_relationship: Relaciones de Personas
+    postal_code: Código Postal
+    phone_number: Número de Teléfono 
+    phone_type: Tipo de Teléfono
+    updated_at: Actualizado el
+    user: Usuario
+    user_id: Usuario
+    relationship: Parentezco
+    state: Provincia
+    state_id: Provincia
+    states: Provincias
+    status: Estado
+
+  activerecord:
+    attributes:
+      person:
+        first_name: Nombre
+        last_name: Apellido
+      user:
+        admin_role: Rol admin
+        company_owner_role: Rol propietario
+      branch:
+        branch_users: Usuarios de sucursal
+      branch_user:
+        manager_role: Rol Gerente Sucursal
+        intermediate_role: Rol Intermedio
+        basic_role: Rol Basico
+      group:
+        account_type: Acumula puntos
+        account_types:
+          group: Por Entidad
+          store: Por Comercio
+      person_address:
+        latitude: Latitud
+        longitude: Longitud
+        postal_code: Código Postal
+      person_phone:
+        area_code: Código de Area
+        phone_number: Número de Teléfono 
+        phone_type: Tipo de Teléfono
+      movement:
+        customer: Cliente
+        movement_type: Tipo de Movimiento 
+        points: Puntos 
+
+    models:
+      product:
+        one: producto
+        other: productos
+
+      catalog:
+        one: catálogo
+        other: catálogos
+
+      branch_alert:
+        one: Alerta de Sucursal 
+        other: Alerta de Sucursales
+
+      branch_setting:
+        one: Configuracion de Sucursal 
+        other: Configuracion de Sucursales
+
+      user:
+        one: Usuario
+        other: Usuarios
+
+      country:
+        one: País
+        other: Países
+
+      state:
+        one: Provincia
+        other: Provincias
+
+      city:
+        one: Ciudad
+        other: Ciudades
+
+      company:
+        one: Comercio
+        other: Comercios
+      
+      company_setting:
+        one: Configuracion de Comercio 
+        other: Configuracion de Comercios
+      
+      customer:
+        one: Cliente
+        other: Clientes
+
+      branch:
+        one: Sucursal
+        other: Sucursales
+
+      branch_user:
+        one: Usuario de sucursal
+        other: Usuarios de sucursal
+      
+      movement:
+        one: Movimiento
+        other: Movimientos 
+      
+      group:
+        one: Entidad
+        other: Entidades 
+      
+      person:
+        one: Persona
+        other: Personas
+      
+      person_email:
+        one: Email de Persona
+        other: Email de Personas
+
+      person_address:
+        one: Dirección de Persona
+        other: Direcciones de Personas
+
+      person_phone:
+        one: Telefono de Persona
+        other: Telefonos de Personas
+
+      person_relationship:
+        one: Relación de Persona
+        other: Relaciones de Personas
+      
+      relationship: 
+        one: Parentezco
+        other: Parentezcos
+       
+    errors:
+      messages:
+        record_invalid: 'La validación falló: %{errors}'
+        restrict_dependent_destroy:
+          has_one: No se puede eliminar el registro porque existe un %{record} dependiente
+          has_many: No se puede eliminar el registro porque existen %{record} dependientes
+        not_saved: 'No guardado'
+        taken: "en %{model} ya fué utilizado"
+        too_short: "es muy corto (mínimo %{count} caracteres)"
+
+  helpers:
+    submit:
+      create: Crear %{model}
+      update: Actualizar %{model}
+
+  number:
+    currency:
+      format:
+        delimiter: "."
+        precision: 2
+        separator: ","
+        unit: "$"
+    percentage:
+        precision: 2 
+        separator: ','
+    precision:
+      format: 
+        precision: 2
+        delimiter: "."
+        separator: ","
+    
+
+
+  date:
+    abbr_day_names:
+    - dom
+    - lun
+    - mar
+    - mié
+    - jue
+    - vie
+    - sáb
+    abbr_month_names:
+    - 
+    - ene
+    - feb
+    - mar
+    - abr
+    - may
+    - jun
+    - jul
+    - ago
+    - sep
+    - oct
+    - nov
+    - dic
+    day_names:
+    - domingo
+    - lunes
+    - martes
+    - miércoles
+    - jueves
+    - viernes
+    - sábado
+    formats:
+      default: "%-d/%-m/%Y"
+      long: "%-d de %B de %Y"
+      short: "%A"
+
+    month_names:
+    - 
+    - enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
+    order:
+    - :day
+    - :month
+    - :year
+
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: alrededor de 1 hora
+        other: alrededor de %{count} horas
+      about_x_months:
+        one: alrededor de 1 mes
+        other: alrededor de %{count} meses
+      about_x_years:
+        one: alrededor de 1 año
+        other: alrededor de %{count} años
+      almost_x_years:
+        one: casi 1 año
+        other: casi %{count} años
+      half_a_minute: medio minuto
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
+      less_than_x_minutes:
+        one: menos de 1 minuto
+        other: menos de %{count} minutos
+      over_x_years:
+        one: más de 1 año
+        other: más de %{count} años
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
+      x_minutes:
+        one: 1 minuto
+        other: "%{count} minutos"
+      x_days:
+        one: 1 día
+        other: "%{count} días"
+      x_months:
+        one: 1 mes
+        other: "%{count} meses"
+      x_years:
+        one: 1 año
+        other: "%{count} años"
+    prompts:
+      second: Segundo
+      minute: Minuto
+      hour: Hora
+      day: Día
+      month: Mes
+      year: Año

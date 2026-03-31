@@ -1,0 +1,10 @@
+<div class=" rounded p-1   position-relative" style="z-index: 9999;">
+  <div><%= "Dev mode(#{request.host}), layout: #{defined? current_layout}, @logged_admin: #{@logged_admin}" %> </div>
+  <div><%= "@current_branch.id: #{@current_branch&.id}(#{@current_branch&.name}), @current_company.id: #{@current_company&.id}(#{@current_company&.name}), @current_group.id: #{@current_group&.id}(#{@current_group&.name} - tipo: #{@current_group&.account_type})" %> </div>
+  <div><%= "current_user.id: #{current_user&.id}(#{current_user&.email}), Roles: admin:#{current_user&.admin_role}, company:#{current_user&.company_owner_role}, group:#{current_user&.group_owner_role} " %> </div>
+  <% if @current_branch %>
+    <% branch_user = BranchUser.find_by(user: current_user, branch: @current_branch) %>
+    <div><%= branch_user ? "branch_user.id: #{branch_user.id } role: #{branch_user.role_name}" : "No tiene branch_user"%> </div>
+  <% end %>
+  <div><%= "Params: #{params.to_json}" %> </div>
+</div>

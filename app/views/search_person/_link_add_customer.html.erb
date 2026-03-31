@@ -1,0 +1,14 @@
+
+<%= turbo_frame_tag 'customer_new_link', class: 'col-12' do %>
+  <% if !customer %>
+    <div class="row">
+      <div class="col align-self-center float-center">      
+        <a href="javascript: void(0);">
+          <%= link_to 'Agregar Cliente <i class="mdi mdi-arrow-right ms-2"></i>'.html_safe, new_customer_wizard_path(step: 1), target: '_blank', class: 'btn btn-primary' %>            
+        </a>   
+      </div>
+    </div>
+  <% end %>
+<% end %>
+  
+

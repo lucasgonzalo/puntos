@@ -1,0 +1,7 @@
+<%= turbo_stream.update @target_states do %>
+  <%= options_for_select @states %>
+<% end %>
+
+<%= turbo_stream.update @target_cities do %>
+  <%= options_for_select [['Seleccione Ciudad', nil]] %>
+<% end %>

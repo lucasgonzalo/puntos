@@ -1,0 +1,25 @@
+<table id="datatable-buttons" class="table table-striped dt-responsive nowrap ">
+  <thead>
+    <tr>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Fecha</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Cliente</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Sucursal</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Tipo de Movimiento</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Importe</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Puntos</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @movements.each do |movement| %>
+      <tr class="group border-t border-gray-400 hover:bg-gray-100">
+        <td class="p-3"><%= l movement.created_at %></td>
+        <td class="p-3"><%= movement.customer.full_name %></td>
+        <td class="p-3"><%= movement.branch.name %></td>
+        <td class="p-3"><%= get_badges_movement_type movement  %></td>
+        <td class="p-3"><%= number_to_currency(movement.amount, precision: 2, delimiter: ".", separator: ",") %></td>
+        <td class="p-3"><%= number_with_precision(movement.points, precision: 0, delimiter: ".", separator: ",") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

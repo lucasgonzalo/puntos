@@ -1,0 +1,62 @@
+
+
+<% logger.info " vista de customer wizard, paso #{params[:step]}" %>
+
+<div id="basicwizard">
+  <ul class="nav nav-pills nav-justified form-wizard-header mb-4">
+    <li class="nav-item">
+      <a href="#" data-bs-toggle="tab" data-toggle="tab" class="nav-link disabled rounded-0 pt-2 pb-2 <%= @step == 1 ? 'active' : '' %>"> 
+        <i class="mdi mdi-account-circle me-1"></i>
+        <span class="d-none d-sm-inline">Buscar Persona</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" data-bs-toggle="tab" data-toggle="tab" class="nav-link disabled rounded-0 pt-2 pb-2 <%= @step == 2 ? 'active' : '' %>">
+        <i class="mdi mdi-face-profile me-1"></i>
+        <span class="d-none d-sm-inline">Datos</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" data-bs-toggle="tab" data-toggle="tab" class="nav-link disabled rounded-0 pt-2 pb-2 <%= @step == 3 ? 'active' : '' %>">
+        <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i>
+        <span class="d-none d-sm-inline">Alta</span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content b-0 mb-4">
+    <div class="tab-pane <%= @step == 1 ? 'active' : '' %>" id="documentTab">
+      <%= render 'wizard_step_1' if @step == 1 %>
+    </div>
+
+    <div class="tab-pane <%= @step == 2 ? 'active' : '' %>" id="personTab">
+      <%= render 'wizard_step_2' if @step == 2 %>
+    </div>
+
+    <div class="tab-pane <%= @step == 3 ? 'active' : '' %>" id="confirmTab">
+      <%= render 'wizard_step_3' if @step == 3 %>
+    </div>
+
+    <div id="buttons">
+      <%= turbo_frame_tag 'new_customer_wizard_buttons' do %>
+        <% if @new_customer_finish_enabled %>
+          <ul class="list-inline wizard mb-0 text-center">
+            <li class="previous list-inline-item disabled">
+              <%= link_to 'Finalizar', customers_path, class: "btn btn-success", data: { turbo: false } %>
+            </li>
+          </ul>
+        <% else %>
+          <ul class="list-inline wizard mb-0">
+            <li class="previous list-inline-item disabled">
+              <%= button_to 'Anterior', wizard_previous_step_path, method: :post, class: "btn btn-secondary #{@new_customer_previous_enabled ? '' : 'disabled'} "%>
+
+            </li>
+            <li class="next list-inline-item float-end">
+              <%= button_to 'Siguiente', wizard_next_step_path, method: :post, class: "btn btn-primary #{@new_customer_next_enabled ? '' : 'disabled'}"%>
+            </li>
+          </ul>
+        <% end %>
+      <% end %>
+    </div>
+  </div> <!-- tab-content -->
+</div>

@@ -1,0 +1,2 @@
+class RedisKey < ApplicationRecord
+end

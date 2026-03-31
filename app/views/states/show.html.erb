@@ -1,0 +1,37 @@
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+
+<% set_page_title("Provincia") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="container mx-auto my-2 px-4">
+            <div class="row">
+              <div class="h4 m-2 text-lg font-semibold">País:</div>
+              <span class="leading-normal"><%= @state.country.name %></span>
+            </div>
+            
+            <div class="row">
+              <div class="h4 m-2 text-lg font-semibold">Nombre:</div>
+              <span class="leading-normal"><%= @state.name %></span>
+            </div>
+          </div>
+
+          <div class="d-flex bd-highlight mt-4">
+            <div class="p-2 bd-highlight">
+              <%= link_to 'Volver', states_path, class: "btn btn-secondary" %>
+            </div>
+
+            <div class="ms-auto p-2 bd-highlight">
+              <% if can? :destroy, @state %>
+                <%= render 'shared/destroy', element: @state %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

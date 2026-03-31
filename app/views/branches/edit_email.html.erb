@@ -1,0 +1,8 @@
+
+
+<%= form_with(model: @branch) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+  <%= render 'branch_settings/field_email', form: form, attribute: :email  do %>
+      <%= form.text_field :email, class: "form-control", placeholder: "Ingrese email",  format: { with: /\A[^@\s]+@[^@\s]+\z/} %>
+  <%end%>
+<% end %>

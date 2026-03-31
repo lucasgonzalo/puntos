@@ -1,0 +1,11 @@
+¡Hola <%= @person.full_name %>!
+Gracias por registrarte en Puntos. Para completar tu registro, necesitamos validar tu dirección de correo electrónico.
+Email: <%= @person_email.email %>
+Para validar tu email, haz clic en el siguiente enlace:
+<%= @validation_url %>
+O copia y pega este enlace en tu navegador:
+<%= @validation_url %>
+Importante:
+- Este enlace expira en 48 horas
+- Si no solicitaste este registro, puedes ignorar este correo electrónico
+Este es un correo automático, por favor no respondas.

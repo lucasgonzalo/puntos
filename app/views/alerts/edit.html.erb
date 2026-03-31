@@ -1,0 +1,22 @@
+<!-- lib/templates/erb/scaffold/edit.html.erb.tt -->
+
+<% set_page_title("Editar Alert") %>
+
+<div class="row">
+  <div class="col-12 card">
+    <div class="card-body">
+      <div class="m-2 col-12">
+        <div class="container mx-auto my-8 px-4">
+          <div class="max-w-xl mx-auto">
+            <%= render 'form', alert: @alert %>
+          </div>
+        </div>
+
+        <%= link_to alerts_path, class: "btn btn-light" do %>
+          <i class="mdi mdi-arrow-left me-1"></i>
+          Volver
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

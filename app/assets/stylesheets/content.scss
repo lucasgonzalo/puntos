@@ -1,0 +1,40 @@
+// Main Content
+.content {
+  flex: 1;
+  // padding: 10px;
+  padding-left: 0.5rem;
+  margin-top: var(--header-height); /* Ajusta según la altura del header (.fixed-top) */
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+  z-index: 5; // Ensure it goes behind the sidebar in mobile
+  flex-grow: 1;
+  min-width: 0; // clave para evitar que se desborde
+  overflow-x: auto; // scroll horizontal si algo se pasa
+  background-color: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
+
+  @media (max-width: 768px) {
+    margin-left: 0; // No desplaza el contenido en móviles
+  }
+
+  @media (min-width: 768px) {
+    margin-left: var(--sidebar-width); // Deja espacio para el sidebar en pantallas grandes
+  }
+}
+
+
+// Responsive Styles
+@media (min-width: 768px) {
+  .sidebar {
+    left: 0; // Always visible in desktop view
+  }
+
+  .content {
+    margin-left: 0; // Adjust for the sidebar
+    z-index: 5; // Ensure it goes behind the sidebar in mobile
+  }
+
+  .toggler {
+    display: none; // Hide toggler on desktop
+  }
+}

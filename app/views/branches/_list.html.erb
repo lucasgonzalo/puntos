@@ -1,0 +1,32 @@
+<table id="datatable-buttons" class="table table-striped dt-responsive nowrap ">
+  <thead>
+    <tr>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Comercio</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Sucursal</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Dirección</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Ciudad</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Mapa</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Principal?</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Activa?</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @branches.each do |branch| %>
+      <tr class="group border-t border-gray-400 hover:bg-gray-100">
+        <td class="p-3"><%= branch.company.name %></td>
+        <td class="p-3"><%= branch.name %></td>
+        <td class="p-3"><%= branch.address %></td>
+        <td class="p-3"><%= branch.city.name %></td>
+        <td class="p-3"><%= branch.geolocation_link %></td>
+        <td class="p-3"><%= branch.main ? 'SI' : 'NO' %></td>
+        <td class="p-3"><%= branch.active ? 'SI' : 'NO' %></td>
+        <td>
+          <%= link_to 'Ver', branch, class: "btn btn-outline-danger" if can? :read, branch %>
+          <%= link_to 'Editar', edit_branch_path(branch), class: "btn btn-outline-danger" if can? :update, branch %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

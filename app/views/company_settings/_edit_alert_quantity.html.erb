@@ -1,0 +1,7 @@
+<% frame_id = dom_id(company, "#{attribute}_turbo_frame") %>
+<%= form_with model: company, data: {turbo_frame: frame_id }  do |form| %>
+  <%= turbo_frame_tag frame_id, data: { turbo: true } do %>
+    <%= yield %>
+    <%=link_to '<i class="mdi mdi-lead-pencil"></i>'.html_safe, edit_alert_quantity_path(company), class: "btn btn-primary" %>
+  <% end %>
+<% end %>

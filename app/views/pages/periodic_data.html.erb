@@ -1,0 +1,192 @@
+<% set_page_title(@current_company ? "DATOS DE INTERÉS" : "REPORTES") %>
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h4 class="header-title"><%= "Datos Periódicos" %></h4>
+</div>
+
+<div class="row">
+  <div class="col-sm-6 col-xl-3">
+    <div class="card mb-3" style="height: 7rem;">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-shrink-0 me-3">
+            <div class="avatar-sm">
+              <div class="flex-shrink-0 me-2">
+                <i class="mdi mdi-account-cash-outline widget-icon rounded-circle bg-warning-lighten  "></i>
+              </div>
+            </div>
+          </div>
+          <div class="flex-grow-1">
+            <h5 class="mt-0 mb-1">Total de Puntos Mensual</h5>
+            <p class="mb-0"><%= @awarded_points %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="card mb-3" style="height: 7rem;">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-shrink-0 me-3">
+            <div class="avatar-sm">
+              <div class="flex-shrink-0 me-2">
+                <i class="mdi mdi-cash-plus widget-icon rounded-circle bg-warning-lighten  "></i>
+              </div>
+            </div>
+          </div>
+          <div class="flex-grow-1">
+            <h5 class="mt-0 mb-1">Promedio de Ticket Mensual </h5>
+            <p class="mb-0"><%= get_average_monthly_ticket(@movements) %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="card mb-3" style="height: 7rem;">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-shrink-0 me-3">
+            <div class="avatar-sm">
+              <div class="flex-shrink-0 me-2">
+                <i class="mdi mdi-credit-card-plus widget-icon rounded-circle bg-warning-lighten  "></i>
+              </div>
+            </div>
+          </div>
+          <div class="flex-grow-1">
+            <h5 class="mt-0 mb-1">Total Facturación Mensual</h5>
+            <p class="mb-0"><%= number_to_currency(@monthly_billing) %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if !@logged_admin %>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card mb-3" style="height: 7rem;" >
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0 me-3">
+              <div class="avatar-sm">
+                <div class="flex-shrink-0 me-2">
+                  <i class="mdi mdi-credit-card-sync widget-icon rounded-circle bg-warning-lighten  "></i>
+                </div>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <h5 class="mt-0 mb-1">Total Ahorro Mensual</h5>
+              <p class="mb-0"><%= number_to_currency(get_total_monthly_savings(@movements)) %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card mb-3" style="height: 7rem;">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0 me-3">
+              <div class="avatar-sm">
+                <div class="flex-shrink-0 me-2">
+                  <i class="mdi mdi-credit-card-sync widget-icon rounded-circle bg-warning-lighten  "></i>
+                </div>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <h5 class="mt-0 mb-1">Promedio Ahorro Mensual</h5>
+              <p class="mb-0"><%= get_average_monthly_savings(@movements) %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-6 col-xl-3">
+      <div class="card mb-3" style="height: 7rem;">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0 me-3">
+              <div class="avatar-sm">
+                <div class="flex-shrink-0 me-2">
+                  <i class="mdi mdi-cash widget-icon rounded-circle bg-warning-lighten  "></i>
+                </div>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <h5 class="mt-0 mb-1">Tasa de Uso</h5>
+              <p class="mb-0"><%= get_usage_rate(@customers) %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if @logged_admin %>
+      <div class="col-sm-6 col-xl-3">
+        <div class="card mb-3" style="height: 7rem;">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <div class="avatar-sm">
+                  <div class="flex-shrink-0 me-2">
+                    <i class="mdi mdi-cash widget-icon rounded-circle bg-warning-lighten  "></i>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-grow-1">
+                <h5 class="mt-0 mb-1">Promedio Carga de Puntos Mensual</h5>
+                <p class="mb-0"><%= get_average_mounth_points(@movements) %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-xl-3">
+        <div class="card mb-3" style="height: 7rem;">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <div class="avatar-sm">
+                  <div class="flex-shrink-0 me-2">
+                    <i class="mdi mdi-cash-check widget-icon rounded-circle bg-warning-lighten  "></i>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-grow-1">
+                <h5 class="mt-0 mb-1">Promedio de Canje de Puntos Mensual</h5>
+                <p class="mb-0"><%= get_average_mounth_excheange_points(@movements) %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-xl-3">
+        <div class="card mb-3" style="height: 7rem;">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0 me-3">
+                <div class="avatar-sm">
+                  <div class="flex-shrink-0 me-2">
+                    <i class="mdi mdi-credit-card-settings widget-icon rounded-circle bg-warning-lighten  "></i>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-grow-1">
+                <h5 class="mt-0 mb-1">Facturación Total Comercio</h5>
+                <p class="mb-0"><%= get_total_trade_billing(@movements) %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+</div>

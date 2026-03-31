@@ -1,0 +1,85 @@
+<div class="d-flex align-items-center justify-content-center min-vh-100 ">
+  <div class="text-center">
+    <div class="mb-4">
+       <span class="logo-lg">
+          <%= image_tag image_url('PAT2.png'), alt: "", height: "60" %>
+          <h4 class=" text-center mt-0 fw-bold">PUNTOS AL TOQUE</h4>
+        </span>
+    </div>
+    
+    <div class="card shadow-lg border-0" style="max-width: 500px;">
+      <div class="card-body p-5">
+        <div class="mb-4">
+          <i class="fas fa-tools fa-3x text-warning mb-3"></i>
+          <h2 class="fw-bold  ">Sitio en Mantenimiento</h2>
+          <p class="lead text-muted mb-4">
+            El sistema se encuentra temporalmente en mantenimiento para mejorar nuestros servicios.
+          </p>
+          <p class="text-muted">
+            Por favor, inténtelo nuevamente en unos minutos. Agradecemos su paciencia.
+          </p>
+        </div>
+        
+        <div class="d-flex justify-content-center gap-2">
+          <% if current_user %>
+            <%= button_to destroy_user_session_path, method: :delete, class: "btn btn-sm btn-custom" do %>
+              <i class="mdi mdi-logout me-1"></i>
+              <span>Cerrar Sesión</span>
+            <% end %>
+          <% else %>
+            <a href="<%= new_user_session_path %>" class="btn btn-primary px-4">
+              <i class="fas fa-sync-alt me-2"></i>Inicia Sesión
+            </a>
+          <% end %>
+          <button onclick="window.location.reload()" class="btn btn-outline-secondary px-4">
+            <i class="fas fa-clock me-2"></i>Recargar página
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-4">
+      <small class="text-muted">
+        © <%= Time.current.year %> Puntos al Toque - Todos los derechos reservados
+      </small>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card {
+    border-radius: 15px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  }
+  
+  .btn-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  }
+  
+  .btn-outline-secondary {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-outline-secondary:hover {
+    transform: translateY(-2px);
+  }
+  
+  .fa-tools {
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+</style>

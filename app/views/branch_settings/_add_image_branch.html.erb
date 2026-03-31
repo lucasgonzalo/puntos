@@ -1,0 +1,21 @@
+<!-- lib/templates/erb/scaffold/index.html.erb.tt -->
+
+<div class="flexitems-center mb-4">
+  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#load-image-modal">Cambiar Imagen</button>
+</div>
+
+<div id="load-image-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+  <%= render 'modal_image' %>
+</div>
+
+<% if @current_branch.image_branch.attached? %>
+  <%= image_tag @current_branch.image_branch, alt: "", height: "100"  %>
+  <br><br><br>
+  <div class="flexitems-center mb-4">
+    <% if can? :destroy, @current_branch %>
+      <%= render 'shared/destroy', element: branch_delete_image_path(branch_id: @current_branch.id) %>
+    <% end %>
+  </div>
+<% else %>
+  <%= "Aun no tiene imagen esta Sucursal" %>
+<% end %>

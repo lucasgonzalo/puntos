@@ -1,0 +1,56 @@
+<% set_page_title("Clientes") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <% if (can? :create, Customer.new) && !@current_group&.account_type_group? %>
+              <%#= link_to 'Nuevo Cliente', new_customer_wizard_path(step: 1), class: "btn btn-primary" %>
+              <%= link_to 'Nuevo Cliente', new_client_qr_url, 
+                  class: "btn btn-primary", 
+                  target: "_blank"
+                  %>
+            <% end %>
+          </div>
+
+          <!----------------------------- Filtro ---------------------------------------------> 
+          <%= form_with(url: filter_customers_path, method: :post, local: false, remote: true,  html: {class: 'needs-validation', novalidate: '' }) do |form| %>
+            <div class="row g-2 "> 
+              <div class="col 12 col-md-3">
+                <%= form.label 'Estado' %>
+                <%= form.collection_select :customer_status, Customer.statuses.map {|value| [value.first, value.second]}, :first, :second, {prompt: "Todos los clientes"}, {class: "form-select"} %>
+              </div>
+            </div>
+            <div class="row g-2 align-items-center mt-2"> 
+              <div class="col 12 col-md-3">
+                <%= form.label 'Fecha desde' %>
+                <%= form.date_field :date_start, {class: "form-control date", placeholder:"Fecha Desde"}%>
+              </div>
+              <div class="col 12 col-md-3">
+                <%= form.label 'Fecha Hasta' %>
+                 <span class="ms-1 text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Seleccione fechas para filtrar los clientes por Fecha de Carga">
+                  <i class="mdi mdi-information-outline"></i>
+                </span>
+                <% to_date = Date.today %>
+                <%= form.date_field :date_end, {class: "form-control date", placeholder:"Fecha Hasta", value: to_date} %>
+              </div>
+              <div class="col-md-2 ">
+                <br>
+                <%= form.submit "Filtrar", id: "foo-submit", class: "btn btn-primary align-bottom" %>
+              </div>
+            </div>
+          <% end %>
+          <br/>
+
+          <!----------------------------- Tabla + EXCEL filtrado  ---------------------------------------------> 
+          <section id="table-customers">
+            <%= render 'table_customers', customers: @customers %>
+          </section> 
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

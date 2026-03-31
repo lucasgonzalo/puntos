@@ -1,0 +1,37 @@
+<%= render "shared/error_messages", resource: form.object %>
+
+<div class="row g-2">
+    <div class="form-floating mb-3 col-md-6">
+        <%= form.text_field :first_name, class: "form-control", placeholder:"Ingrese first_name", required: true%>
+        <%= form.label :first_name, for: "floatingInput" %>
+    </div>
+    <div class="form-floating mb-3 col-md-6">
+        <%= form.text_field :last_name, class: "form-control", placeholder:"Ingrese last_name", required: true%>
+        <%= form.label :last_name, for: "floatingInput" %>
+    </div>
+</div>
+
+<div class="row g-2">
+    <div class="form-floating mb-3 col-md-6">
+        <%= form.collection_select :document_type, Person.document_types.map {|value| [value.first, value.second]}, :first, :second, {prompt: "Tipo de Documento"}, {class: "form-select", required: true} %>
+        <%= form.label :document_type, for: "floatingInput" %>
+    </div>
+    <div class="form-floating mb-3 col-md-6">
+        <%= form.text_field :document_number, class: "form-control", placeholder:"Ingrese document_number", required: true %>
+        <%= form.label :document_number, for: "floatingInput" %>
+    </div>
+</div>
+
+<div class="row g-2">
+    <div class="form-floating mb-3 col-md-6">
+        <%= form.date_field :birth_date, class: "form-control", placeholder:"Ingrese birth_date" %>
+        <%= form.label :birth_date, for: "floatingInput" %>
+    </div>
+    <div class="form-floating mb-3 col-md-6">
+        <%= form.collection_select :gender, Person.genders.map {|value| [value.first, value.second]}, :first, :second, {prompt: "Genero"}, {class: "form-select"} %>
+        <%= form.label :gender, for: "floatingInput" %>
+    </div>
+</div>
+
+
+

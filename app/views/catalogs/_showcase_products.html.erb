@@ -1,0 +1,62 @@
+
+
+  <div class="row g-4">
+    <% products = @catalog.products.where(active: true) %> 
+    <% if products.none? %>
+     <div class="alert alert-light border d-flex align-items-center justify-content-center p-4 rounded shadow-sm" role="alert">
+        <i class="bi bi-box-seam-fill me-3 fs-3 text-secondary"></i>
+        <div>
+          <h5 class="mb-1 text-center">No hay productos activos</h5>
+          <p class="mb-0 text-muted">Actualmente no hay productos activos en éste catálogo.</p>
+        </div>
+      </div>
+    <% else %>
+      <% products.each do |product| %>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="card h-100 border hover-shadow">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#ImageModal_<%= "product#{product.id.to_s}" %>">
+              
+              <%# IMAGEN DE PRODUCTO %>
+              <div class="card-img-top position-relative" style="height: 60%; min-height: 180px; background: <%= product.image.attached? ? "url('#{url_for(product.image)}') center/cover no-repeat" : "#e0e0e0" %>;">
+                <% unless product.image.attached? %>
+                  <div class="d-flex align-items-center justify-content-center h-100 text-muted fs-4">Sin imagen</div>
+                <% end %>
+                <div class="position-absolute top-0 start-0 " style="height: 40px;">
+                  <% product_type =  case product.product_type&.to_sym
+                    when :points
+                      " CON PUNTOS"
+                    when :currency_points
+                      "PUNTOS + DINERO"
+                    else
+                      "No ME acuerdo"
+                    end
+                    %>
+                  <%#PUNTOS + DINERO BADGE%>
+                  <span class="badge badge-info  px-3 py-2 fs-6" style="color:<%= @catalog.text_color %>; background-color:<%= @catalog.background_color %>;">
+                    <%= product_type %>
+                  </span>
+                  
+                </div>
+              </div>
+            </a>
+            
+
+            <%# DESCRIPCION DE PRODUCTO %>
+            <div class="card-body d-flex flex-column justify-content-start " style="height: 50%;">
+              <h5 class="card-title text-center mt-2" title="<%= product.name %>"> <%= truncate(product.name, length: 50) %></h5>
+              <p class="card-text text-center   mb-2 mt-2"  title="<%= product.description %>"> <%= truncate(product.description, length: 50) %></p>
+              <div class="text-center">
+                
+                <span class="badge rounded-pill  fs-5" style="color:<%= @catalog.text_color %>;background-color: <%= @catalog.background_color %>;">Puntos: <%= product.points%></span>
+                
+                <% if product.price %>
+                  <span class="badge rounded-pill  fs-5" style="color:<%= @catalog.text_color %>;background-color: <%= @catalog.background_color %>;">$<%= number_to_currency(product.price.to_i, unit: "", separator: ".", delimiter: ",", precision: 0) %></span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <%= render partial: 'shared/modal_image', locals: { object_id: "product" + product.id.to_s, object: product, object_image: product.image } if product.image.attached? %>
+      <% end %>
+    <% end %>
+  </div>

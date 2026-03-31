@@ -1,0 +1,70 @@
+
+<div class="row mb-4">
+  <div class="text-center mb-4">
+    <h3><%= @person.id ? 'VERIFICAR DATOS' : 'NUEVA PERSONA'%></h3>
+  </div>
+  
+  <div class="col-12">
+    <%= form_with(scope: @person, url: validate_person_url, data: { turbo: true }) do |form| %>
+
+      <div class="row">
+        <div class="col-6">
+          <div class="form-floating mb-3">
+            <%= form.collection_select :document_type, Person.document_types.map {|value| [value.first, value.second]}, :first, :second, {prompt: "Tipo de Documento"}, {class: "form-select", required: true} %>
+            <%= form.label :document_type, for: "floatingInput" %>
+          </div>
+        </div>
+    
+        <div class="col-6">
+          <div class="form-floating mb-3">
+            <%= form.text_field :document_number, class: "form-control", placeholder:"Ingrese nro. de documento", required: true, readonly: true %>
+            <%= form.label :document_number, for: "floatingInput" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <div class="form-floating mb-3">
+            <%= form.text_field :first_name, class: "form-control", placeholder:"Ingrese nombre", required: true%>
+            <%= form.label :first_name, for: "floatingInput" %>
+          </div>
+        </div>
+    
+        <div class="col-6">
+          <div class="form-floating mb-3">
+            <%= form.text_field :last_name, class: "form-control", placeholder:"Ingrese apellido", required: true%>
+            <%= form.label :last_name, for: "floatingInput" %>
+          </div>
+        </div>
+      </div>
+    
+    
+      <div class="row">
+        <div class="col-6">
+          <div class="form-floating mb-3">
+              <%= form.date_field :birth_date, class: "form-control", placeholder:"Ingrese fecha de nacimiento", required: true %>
+              <%= form.label :birth_date, for: "floatingInput" %>
+          </div>
+        </div>
+    
+        <div class="col-6">
+          <div class="form-floating mb-3">
+              <%= form.collection_select :gender, Person.genders.map {|value| [value.first, value.second]}, :first, :second, {prompt: "Genero"}, {class: "form-select", required: true} %>
+              <%= form.label :gender, for: "floatingInput" %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="justify-between items-center text-center my-2">
+        <%= form.button "Validar", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div> <!-- end row -->
+
+<div class="row mb-4">
+  <div class="text-center mb-4">
+    <%= turbo_frame_tag "new_customer_wizard_result", data: { turbo: true } %>
+  </div>
+</div>

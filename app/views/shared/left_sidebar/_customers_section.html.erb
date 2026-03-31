@@ -1,0 +1,33 @@
+<% if show_customers_admin_version? %>
+  <li class="side-nav-item">
+    <a href="<%= customers_path %>" 
+      class="nav-link sidebar-nav-item" 
+      data-sidebar-navigation-target="navItem">
+      <i class="mdi mdi-account-box-outline mx-1" title="Clientes"></i>
+      <span> Clientes </span>
+    </a>
+  </li>
+<% end %>
+
+<% if show_customers_branch_standard_version? %>
+  <li class="side-nav-item">
+    <a href="<%= customers_path %>" 
+      class="nav-link sidebar-nav-item" 
+      data-sidebar-navigation-target="navItem">
+      <i class="mdi mdi-account-box-outline mx-1" title="Clientes"></i>
+      <span> Clientes </span>
+    </a>
+  </li>
+<% end %>
+
+<% if show_customers_branch_basic_version? %>
+  <li class="side-nav-item">
+    <a href="<%= new_client_qr_url %>" 
+      target="_blank" 
+      class="nav-link sidebar-nav-item" 
+      data-sidebar-navigation-target="navItem">
+      <i class="mdi mdi-account-box-outline mx-1" title="Alta de Clientes"></i>
+      <span> Alta de clientes </span>
+    </a>
+  </li>
+<% end %>

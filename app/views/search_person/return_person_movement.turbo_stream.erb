@@ -1,0 +1,9 @@
+
+<%= turbo_stream.replace("customer_new_link", partial: 'search_person/link_add_customer',  locals: {customer: @customer}) %>
+<%= turbo_stream.replace("person_search_result", partial: 'search_person/person', locals: {person: @person}) %>
+<%= turbo_stream.replace("customer_search_result", partial: 'search_person/data_customer', locals: {customer: @customer}) %>
+
+<%= turbo_stream.replace("nav_link_movement", partial: 'movements/nav_link_movement',  locals: {movement: Movement.new, type: :sale, customer: @customer}) %>
+<%= turbo_stream.replace("nav_link_movement_group", partial: 'groups/nav_link_movement_group',  locals: {movement: Movement.new, type: :sale, person: @person}) %>
+
+

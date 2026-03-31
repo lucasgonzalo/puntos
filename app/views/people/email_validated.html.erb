@@ -1,0 +1,112 @@
+<%= content_for :body_class, "loading authentication-bg" %>
+<style>
+  .success-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  .success-icon {
+    font-size: 80px;
+    color: #28a745;
+    margin-bottom: 20px;
+  }
+  .success-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #28a745;
+    margin-bottom: 20px;
+  }
+  .success-message {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  .email-info {
+    background-color: #f8f9fa;
+    border: 2px solid #28a745;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  .email-info p {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+  .email-info strong {
+    color: #28a745;
+  }
+  .info-box {
+    background-color: #e7f3ff;
+    border-left: 4px solid #007bff;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: left;
+    border-radius: 4px;
+  }
+  .info-box p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+  }
+  .continue-button {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 15px 40px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+  }
+  .continue-button:hover {
+    background-color: #218838;
+  }
+</style>
+<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-7">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xxl-6 col-lg-12">
+        <div class="card shadow-none border">
+          <div class="card-body p-4">
+            <div class="success-container">
+              
+              <div class="success-icon">
+                ✓
+              </div>
+              <h1 class="success-title">
+                ¡Email Validado Exitosamente!
+              </h1>
+              <p class="success-message">
+                Tu dirección de correo electrónico ha sido verificada correctamente.
+                Ya eres parte de nuestro programa de lealtad. Ahora recibirás en tu correo todas las notificaciones y podrás acceder a tu cuenta corriente y catálogos.
+              </p>
+              <% if @person_email %>
+                <div class="email-info">
+                  <p><strong>Email validado:</strong> <%= @person_email.email %></p>
+                  <p><strong>Fecha de validación:</strong> <%= @person_email.validated_at&.strftime('%d/%m/%Y') %></p>
+                  <p><strong>Nombre:</strong> <%= @person_email.person.full_name %></p>
+                </div>
+              <% end %>
+              <div class="info-box">
+                <p><strong>¡Gracias por registrarte!</strong></p>
+                <p>A partir de ahora puedes empezar a acumular puntos en tus compras!</p>
+                <p>Recibirás notificaciones sobre tus movimientos y promociones exclusivas.</p>
+              </div>
+              <p class="success-message">
+                Ya puedes cerrar esta ventana y al registrar tus compras en los comercions adheridos recibirás las notificaciones de tus puntos!.
+              </p>
+              <a href="<%= root_path %>" class="continue-button">
+                Ir al Inicio
+              </a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

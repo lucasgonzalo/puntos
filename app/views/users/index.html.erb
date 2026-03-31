@@ -1,0 +1,33 @@
+<!-- lib/templates/erb/scaffold/index.html.erb.tt -->
+
+<% set_page_title("Usuarios") %>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+
+          <!-------------------Creación de Nuevo Empleado--------------------------->
+          <div class="flexitems-center mb-4">
+            <% if (can? :create, User.new) %>
+              <%= link_to 'Nuevo Usuario', new_user_path, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+
+          <!----------------------------- Tabla ---------------------------------------------> 
+          <section id="table-users">
+            <%= render 'table_users', users: @users %>
+          </section> 
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

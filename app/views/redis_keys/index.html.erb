@@ -1,0 +1,173 @@
+<% set_page_title("Configuración Redis") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+
+          <!-- app/views/redis_keys/index.html.erb -->
+          <% if tmp_pdfs_size > 10 %>
+            <div class="alert alert-warning" role="alert">
+              La carpeta <code>tmp/pdfs</code> tiene  <%= tmp_pdfs_size.round(2) %> MB, excede los 100 MB.
+              <%= button_to "Limpiar carpeta de archivos temporales", clear_tmp_pdfs_redis_keys_path, method: :post, class: "btn btn-danger", data: { confirm: "¿Seguro desea eliminar todos los archivos temporales de la carpeta pdfs?" } %>
+            </div>
+          <% end %>
+
+          <div class="row">
+            <h4 class="page-title">Redis Keys</h4>
+            <div class="col-12 col-md-3">
+              <div class="flexitems-center mb-4">
+                <%= link_to 'Nueva', new_redis_keys_path , class: "btn btn-primary" %>
+                <%= link_to '#', onclick: 'copyAllKeys(); return false;', class: "btn btn-success", title: "Copiar claves para pegar en Excel, separador: Tab" do %>
+                  <i class="mdi mdi-microsoft-excel"></i> Copiar para Excel
+                <% end %>
+              </div>
+
+           
+            </div>
+
+            <div class="col-12 col-md-9">
+              <%= form_with url: import_keys_redis_keys_path, multipart: true, method: :post, local: true, class: "mb-4" do |form| %>
+                <div class="row g-3 align-items-end">
+                  <div class="col">
+                    <%= form.label :file, "Importar variables redis", class: "form-label" %>
+                    <%= form.file_field :file, accept: ".xlsx", class: "form-control" %>
+                  </div>
+                  <div class="col-auto">
+                    <%= form.submit "Importar", class: "btn btn-primary" %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <div class=" rounded shadow p-2">
+            <table id="scroll-horizontal-datatable" class="table  nowrap">
+              <thead>
+                <tr>
+                  <th class="p-2">Clave</th>
+                  <th class="p-2">Valor</th>
+                  <th class="p-2">Opciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @redis.keys.each do |redis_key| %>
+                  <tr class="group border-t border-gray-400 hover:bg-gray-100">
+                    <td class="p-2"><%= redis_key %></td>
+                    <td class="p-3" title="<%= @redis.get(redis_key) %>">
+                      <%= @redis.get(redis_key).truncate(60) %>
+                      <i class="mdi mdi-clipboard" onclick="copyToClipboard('<%= @redis.get(redis_key) %>')" title="Copy to Clipboard" style="margin-left: 1rem; cursor: pointer;"></i>
+                    </td>
+                    <td class="p-2">
+                      <%= link_to t('Edit'), url_for("redis_keys/#{redis_key}/edit"), class: "btn btn-info" %>
+                      <%= link_to t('Delete'),url_for("redis_keys/#{redis_key}") ,method: :delete, data: { confirm: 'Esta seguro?' }, class: 'btn btn-danger ' %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-3">
+            <% color =   Rails.env.upcase == 'DEVELOPMENT' ?  'info' : 'danger'%>
+            Environment: <span class='badge bg-<%= color %>'><%= Rails.env.upcase %></span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-------------------------Correo de Prueba-------------------------------->
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Prueba de Envio (visualiza configuración)</h4>
+          </div>
+          <div class=" rounded shadow p-2">
+            <%= form_with(url: test_email_path, method: :post, local: true) do |form| %>
+              <div class="row g-2"> 
+                <div class="col-md-5">
+                  <%= form.text_field :test_email, class: "form-control", placeholder:"Ingrese Correo electronico",  required: true  %>
+                </div> 
+                <div class="col-md-2">
+                  <%= form.submit "Enviar", class: "btn btn-primary " %>    
+                </div> 
+              </div> 
+            <% end %>
+          </div>
+
+            
+          </div>
+          <h4 class="page-title mt-5">Reenvio de mail de movimiento</h4>
+          <div class=" rounded shadow p-2">
+            <%= form_with(url: re_send_movement_mail_path, method: :post, local: true) do |form| %>
+              <div class="row g-2"> 
+                
+                <div class="col-md-5">
+                  <%= form.text_field :movement_id, class: "form-control", placeholder:"Ingrese id de movimiento"  %>
+                </div> 
+                <div class="col-md-2">
+                  <%= form.submit "Enviar", class: "btn btn-primary " %>
+                </div> 
+              </div> 
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<%= button_to "Limpiar carpeta de archivos temporales", clear_tmp_pdfs_redis_keys_path, method: :post, class: "btn btn-danger", data: { confirm: "¿Seguro desea eliminar todos los archivos temporales de la carpeta tmp/pdfs ?" } %>
+
+
+<script>
+  function copyToClipboard(text) {
+    const tempInput = document.createElement("input");
+    tempInput.style.position = "absolute";
+    tempInput.style.left = "-9999px";
+    tempInput.value = text;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+    toastr.success("Copied to clipboard!");
+  }
+
+  function copyAllKeys() {
+    try {
+      const rows = document.querySelectorAll('#scroll-horizontal-datatable tbody tr');
+      const text = Array.from(rows).map(row => {
+        const key = row.cells[0].textContent.trim();
+        const value = row.cells[1].textContent.trim();
+        return `${key}\t${value}`;  // Tabulación como separador
+      }).join('\n');
+      
+      navigator.clipboard.writeText(text).then(() => {
+        toastr.success("Claves copiadas para pegar en Excel (Columna A: claves, Columna B: valores)");
+      }).catch(err => {
+        // Fallback para navegadores antiguos
+        const tempInput = document.createElement("textarea");
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        toastr.success("Claves copiadas para pegar en Excel (Columna A: claves, Columna B: valores)");
+      });
+    } catch (error) {
+      toastr.error("Error al copiar las claves: " + error.message);
+    }
+  }
+</script>

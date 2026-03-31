@@ -1,0 +1,99 @@
+<div class="card">
+  <div class="card-body">
+    <div class="m-2 col-12">
+      <div class="flexitems-center mb-4">
+        <h3 class="page-title text-center">CUENTA CORRIENTE</h3>
+        <h4 class="page-title mb-2">CLIENTE: <%=  @person.full_name.upcase %></h4>
+        <h4 class="page-title mb-2">ENTIDAD: <%= @current_group.name.upcase %></h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card tilebox-one mb-3">
+          <div class="card-body">
+            <i class="dripicons-jewel float-end text-muted"></i>
+            <h6 class="text-muted text-uppercase mt-0">PUNTOS</h6>
+            <h2 class="m-b-20"><%= @person.points_balance_amount(@current_group) %></h2>
+          </div> <!-- end card-body-->
+        </div> <!--end card-->
+      </div><!-- end col -->
+      <div class="col-sm-4">
+          <div class="card tilebox-one mb-3">
+              <div class="card-body">
+                  <i class="dripicons-jewel float-end text-muted"></i>
+                  <h6 class="text-muted text-uppercase mt-0">AHORRO DEL ULTIMO MES</h6>
+                  <h2 class="m-b-20">$<%= @person.get_monthly_saving(@current_group) %></h2>
+              </div> <!-- end card-body-->
+          </div> <!--end card-->
+      </div><!-- end col -->
+      <div class="col-sm-4">
+          <div class="card tilebox-one mb-3">
+            <div class="card-body">
+                <i class="dripicons-basket float-end text-muted"></i>
+                <h6 class="text-muted text-uppercase mt-0">CANTIDAD DE CANJES</h6>
+                <h2 class="m-b-20"><%= @person.get_count_exchange(@current_group) %></h2>
+
+            </div> <!-- end card-body-->
+          </div>
+      </div><!-- end col -->
+    </div>
+    
+    <div class="flexitems-center mb-4">
+      <% if (can? :create, Movement.new) && @current_group.account_type_group? %>
+        <%= link_to 'Nueva carga Entidad', new_group_movement_path(person: @person), class: "btn btn-primary" %>
+      <% end %>
+    </div>
+
+    <div class=" rounded shadow p-2">
+      
+      <table id="currentaccounts-table" class="table table-striped dt-responsive nowrap ">
+        <thead>
+          <tr>
+            <th class="p-3 uppercase text-left text-xs text-gray-700"></th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Fecha/Hora</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Entidad</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Comercio</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Tipo</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Imp.</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Puntos</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Saldo</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Dto. Aplicado</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Imp. Descontado</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Ahorro</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Imp. Total</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @person.get_details_movement(@current_group).each do |movement| %>                
+            <tr class="group border-t border-gray-400 hover:bg-gray-100">
+              <td class="p-3"><%= movement[:id]%></td>
+              <td class="p-3"><%= movement[:date_created]%></td>
+              <td class="p-3"><%= movement[:group_name]%></td>
+              <td class="p-3"><%= movement[:company_name]%></td>
+              <td class="p-3"><%= get_badges_movement_type_hash movement %></td>
+              <td class="p-3"><%= number_to_currency(movement[:amount])  %></td>
+              <td class="p-3"><%= number_with_precision(movement[:points] , precision: 0) %></td>
+              <td class="p-3"><%= number_with_precision(movement[:balance] , precision: 0) %></td>
+              <td class="p-3"><%= number_to_percentage(movement[:discount], precision: 2) %> </td>
+              <td class="p-3"><%= number_to_currency(movement[:amount_discounted]) %> </td>
+              <td class="p-3"><%= number_to_currency(movement[:person_saving]) %> </td>
+              <td class="p-3"><%= number_to_currency(movement[:total_import]) %> </td>
+            </tr> 
+          <% end %>
+          
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex bd-highlight mb-3">
+      <div class="p-2 bd-highlight">
+        <%= link_to 'Volver', people_path , class: "btn btn-secondary" %>
+      </div>
+    </div>
+  </div> 
+</div> 
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+

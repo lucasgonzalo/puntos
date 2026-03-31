@@ -1,0 +1,25 @@
+<table id="catalogs-table" class="table table-striped dt-responsive nowrap ">
+  <thead>
+    <tr>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Nombre</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Entidad</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Comercio</th>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @catalogs.each do |catalog| %>
+      <tr class="group border-t border-gray-400 hover:bg-gray-100">
+        <td class="p-3"><%= catalog.name %></td>
+        <td class="p-3"><%= catalog.group.name %></td>
+        <td class="p-3"><%= catalog.company&.name %></td>
+        <td>
+          <%= link_to 'Catalogo', showcase_catalogs_path(id: catalog.id), class: "btn btn-outline-danger" %>
+          <%= link_to 'Productos', catalog, class: "btn btn-outline-danger" if can? :read, catalog %>
+          <%= link_to 'Cabecera', edit_catalog_path(catalog), class: "btn btn-outline-danger" if can? :update, catalog %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,31 @@
+<%= content_for :body_class, "loading authentication-bg" %>
+
+<div class="account-pages d-flex align-items-center justify-content-center vh-100" >
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="text-center">
+            <h3>Seleccione sucursal para trabajar</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xxl-4 col-lg-5">
+        <div class="list-group">
+          <!------------------------El dueño del comercio o administrador  de todo puede ver todas las sucursales--------------------------->
+          <% if current_user.company_owner_role? || current_user.admin_role? %>
+            <a href="<%= set_branch_url(redirect_url: @redirect_url) %>" class="list-group-item list-group-item-action text-center">TODAS</span></a>
+          <% end  %>
+
+          <!------------------------Empezamos a listar todas las sucursales del comercio--------------------------->
+          <% unless @branches.blank? %>
+            <% @branches.each do |branch| %>
+              <a href="<%= set_branch_url(branch_id: branch, redirect_url: @redirect_url) %>" class="list-group-item list-group-item-action text-center"><%= branch.name %></span></a>
+            <% end %>
+          <%end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

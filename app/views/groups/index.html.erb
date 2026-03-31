@@ -1,0 +1,144 @@
+<%= set_page_title("Entidades") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <% if (can? :create, Group.new) %>
+              <%= link_to 'Nueva Entidad', new_group_path, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+
+          <div class=" rounded shadow p-2">
+            <table id="companies-table" class="table table-striped dt-responsive nowrap ">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Acumula puntos</th>
+                  <th>Descripción</th>
+                  <th>Imágen</th>
+                  <th>Usuario/s</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @groups.each do |group| %>
+                  <tr>
+                    <td class="p-3"><%= group.name %></td>
+                    <td class="p-3"><%= group.account_type ? I18n.t("activerecord.attributes.group.account_types.#{group.account_type}") : "-" %></td>
+                    <td class="p-3"><%= group.description %></td>
+                    <td class="p-3"> 
+                      <% if group.image.attached? %>
+                        <%= image_tag group.image, width: "auto", height: "50" %>
+                      <% end %>
+                    </td>
+                    <td class="p-3"><%= group.users_names %></td>
+                    <td>
+                      <%= link_to 'Ver', group, class: 'btn btn-outline-danger my-1' if can? :read, group %>
+                      <%= link_to 'Editar', edit_group_path(group), class: 'btn btn-outline-danger' if can? :update, group %>
+                      <%= link_to 'Usuarios', group_users_path(group_id: group.id), class: 'btn btn-outline-danger' if can? :update, group %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<% if @logged_admin %>
+  <!-- app/views/groups/index.html.erb -->
+  <h1 class="mt-5 pt-5">Listado de Grupos(Entidades), Compañías y Sucursales</h1>
+
+  <style>
+    .group-card {
+      border: 2px solid #4A90E2;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      padding: 20px;
+      box-shadow: 0 2px 8px #e3e3e3;
+    }
+    .company-list {
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+    .company-card {
+      border: 1px solid #7ED957;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      padding: 15px;
+    }
+    .branch-list {
+      margin-left: 15px;
+      margin-top: 5px;
+    }
+    .branch-item {
+      border-left: 4px solid #FFD700;
+      padding: 6px 12px;
+      margin-bottom: 5px;
+      border-radius: 4px;
+      font-size: 15px;
+    }
+  </style>
+
+  <% @groups.each do |group| %>
+  <div class="group-card mt-4">
+    <button class="btn btn-primary  text-start" type="button" data-bs-toggle="collapse" data-bs-target="#group-<%= group.id %>-content" aria-expanded="false" aria-controls="group-<%= group.id %>-content">
+      <%= "Grupo: #{group.name} (group_id:#{group.id}), tipo:#{group.account_type}" %>
+    </button>
+    <div class="collapse mt-2" id="group-<%= group.id %>-content">
+      <div class="card card-body p-0">
+        <div class="company-list">
+          <% group.company_groups.includes(company: :branches).each do |company_group| %>
+            <% company = company_group.company %>
+            <div class="company-card mt-3">
+              <button class="btn btn-secondary  text-start" type="button" data-bs-toggle="collapse" data-bs-target="#company-<%= company.id %>-content" aria-expanded="false" aria-controls="company-<%= company.id %>-content">
+                <%= "Compañía: #{company.name} (company_id:#{company.id})" %>
+              </button>
+              <div class="collapse mt-2" id="company-<%= company.id %>-content">
+                <div class="card card-body p-0">
+                  <div class="branch-list">
+                    <% company.branches.each do |branch| %>
+                      <div class="branch-item mb-2">
+                        <button class="btn btn-info  text-start" type="button" data-bs-toggle="collapse" data-bs-target="#branch-<%= branch.id %>-users" aria-expanded="false" aria-controls="branch-<%= branch.id %>-users">
+                          <%= "Sucursal: #{branch.name} (branch_id:#{branch.id})" %>
+                        </button>
+                        <div class="collapse mt-2" id="branch-<%= branch.id %>-users">
+                          <div class="card card-body">
+                            <h4>Usuarios</h4>
+                            <% if branch.branch_users.any? %>
+                              <ul class="list-group">
+                                <% branch.branch_users.each do |branch_user| %>
+                                  <li class="list-group-item">
+                                    ID: <%= branch_user.user.id %> - Email: <%= branch_user.user.email %> - Cargo: <%= branch_user.role_name %>
+                                  </li>
+                                <% end %>
+                              </ul>
+                            <% else %>
+                              <p>No hay usuarios asociados a esta sucursal.</p>
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+
+<% end %>

@@ -1,0 +1,18 @@
+<% frame_id = dom_id(form.object, "#{attribute}_turbo_frame")%>
+
+<%= turbo_frame_tag frame_id, data: { turbo: true }, class: 'contents' do %>
+  <%= yield %>
+  <br/>
+  <div class="row">
+    <div class="col-7">
+      <%= form.button 'Guardar Cambios', class: "btn btn-success btn-sm"%>
+    </div>
+    <div class="col-2">
+      <%= link_to 'Cancelar', company_settings_path , class: "btn btn-danger btn-sm"%>
+    </div>
+  </div>
+<%end %>
+
+
+
+

@@ -1,0 +1,297 @@
+// Sidebar Styles with Theme Support and Enhanced Interactions
+
+.sidebar {
+  //default
+  background-color: var(--theme-bg-sidebar);
+  color: var(--theme-text-sidebar);
+  //red
+  // background-color: var(--red-brand);
+  // color: var(--theme-text-sidebar);
+  //dark
+  // background-color: var(--gray-brand);
+  // color: var(--background-1-light);
+  
+  //other classes
+  width: var(--sidebar-width);
+  min-height: 100vh;
+  transition: width 0.3s ease, transform 0.3s ease;
+  z-index: 1029;
+  margin-top: var(--header-height);
+   // Add this line for right shadow
+  box-shadow: 10px 0 12px rgba(0, 0, 0, 0.15);
+
+  &.collapsed {
+    width: var(--sidebar-collapsed-width, 100px);
+    min-width: 100px;
+    overflow: hidden;
+    
+    .sidebar-title {
+      display: none;
+    }
+    
+    .sidebar-nav-item {
+      justify-content: center;
+      padding: 0.5rem 0.5rem;
+      min-height: 44px;
+      transition: padding 0.3s ease, justify-content 0.3s ease;
+      
+      .badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        transform: scale(0.8);
+        z-index: 10;
+      }
+      
+      span:not(.badge) {
+        display: none;
+      }
+      
+      i {
+        font-size: 1.2rem;
+      }
+    }
+    
+    .menu-title {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    // Responsive adjustments
+    @media (max-width: 768px) {
+      width: 80px;
+      min-width: 80px;
+      display: none;
+    }
+  } //collapsed
+
+  // Mobile responsiveness
+  @media (max-width: 768px) {
+    transform: translateX(-100%);
+    position: fixed;
+    left: 0;
+    top: 0;
+    
+    &.collapsed {
+      display: none;
+    }
+    
+    &.active {
+      transform: translateX(0);
+      position: fixed;
+    }
+  }
+}//sidebar
+
+// Sidebar toggle button
+.sidebar-toggle {
+  cursor: pointer;
+  position: relative;
+  z-index: 1001;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+    background-color: var(--red-brand);
+  }
+}
+
+// Enhanced sidebar navigation items
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  margin: 0.35rem 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  text-decoration: none;
+  color: var(--theme-text-sidebar);
+  font-weight: 500;
+  border: 1px solid transparent;
+  
+  // Menu arrow for collapsible items
+  .menu-arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+    opacity: 0.7;
+    font-size: 0.8rem;
+  }
+  
+  &.collapsed .menu-arrow {
+    transform: rotate(90deg);
+  }
+  
+  &:hover {
+    background-color: var(--red-brand);
+    .menu-arrow {
+      opacity: 1;
+    }
+  }
+  
+  // Base shadow (subtle)
+  //box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  // Hover effects
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    background-color: var(--red-brand);
+    color: white;
+    
+    // Dark theme hover with red glow
+    [data-theme="dark"] & {
+      box-shadow: 0 4px 12px rgba(226, 8, 19, 0.514);
+    }
+  }
+  
+  // Active state
+  &.active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    background-color: rgba(229, 5, 16, 0.644);
+    color: white;
+    
+    // Dark theme active with red glow
+    [data-theme="dark"] & {
+      box-shadow: 0 4px 12px rgba(226, 8, 19, 0.4);
+      background-color: rgba(226, 8, 19, 0.2);
+    }
+    
+    // Active + hover (enhanced)
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      background-color: var(--red-brand);
+      color: white;
+      
+      [data-theme="dark"] & {
+        box-shadow: 0 6px 16px rgba(226, 8, 19, 0.5);
+      }
+    }
+  }
+}
+
+// Sub-navigation items
+.side-nav-second-level {
+  list-style: none; // to dont show marker points at left on each item
+  padding-left: 1rem;
+  margin-top: .7rem;
+  
+  .sidebar-nav-item {
+    padding: 0.7rem 0.75rem;
+    margin: 0.425rem 0;
+    font-size: 0.875rem;
+    
+    // Smaller shadows for sub-items
+    //box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    
+    &:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      
+      [data-theme="dark"] & {
+        box-shadow: 0 2px 8px rgba(226, 8, 19, 0.3);
+      }
+    }
+    
+    &.active {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      
+      [data-theme="dark"] & {
+        box-shadow: 0 2px 8px rgba(226, 8, 19, 0.3);
+        background-color: rgba(226, 8, 19, 0.15);
+      }
+    }
+  }
+}
+
+// Menu titles
+.menu-title {
+  color: var(--theme-text-sidebar);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+// Sidebar header
+.sidebar-title {
+  color: var(--theme-text-sidebar);
+  font-weight: 700;
+  font-size: 1.25rem;
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+}
+
+// Collapse animations
+.collapse {
+  transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+// Mobile overlay
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Responsive adjustments for mobile
+@media (max-width: 768px) {
+  .sidebar {
+    width: 280px;
+    max-width: 80vw;
+  }
+  
+  .sidebar-toggle {
+    display: block;
+  }
+}
+
+// Focus states for accessibility
+.sidebar-nav-item:focus {
+  outline: 2px solid var(--red-brand, #383838);
+  outline-offset: 2px;
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .sidebar-nav-item {
+    border: 1px solid currentColor;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .sidebar-nav-item,
+  .sidebar-toggle,
+  .collapse,
+  .sidebar-overlay {
+    transition: none;
+  }
+}
+
+.sidebar.glass{
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 5px 12px 0 rgba(0,0,0,0.37);
+  // border: 1px solid rgba(0,0,0,0.37);
+  z-index: 1000; // Above content but below modal
+}

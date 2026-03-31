@@ -1,0 +1,96 @@
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+<% set_page_title("Ficha de Empleado") %>
+
+<div class="card">
+  <div class="card-body">
+    <div class="container">
+      <div class="col-lg-12">
+        <div class="card border">
+          <div class="card-body">
+            <h2 class="header-title mb-2">Usuario y Permisos</h2>
+            <hr>
+            <div class="row mb-2">
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Apellido:</span></div>
+                <div class="col-8"><%= @user.last_name %></div>
+              </div>
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Nombre:</span></div>
+                <div class="col-8"><%= @user.first_name %></div>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Email:</span></div>
+                <div class="col-8"><%= @user.email %></div>
+              </div>
+            </div>
+            <% if @user.admin_role? %>
+              <div class="row mb-2">
+                <div class="col-6 row">
+                  <div class="col-4"><span class="fw-bold me-2"> Admin:</span></div>
+                  <div class="col-8"><%= 'Cuenta con permisos Admin del Sistema'  %></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class=" rounded shadow p-2">
+        <table id="datatable-buttons" class="table table-striped dt-responsive nowrap ">
+          <thead>
+            <tr>
+              <th class="p-3 uppercase text-left text-xs text-gray-700">Rol</th>
+              <th class="p-3 uppercase text-left text-xs text-gray-700"></th>
+              <th class="p-3 uppercase text-left text-xs text-gray-700">Comercio</th>
+              <th class="p-3 uppercase text-left text-xs text-gray-700">Sucursal</th>
+              <th class="p-3 uppercase text-left text-xs text-gray-700">Dirección</th>
+              <th class="p-3 uppercase text-left text-xs text-gray-700">Ciudad</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <!-----------------------------Rol Propietario de Comercio----------------------------------------->
+            <% if @user.companies.where(active: true).exists? %>
+              <% @user.companies.where(active: true).each do |company| %>
+                <tr class="group border-t border-gray-400 hover:bg-gray-100">
+                  
+                  <td class="p-3"><span class='badge badge-success-lighten'>Propietario o Dueño</span></td>
+                  <td class="p-3"><%= get_badges_company(company) %></td>
+                  <td class="p-3"><%= company.name %></td>
+                  <td class="p-3"><%= company.branch_names %></td>
+                  <td class="p-3"><%= '-'%></td>
+                  <td class="p-3"><%= '-'%></td>
+
+                </tr>
+              <% end %>
+            <!-----------------------------Rol Gerente Sucursal, Intermedio, Basico de Comercio----------------------------------------->
+            <% elsif !@user.branch_users.blank? %>
+              <% @user.branch_users.where(active: true).each do |branch_user|%>
+                <tr class="group border-t border-gray-400 hover:bg-gray-100">
+                  <td class="p-3"><%= get_role_branch_user(branch_user) %></td>
+                  <td class="p-3"><%= get_active_branch_user(branch_user) %></td>
+                  <td class="p-3"><%= branch_user.branch.company.name %></td>
+                  <td class="p-3"><%= branch_user.branch.name %></td>
+                  <td class="p-3"><%= branch_user.branch.address  %></td>
+                  <td class="p-3"><%= branch_user.branch.city.name %></td>
+                </tr>
+              <% end %>
+            <%else%>
+                <td class="p-3" colspan="6">No presenta roles asociados este usuario</td>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="d-flex bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+          <%= link_to 'Volver', users_path, class: "btn btn-secondary" %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

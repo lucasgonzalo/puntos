@@ -1,0 +1,27 @@
+<div class="row my-4">
+  <div class="col-6 offset-3">
+    <div class="row mb-3">
+
+      <!-------------------------Buscamos a la persona por su DNI ----------------------------- -->
+      <div class="row mb-2">
+        <h3>Buscar persona</h3>
+        <%= turbo_frame_tag "person_search_form", data: { turbo: true } do %>
+          <%= render partial: 'search_person/form_search', locals: { company: @company, branch: @branch } %>
+        <% end %>
+      </div>
+
+      <hr/>
+      <!------------------------- Resultado de Existencia de Persona ----------------------------->
+      <div class="row">
+        <%= turbo_frame_tag "person_search_result", data: { turbo: true } do %>
+          <h3>Buscar por documento de persona</h3>
+        <% end %>
+      </div>
+
+      <!------------------------- Resultado de Cliente de Comercio----------------------------->
+      <div class="row">
+        <%= turbo_frame_tag "customer_search_result", data: { turbo: true } %>
+      </div>
+    </div>
+  </div> <!-- end col -->
+</div> <!-- end row -->

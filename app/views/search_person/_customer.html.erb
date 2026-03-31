@@ -1,0 +1,20 @@
+<%= turbo_frame_tag 'show_customer_qr', class: 'col-12' do %>
+  <% if person %>
+    <% if customer %>
+      <div class="card border mb-3" style="height: 4rem;">
+        <div class="card-body"> 
+          <h4 class="header-title mb-3">YA ES CLIENTE DE ESTE COMERCIO</h4> 
+        </div>
+      </div>
+    <% else %>
+        <div class="card border mb-3" style="height: 4rem;">
+          <div class="card-body"> 
+            <h4 class="header-title mb-3">NO ES CLIENTE AÚN DE ESTE COMERCIO</h4> 
+          </div>
+        </div>
+        <div class="text-center">
+          <%= link_to 'Asociar a ' + company.name.to_s, associate_company_path(company_id: company.id, person_id: person.id), method: :post, class: "btn btn-outline-danger" %>
+        </div>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,73 @@
+<%= content_for :body_class, "loading authentication-bg" %>
+
+<style>
+  .my-fancy-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #7aa4f0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 2; 
+    filter: brightness(0.75); 
+    z-index: -1;
+  }
+
+  .my-fancy-background {
+    position: relative;
+    background-color: transparent;
+  }
+</style>
+
+<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-7 ">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xxl-6 col-lg-12">
+        <div class="card <%= 'my-fancy-background' if (@branch.company.name=='Bixi' && @branch.name=='Principal') %>">
+          <div class="card-body p-12">
+
+            <!------------------------- Encabezado ----------------------------->
+            <div class="text-center rounded m-auto">
+              <% if @branch.image_branch.attached? %>
+                <%= image_tag @branch.image_branch, alt: "", height: "60", class:"rounded" %>
+              <% end %>
+            </div>
+            <br>
+            <div class="text-center  m-auto">
+                <h1 class="  text-center mt-0 fw-bold"><%= @branch.name+' - '+@branch.company.name%></h1>
+            </div>
+            <br>
+
+            <!------------------------- Buscador de Persona por DNI ----------------------------->
+            <div class="row my-4">
+              <div class="col-9 offset-2">
+                <div class="row mb-2">
+                  <h3 class=" ">Buscar persona</h3>
+                  <%= turbo_frame_tag "person_search", data: { turbo: true } do %>
+                    <%= render partial: 'qr_branches/form_search', locals: {company: @company, branch: @branch}  %>
+                  <% end %>
+                </div>
+              </div>
+            </div> 
+            <hr/>
+
+            <!------------------------- Resultado de Existencia de Persona ----------------------------->
+            <div class="row">
+              <%= turbo_frame_tag "show_person_qr", data: { turbo: true }  %>
+            </div>
+            <br/>
+            <!------------------------- Resultado de Cliente de Comercio----------------------------->
+            <div class="row">
+              <%= turbo_frame_tag "show_customer_qr", data: { turbo: true } %>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

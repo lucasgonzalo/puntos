@@ -1,0 +1,111 @@
+.form-control[readonly] {
+  background-color: var(--theme-border-light);
+  opacity: 1;
+}
+
+/* Modal------------------------------------------------ */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040; /* Asegúrate de que esté detrás del modal */
+  width: 100vw;
+  height: 100vh;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1060; /* Asegúrate de que esté sobre el backdrop */
+  display: none; /* Bootstrap lo gestiona dinámicamente */
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0; /* Elimina bordes externos */
+  transition: opacity 0.15s linear; /* Suaviza la transición */
+}
+
+.modal.fade .modal-dialog {
+  transform: translateY(-50px); // Posición inicial
+  opacity: 0; // Comienza invisible
+  transition: all 0.3s ease-out; // Transición suave
+}
+
+.modal.fade.show .modal-dialog {
+  transform: translateY(0); // Posición final
+  opacity: 1; // Totalmente visible
+}
+
+/* Imagen solo en Bixi------------------------------------------------ */
+
+
+// Custom Success Button Override - Using CSS Variables
+.btn-success {
+  --bs-btn-bg: var(--btn-custom-success-bg);
+  --bs-btn-border-color: var(--btn-custom-success-border);
+  --bs-btn-hover-bg: var(--btn-custom-success-hover);
+  --bs-btn-hover-border-color: var(--btn-custom-success-hover);
+  --bs-btn-color: var(--btn-success-color);           // Adaptive text color
+  --bs-btn-hover-color: var(--btn-success-color);     // Adaptive hover text
+  --bs-btn-focus-shadow-rgb: 40, 167, 69;
+  --bs-btn-active-bg: var(--btn-custom-success-active-bg);
+  --bs-btn-active-border-color: var(--btn-custom-success-active-border);
+}
+
+// Apply theme variables to all Bootstrap buttons
+.btn-primary {
+  --bs-btn-bg: var(--btn-primary-bg);
+  --bs-btn-border-color: var(--btn-primary-border);
+  --bs-btn-hover-bg: var(--btn-primary-hover);
+  --bs-btn-hover-border-color: var(--btn-primary-hover);
+  --bs-btn-color: var(--btn-primary-color);           // Adaptive text color
+  --bs-btn-hover-color: var(--btn-primary-color);     // Adaptive hover text
+}
+
+.btn-danger {
+  --bs-btn-bg: var(--btn-danger-bg);
+  --bs-btn-border-color: var(--btn-danger-border);
+  --bs-btn-hover-bg: var(--btn-danger-hover);
+  --bs-btn-hover-border-color: var(--btn-danger-hover);
+  --bs-btn-color: var(--btn-danger-color);           // Adaptive text color
+  --bs-btn-hover-color: var(--btn-danger-color);     // Adaptive hover text
+}
+
+.btn-warning {
+  --bs-btn-bg: var(--btn-warning-bg);
+  --bs-btn-border-color: var(--btn-warning-border);
+  --bs-btn-hover-bg: var(--btn-warning-hover);
+  --bs-btn-hover-border-color: var(--btn-warning-hover);
+  --bs-btn-color: var(--btn-warning-color);           // Adaptive text color
+  --bs-btn-hover-color: var(--btn-warning-color);     // Adaptive hover text
+}
+
+.btn-info {
+  --bs-btn-bg: var(--btn-info-bg);
+  --bs-btn-border-color: var(--btn-info-border);
+  --bs-btn-hover-bg: var(--btn-info-hover);
+  --bs-btn-hover-border-color: var(--btn-info-hover);
+  --bs-btn-color: var(--btn-info-color);           // Adaptive text color
+  --bs-btn-hover-color: var(--btn-info-color);     // Adaptive hover text
+}
+
+.btn-light {
+  --bs-btn-bg: var(--btn-light-bg);
+  --bs-btn-border-color: var(--btn-light-border);
+  --bs-btn-hover-bg: var(--btn-light-hover);
+  --bs-btn-hover-border-color: var(--btn-light-hover);
+  --bs-btn-color: var(--btn-light-color);           // Adaptive text color
+  --bs-btn-hover-color: var(--btn-light-color);     // Adaptive hover text
+}
+
+.btn-dark {
+  --bs-btn-bg: var(--btn-dark-bg);
+  --bs-btn-border-color: var(--btn-dark-border);
+  --bs-btn-hover-bg: var(--btn-dark-hover);
+  --bs-btn-hover-border-color: var(--btn-dark-hover);
+  --bs-btn-color: var(--btn-dark-color);           // Adaptive text color
+  --bs-btn-hover-color: var(--btn-dark-color);     // Adaptive hover text
+}

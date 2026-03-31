@@ -1,0 +1,131 @@
+<%= content_for :body_class, "loading authentication-bg" %>
+
+<div class="account-pages d-flex align-items-center justify-content-center vh-100 " >
+  <div class="container">
+    <div class="row justify-content-center border  py-2" style="overflow: auto; max-height: 85dvh;">
+      <% if current_user.admin_role? %>
+
+        <% if !current_user.group_owner_role? %>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="text-center">
+                <h3 class="">Ingrese como Administrador</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-4 col-lg-5 mb-4">
+            <div class="list-group">
+              <%= link_to 'Ingresar', enter_as_admin_path, method: :post, class: 'btn btn-primary col-6 offset-3' %>
+            </div>
+          </div>
+      <% end %>
+
+        <% if @groups.any? %>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="text-center">
+                <h3 class="">Seleccione entidad para trabajar</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xxl-4 col-lg-5">
+            <div class="list-group">
+              <% @groups.each do |group| %>
+                <a href="<%= set_group_url(group_id: group, redirect_url: @redirect_url) %>" class="list-group-item list-group-item-action text-center"><%= group.name %></a>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+     
+
+      <% if @companies.count >0 %>
+        <div class="row mt-4">
+          <div class="col-sm-12">
+            <div class="text-center">
+              <h3 class="">Seleccione comercio para trabajar</h3>
+
+              <div class="mb-3">
+                <input type="text" 
+                      id="companySearch" 
+                      class="form-control" 
+                      placeholder="Buscar comercio..."
+                      style="max-width: 300px; margin: 0 auto;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xxl-4 col-lg-5">
+          <div class="list-group" style="overflow-y: scroll; max-height:40vh;">
+            <%@companies.each do |company| %>
+              <a href="<%= set_company_url(company_id: company, redirect_url: @redirect_url) %>" 
+           class="list-group-item list-group-item-action text-center company-item" 
+           data-company-name="<%= "#{company.name} #{company.active_group.name}" %>">
+          <%= "#{company.name} (#{company.active_group.name})" %>
+        </a>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="text-center">
+              <h3 class="">No hay comercios asociados</h3>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <br>
+    <div class="row justify-content-center">
+      <div class="text-center">
+        <%= button_to destroy_user_session_path, method: :delete, class: "btn btn-sm btn-primary " do %>
+          <i class="mdi mdi-logout me-1"></i>
+          <span>Cerrar Sesión</span>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('companySearch');
+    const companies = document.querySelectorAll('.company-item');
+
+    function normalizeString(str) {
+        return str.toLowerCase()
+                 .normalize("NFD")
+                 .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
+                 .trim();
+    }
+
+    function searchCompanies(searchTerm) {
+        const normalizedSearch = normalizeString(searchTerm);
+        
+        companies.forEach(company => {
+            const companyName = normalizeString(company.dataset.companyName);
+            
+            // Split search terms by spaces to search for individual words
+            const searchTerms = normalizedSearch.split(/\s+/);
+            
+            // Check if ALL search terms are found in the company name
+            const visible = searchTerms.every(term => companyName.includes(term));
+            
+            company.style.display = visible ? '' : 'none';
+        });
+    }
+
+    searchInput.addEventListener('input', function(e) {
+        searchCompanies(this.value);
+    });
+});
+</script>
+
+

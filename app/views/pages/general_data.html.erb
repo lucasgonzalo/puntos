@@ -1,0 +1,252 @@
+
+<% set_page_title(@current_company ? "DATOS DE INTERÉS" : "REPORTES") %>
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h4 class="header-title"><%= @current_company ? "Datos Generales" : "Estadísticas Generales" %></h4>
+</div>
+
+
+<div class="row">
+  <!-- CANTIDAD DE HOMBRES-->
+  <div class="col-sm-6 col-xl-3">
+    <div class="card mb-3" style="height: 7rem;">
+      <div class="card-body">
+          <div class="d-flex">
+            <div class="avatar-sm d-table">
+              <span class="avatar-title bg-primary-lighten   rounded">
+                <i class="mdi mdi-account-group font-24"></i>
+              </span>
+            </div>
+            
+            <div class="ms-2">
+              <h5 class="mt-0 mb-0">
+                Cantidad de Hombres Activos
+              </h5>
+              <p class="mt-1 mb-0 text-muted">
+                <%= get_count_masculines_customers @customers %>
+              </p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CANTIDAD DE MUJERES-->
+  <div class="col-sm-6 col-xl-3">
+    <div class="card mb-3" style="height: 7rem;">
+      <div class="card-body">
+          <div class="d-flex">
+            <div class="avatar-sm d-table">
+              <span class="avatar-title bg-danger-lighten   rounded">
+                <i class="mdi mdi-account-group font-24"></i>
+              </span>
+            </div>
+            <div class="ms-2">
+              <h5 class="mt-0 mb-0">
+                Cantidad de Mujeres Activas
+              </h5>
+              <p class="mt-1 mb-0 text-muted">
+                <%= get_count_femenines_customers @customers %>
+              </p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="col-sm-6 col-xl-3">
+    <div class="card mb-3" style="height: 7rem;">
+      <div class="card-body">
+          <div class="d-flex">
+            <div class="avatar-sm d-table">
+              <span class="avatar-title bg-success-lighten   rounded">
+                <i class="mdi mdi-account-group font-24"></i>
+              </span>
+            </div>
+            <div class="ms-2">
+              <h5 class="mt-0 mb-0">
+                Cantidad Total de Clientes Activos
+              </h5>
+              <p class="mt-1 mb-0 text-muted">
+                <%= get_count_customers @customers %>
+              </p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="card mb-3" style="height: 7rem;">
+      <div class="card-body">
+        
+          <div class="d-flex">
+            <div class="avatar-sm d-table">
+              <span class="avatar-title bg-warning-lighten   rounded">
+                <i class="mdi mdi-apple-keyboard-caps font-24"></i>
+              </span>
+            </div>
+            <div class="ms-2">
+              <h5 class="mt-0 mb-0">
+                Cantidad de Transacciones Mensual
+              </h5>
+              <p class="mt-1 mb-0 text-muted">
+                <%= @monthly_transactions %>
+              </p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6 col-xl-3">
+    <div class="card mb-3" style="height: 7rem;">
+      <div class="card-body">
+          <div class="d-flex">
+            <div class="avatar-sm">
+              <i class="mdi mdi-checkbox-marked-circle-outline widget-icon rounded-circle bg-success-lighten text-success"></i>
+            </div>
+            <div class="ms-2">
+              <h5 class="mt-0 mb-0">
+                Cant. Socios Activos ult. 4 meses
+              </h5>
+              <p class="mt-1 mb-0 text-muted">
+                <%= get_count_active_customers_four_months @customers %>
+              </p>
+            </div>
+          </div>      
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="card mb-3" style="height: 7rem;">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="avatar-sm">
+            <i class="mdi mdi-checkbox-marked-circle-outline widget-icon rounded-circle bg-danger-lighten text-danger"></i>
+          </div>
+          <div class="ms-2">
+            <h5 class="mt-0 mb-0">
+              Cant. Socios Inactivos ult. 4 meses
+            </h5>
+            <p class="mt-1 mb-0 text-muted">
+              <%= get_count_inactive_customers_four_months(@customers) %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="card mb-3" style="height: 7rem;">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="avatar-sm">
+            <i class="mdi mdi-email-mark-as-unread widget-icon rounded-circle bg-dark-lighten  "></i>
+          </div>
+          <div class="ms-2">
+            <h5 class="mt-0 mb-0">
+              Cantidad de Mails Activos
+            </h5>
+            <p class="mt-1 mb-0 text-muted">
+              <%= @active_mails %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="card mb-3" style="height: 7rem;">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="avatar-sm">
+            <span class="avatar-title bg-primary-lighten text-primary rounded">
+              <i class="mdi mdi-phone-paused widget-icon rounded-circle bg-dark-lighten  "></i>
+            </span>
+          </div>
+
+          <div class="ms-2">
+            <h5 class="mt-0 mb-0">
+              Cantidad de Teléfonos Activos
+            </h5>
+            <p class="mt-1 mb-0 text-muted">
+              <%= @active_phones %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <% if !@logged_admin %>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card mb-3" style="height: 7rem;">
+        <div class="card-body">
+          <div class="d-flex">
+            <div class="avatar-sm">
+              <span class="avatar-title bg-primary-lighten text-primary rounded">
+                <i class="mdi mdi-bell-sleep font-24"></i>
+              </span>
+            </div>
+            <div class="ms-2">
+              <h5 class="mt-0 mb-0">
+                Clientes Dormidos en <%= @company.days_sleep %> Días
+              </h5>
+              <p class="mt-1 mb-0 text-muted">
+                <%= get_count_sleep_customers(@customers) %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% if @logged_admin %>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card mb-3" style="height: 7rem;">
+        <div class="card-body">
+          <div class="d-flex">
+            <div class="avatar-sm">
+              <span class="avatar-title bg-primary-lighten text-primary rounded">
+                <i class="mdi mdi-storefront font-24"></i>
+              </span>
+            </div>
+            <div class="ms-2">
+              <h5 class="mt-0 mb-0">
+                Comercios Activos
+              </h5>
+              <p class="mt-1 mb-0 text-muted">
+                <%= get_count_active_company(@company) %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card mb-3" style="height: 7rem;">
+        <div class="card-body">
+          <div class="d-flex">
+            <div class="avatar-sm">
+              <div class="flex-shrink-0 me-2">
+                <i class="mdi mdi-bag-checked widget-icon rounded-circle bg-primary-lighten text-primary"></i>
+              </div>
+            </div>
+            <div class="ms-2">
+              <h5 class="mt-0 mb-0">
+                Trans. Acum. del día
+              </h5>
+              <p class="mt-1 mb-0 text-muted">
+                Puntos: <%= get_day_points(@movements) %> | Cantidad de canjes: <%= @exchange_count %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

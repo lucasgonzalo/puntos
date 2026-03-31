@@ -1,0 +1,75 @@
+<%= turbo_frame_tag "catalog_content" do %>
+  <div id="catalog_content">
+    <h5 class="mb-3">Catálogo: <%= @catalog.name %></h5>
+
+    <% products = @products %>
+
+    <% if products.none? %>
+      <div class="alert alert-info">El catálogo no tiene productos.</div>
+    <% else %>
+      <div class="mb-3">
+        <input type="text" 
+              class="form-control" 
+              id="productSearch" 
+              placeholder="Buscar producto por nombre..."
+              data-action="input->product-exchange-movements#filter"
+              data-product-exchange-movements-target="searchInput">
+      </div>
+      <ul id="productsList" class=" card list-group p-2" style="overflow-y: auto; max-height: 35dvh;">
+        <% products.each do |product| %>
+        <% image_url =  product.image.attached? ? url_for(product.image) : '' %>
+          <li class="card product-card  align-items-center p-2 m-2 " 
+              data-name="<%= product.name.upcase %>"
+              data-id="<%= product.id %>"
+              data-product-exchange-movements-target="card"
+              data-image="<%= image_url %>" 
+              data-points="<%= product.points %>" 
+              data-price="<%= product.price if product.price %>"
+              data-price-formatted="<%= number_to_currency(product.price) if product.price %>"
+              data-product-type = "<%= product.product_type %>"
+              data-action="click->product-exchange-movements#toggleSelect">
+
+            <div class="row justify-content-center align-items-center">
+              <div class="col-12 col-md-6 text-center">
+                <div class="fw-bold">
+                  <%= product.name.upcase %>
+                  <div class="badge bg-secondary "><%= product.get_type %></div>
+                </div>
+                  <div class="badge rounded-pill bg-info text-white mt-2">
+                    <% if product.price %>
+                      <span class="h6" data-price-formatted="<%= number_to_currency(product.price) %>"><%= number_to_currency(product.price) %> + </span>
+                    <% end %>
+                    <span class="h6"> <%= product.points %> puntos</span>
+                  </div>
+                <span class="text-muted ms-2 d-none ">ID: <%= product.id %></span>
+                <div class="small text-muted"><%= product.description %></div>
+                 <!-- Quantity controls for product selection -->
+                <div class="quantity-controls d-flex align-items-center justify-content-center mt-2">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" 
+                          data-action="click->product-exchange-movements#decreaseQuantity"
+                          data-product-id="<%= product.id %>">-</button>
+                  <span class="mx-2 quantity-display fw-bold" data-product-id="<%= product.id %>">0</span>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" 
+                          data-action="click->product-exchange-movements#increaseQuantity"
+                          data-product-id="<%= product.id %>">+</button>
+                </div>
+              </div>
+                
+              <div class="col-12 col-md-6 text-center">
+                <% if product.image.attached? %>
+                  <div class=" ">
+                    <%= image_tag url_for(product.image), style:"max-height:150px; max-width: 200px; border-radius:1rem;" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+             
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    
+  </div>
+
+<% end %>

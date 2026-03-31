@@ -1,0 +1,5 @@
+          
+<%= render 'company_settings/edit_email', model: @company, attribute: :email do %>
+  <span class="leading-normal"><%= @company.email || 'Sin email configurado' %></span>
+<%end%>
+       

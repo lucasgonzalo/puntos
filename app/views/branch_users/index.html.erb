@@ -1,0 +1,33 @@
+
+<% set_page_title("Empleados") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+
+          <!-------------------Creación de Nuevo Empleado--------------------------->
+          <div class="flexitems-center mb-4">
+            <% if (can? :create, BranchUser.new) %>
+              <%= link_to 'Nuevo Empleado', new_branch_user_path, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+
+          <!-------------------Filtros de Empleados--------------------------->
+          <div class="flexitems-center mb-4">
+            <%= render 'filter_employees', companies: @companies %>
+          </div>
+          <br/>
+
+          <!----------------------------- Tabla ---------------------------------------------> 
+          <section id="table-users">
+            <%= render 'table_branch_users', companies: @companies, condition_active: @condition_active, condition_role: @condition_role, condition_branch: @condition_branch if @current_branch%>
+          </section> 
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

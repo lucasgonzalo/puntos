@@ -1,0 +1,125 @@
+<div class="row">
+
+  <!-- Columna para el formulario de selección de imagen -->
+  <div class="col-sm-6 col-md-6">
+    <h4 class="page-title">Imagen de Correo Electrónico</h4>
+
+    <div class="col-sm-6 col-md-5">
+      <div class="flexitems-center mb-4">
+        <!-- Botón para cambiar la imagen de email -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#load-email-image-modal">Cambiar Imagen de Email</button>
+
+        <!-- Botón para eliminar la imagen de email -->
+        <% if can? :destroy, @branch %>
+          <%= render 'shared/destroy', element: branch_email_delete_image_path(branch_id: @branch.id), class: 'ml-2' %>
+        <% end %>
+      </div>
+    </div>
+    <div id="load-email-image-modal" class="modal fade" tabindex="-1" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header modal-colored-header bg-info">
+            <h4 class="modal-title" id="secundary-header-modalLabel">Imagen del Email de Sucursal </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+          </div>
+          <%= form_with(url: branch_email_upload_image_path(branch_id: @branch.id)) do |form| %>
+            <div class="modal-body">
+              <div class="mb-3">
+                <%= form.label 'Seleccione Imagen' %>
+                <%= form.file_field :email_image_branch, multiple: false, class: "form-control input-lg" %>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+              <%= form.submit "Confirmar", class: "btn btn-success " %>    
+            </div>
+          <% end %>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+    <% if @branch.email_image_branch.attached? %>
+      <%= image_tag @branch.email_image_branch, alt: "", height: "100"  %>
+    <% else %>
+      Aun no tiene imagen de email esta Sucursal, tamaño recomendado (612px de Ancho y 344 px de Alto).
+    <% end %>
+  </div>
+
+  <!-- Columna para el formulario de selección de color -->
+  <div class="col-sm-6 col-md-6">
+    <div class="row">
+      <%= form_with(url: branch_change_background_color_path(branch_id: @branch.id)) do |form| %>
+        <h4 class="page-title">Color de Fondo</h4>
+        <div class="row">
+          <div class="">
+            <% color = @branch.email_background_color.blank? ? "" : @branch.email_background_color %>
+            <%= form.color_field :background_color, value: color, class: "form-control" %>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <%= form.submit "Aplicar", class: "btn btn-primary m-1" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="row">
+      <%= form_with(url: branch_change_text_color_path(branch_id: @branch.id)) do |form| %>
+        <h4 class="page-title">Color de Texto</h4>
+        <div class="row mt-2">
+          <div class="">
+            <% color = @branch.email_text_color.blank? ? "" : @branch.email_text_color %>
+            <%= form.color_field :text_color, value: color, class: "form-control" %>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <%= form.submit "Aplicar", class: "btn btn-primary m-1" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+</div>
+
+
+<br/><br/>
+
+
+<div class="row justify-content-center">
+  <h4 class="page-title">Imagen de Muestra</h4>
+  <div class="col-xxl-6 col-lg-8 col-md-10 col-sm-12">
+    <div class="card" style="max-width: 100%; border: 1px solid #0000cd; background-color: <%= @branch.email_background_color %>;">
+      <div class="text-center">
+        <% if (!@branch.email_image_branch.blank?) %>
+          <%= image_tag @branch.email_image_branch, alt: 'Imagen Superior', style: 'width: 100%; height: auto;' %>
+        <% end %>
+      </div>
+      
+      <div class="card-title text-center">
+        <h2 class="  mt-3 fw-bold" style="color: <%= @branch.email_text_color %>;"><%= @branch.company.name %></h2>
+      </div>
+      
+      <div class="card-body text-center" style="color: <%= @branch.email_text_color %>; font-size:1.5rem;">
+        <div style="font-family: Arial, font-size:1.2rem;">
+
+          <p>Hola <b>Perez, Juan</b>!</p>
+
+          <%= Movement.new.mail_description(600, 600) %>
+
+          <br class="my-2">
+
+          <a href="#" style="display: inline-block; color: #fff; background-color: #17a2b8; padding: 5px 8px; text-decoration: none; border-radius: 5px; text-align: center;" target="_blank">IR A CTA. CTE.</a>
+          <% if @branch.admits_product_exchange && @branch.get_related_catalog%>
+          <a href="#" style="display: inline-block; color: #fff; background-color: #17a2b8; padding: 5px 8px; text-decoration: none; border-radius: 5px; text-align: center;" target="_blank">VER CATALOGO</a>
+          <% end %>
+          
+          <br class="my-2">
+          
+          <div style="color: <%= @branch.email_text_color %>">
+            <p>Te esperamos<br>¡Que tengas un hermoso día!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

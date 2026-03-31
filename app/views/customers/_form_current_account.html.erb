@@ -1,0 +1,113 @@
+<div class="card">
+  <div class="card-body">
+    <div class="m-2 col-12">
+      <div class="flexitems-center mb-4">
+        <h3 class="page-title text-center">CUENTA CORRIENTE</h3>
+        <h4 class="page-title mb-2">CLIENTE: <%=  customer.full_name.upcase %> - <%=  customer.person.document_number %></h4>
+        <% unless customer.company.groups&.first.account_type_group? %>
+          <h4 class="page-title mb-2">COMERCIO: <%= customer.company.name.upcase %></h4>
+          <% catalog = Catalog.where(group: customer.company.groups.first, company: customer.company).last %>
+          <% if catalog %>
+            <div class="d-flex justify-content-between">
+              <%= catalog.name  %>
+              <%= link_to 'VER CATÁLOGO', showcase_catalogs_path(id: catalog.id),class:"btn btn-primary ", target: "_blank"%>
+            </div>
+          <% end %>
+        <% else %>
+          <h4 class="page-title mb-2"> <%= customer.company.groups&.first&.name %></h4>
+          <% catalog = Catalog.where(group: customer.company.groups.first).last %>
+          <% if catalog %>
+            <div class="d-flex justify-content-between">
+              <%= catalog.name  %>
+              <%= link_to 'VER CATÁLOGO', showcase_catalogs_path(id: catalog.id),class:"btn btn-primary ", target: "_blank"%>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card tilebox-one mb-3">
+          <div class="card-body">
+            <i class="dripicons-jewel float-end text-muted"></i>
+            <h6 class="text-muted text-uppercase mt-0">PUNTOS</h6>
+            <h2 class="m-b-20"><%= customer.points_balance_amount(company) %></h2>
+          </div> <!-- end card-body-->
+        </div> <!--end card-->
+      </div><!-- end col -->
+      <div class="col-sm-4">
+          <div class="card tilebox-one mb-3">
+              <div class="card-body">
+                  <i class="dripicons-jewel float-end text-muted"></i>
+                  <h6 class="text-muted text-uppercase mt-0">AHORRO DEL ULTIMO MES</h6>
+                  <h2 class="m-b-20">$<%= customer.get_monthly_saving(company) %></h2>
+              </div> <!-- end card-body-->
+          </div> <!--end card-->
+      </div><!-- end col -->
+      <div class="col-sm-4">
+          <div class="card tilebox-one mb-3">
+            <div class="card-body">
+                <i class="dripicons-basket float-end text-muted"></i>
+                <h6 class="text-muted text-uppercase mt-0">CANTIDAD DE CANJES</h6>
+                <h2 class="m-b-20"><%= customer.get_count_exchange(company) %></h2>
+
+            </div> <!-- end card-body-->
+          </div>
+      </div><!-- end col -->
+    </div>
+    
+
+    <div class=" rounded shadow p-2">
+      
+      <table id="currentaccounts-table" class="table table-striped dt-responsive nowrap ">
+        <thead>
+          <tr>
+            <th class="p-3 uppercase text-left text-xs text-gray-700"></th>
+            <!--<th class="p-3 uppercase text-left text-xs text-gray-700 d-none">Anulado?</th>-->
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Fecha/Hora</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Entidad</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Comercio</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Tipo</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Imp.</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Puntos</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Saldo</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Dto. Aplicado</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Imp. Descontado</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Ahorro</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Imp. Total</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700">Descripción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%# count = customer.get_details_movement(company).count %>
+          <% customer.get_details_movement(company).each do |movement| %>
+            <tr class="group border-t border-gray-400 hover:bg-gray-100">
+              <td class="p-3"><%= movement[:id]%></td>
+              <!--<td class="p-3 d-none"><%#= movement[:annulled].to_s%></td>-->
+              <td class="p-3"><%= movement[:date_created]%></td>
+              <td class="p-3"><%= movement[:group_name]%></td>
+              <td class="p-3"><%= movement[:company_name]%></td>
+              <td class="p-3"><%= get_badges_movement_type_hash movement %></td>
+              <td class="p-3"><%= number_to_currency(movement[:amount])  %></td>
+              <td class="p-3"><%= ((movement[:movement_type]=="exchange" || movement[:movement_type]=="product_exchange") ? "-" : "") + number_with_precision(movement[:points] , precision: 0) %></td>
+              <td class="p-3"><%= number_with_precision(movement[:balance] , precision: 0) %></td>
+              <td class="p-3"><%= number_to_percentage(movement[:discount], precision: 2) %> </td>
+              <td class="p-3"><%= number_to_currency(movement[:amount_discounted]) %> </td>
+              <td class="p-3"><%= number_to_currency(movement[:person_saving]) %> </td>
+              <td class="p-3"><%= number_to_currency(movement[:total_import]) %> </td>
+              <td class="p-3"><%= movement[:description]%></td>
+            </tr> 
+          <% end %>
+          
+        </tbody>
+      </table>
+    </div>
+    
+  </div> 
+</div> 
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+

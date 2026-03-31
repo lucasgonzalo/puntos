@@ -1,0 +1,58 @@
+<%= turbo_frame_tag 'nav_link_movement_type' do %>
+  <% if customer %>
+      <ul data-controller="companySetting" class="nav nav-tabs mt-4 mb-3 justify-content-center">
+        <li class="nav-item">
+          <a href="#sale" data-companySetting-target="optionNav"  data-action="click->companySetting#change" data-bs-toggle="tab" aria-expanded="false" class="nav-link <%= type==:sale ? 'active' : '' %> " >
+             <i class="mdi mdi-home-variant d-md-none d-block"></i>
+             <span class="d-none d-md-block"></span>
+          </a>
+        </li>
+
+        <% if !action_name.in? ['search_person_customer','create'] %>
+          <li class="nav-item">
+            <a href="#sale-annulment" data-companySetting-target="optionNav" data-action="click->companySetting#change" data-bs-toggle="tab" aria-expanded="false" class="nav-link <%=type ==:sale_annulment ? 'active' : '' %>">
+                <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                <span class="d-none d-md-block">ANULACIÓN DE VENTA</span>
+            </a>
+          </li>
+              
+          <li class="nav-item">
+            <a href="#exchange-annulment" data-companySetting-target="optionNav"  data-action="click->companySetting#change" data-bs-toggle="tab" aria-expanded="false" class="nav-link <%= type == :exchange_annulment ? 'active' : '' %>">
+                <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                <span class="d-none d-md-block">ANULACIÓN DE CANJE </span>
+            </a>
+          </li>
+        <% end %>
+      </ul> 
+      
+      
+      <div class="tab-content ">
+
+        
+        <!----------------------------FORM PARA VENTA Y CANJE---------------------------------->
+        <div class="tab-pane <%= type == :sale ? 'show active' : '' %>" id="sale">
+          <p><%= render partial: 'movements/form_movements', locals: {
+            movement: movement, 
+            type: :sale, 
+            customer: customer 
+          }%></p>
+        </div>
+        <!----------------------------FORM PARA ANULACIÓN DE VENTA Y CANJE---------------------------------->
+        <div class="tab-pane <%= type == :sale_annulment ? 'show active' : '' %>" id="sale-annulment">
+          <p><%= render partial: 'movements/form_annulments',  locals: {
+            movement: movement, 
+            type: :sale_annulment, 
+            customer: customer
+          }%></p>
+        </div>
+        <div class="tab-pane <%= type==:exchange_annulment ? 'show active' : '' %>" id="exchange-annulment">
+          <p><%= render partial: 'movements/form_annulments', locals: {
+            movement: movement, 
+            type: :exchange_annulment, 
+            customer: customer
+          } %></p>
+        </div>
+      </div>
+  <% end %>
+<% end %>
+

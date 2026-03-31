@@ -1,0 +1,8 @@
+<% frame_id = dom_id(branch, "#{attribute}_turbo_frame") %>
+
+<%= form_with model: branch, data: { turbo_frame: frame_id }  do |form| %>
+  <%= turbo_frame_tag frame_id, data: { turbo: true } do %>
+    <%= yield %>
+    <%=link_to '<i class="mdi mdi-lead-pencil"></i>'.html_safe, branch_edit_alert_quantity_path(branch), class: "btn btn-primary" %>
+  <% end %>
+<% end %>

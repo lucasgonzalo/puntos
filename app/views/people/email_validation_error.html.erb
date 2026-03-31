@@ -1,0 +1,156 @@
+<%= content_for :body_class, "loading authentication-bg" %>
+<style>
+  .error-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  .error-icon {
+    font-size: 80px;
+    color: #dc3545;
+    margin-bottom: 20px;
+  }
+  .error-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #dc3545;
+    margin-bottom: 20px;
+  }
+  .error-message {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  .error-box {
+    background-color: #f8d7da;
+    border: 2px solid #dc3545;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  .error-box p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #721c24;
+  }
+  .info-box {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: left;
+    border-radius: 4px;
+  }
+  .info-box p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #856404;
+  }
+  .help-box {
+    background-color: #e7f3ff;
+    border-left: 4px solid #007bff;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: left;
+    border-radius: 4px;
+  }
+  .help-box p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+  }
+  .back-button {
+    display: inline-block;
+    background-color: #6c757d;
+    color: white;
+    padding: 15px 40px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+  }
+  .back-button:hover {
+    background-color: #5a6268;
+  }
+  .contact-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 15px 40px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+  }
+  .contact-button:hover {
+    background-color: #0056b3;
+  }
+</style>
+<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-7">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xxl-6 col-lg-12">
+        <div class="card shadow-none border">
+          <div class="card-body p-4">
+            <div class="error-container">
+              
+              <div class="error-icon">
+                ✕
+              </div>
+              <% case @error_type
+                 when 'already_validated' %>
+                
+                <h1 class="error-title">
+                  Email Ya Validado
+                </h1>
+                <p class="error-message">
+                  Este correo electrónico ya ha sido validado anteriormente.
+                  No necesitas realizar ninguna acción adicional.
+                </p>
+                <div class="info-box">
+                  <p><strong>Nota:</strong> Si tienes problemas para acceder a tu cuenta, puedes contactar con soporte.</p>
+                </div>
+              <% else %>
+                <h1 class="error-title">
+                  Enlace de Validación Inválido
+                </h1>
+                <p class="error-message">
+                  El enlace de validación que utilizaste no es válido o ha expirado.
+                </p>
+                <div class="error-box">
+                  <p><strong>Posibles causas:</strong></p>
+                  <p>• El enlace ha expirado (los enlaces son válidos por 48 horas)</p>
+                  <p>• El enlace ya fue utilizado anteriormente</p>
+                  <p>• El enlace ha sido modificado o es incorrecto</p>
+                </div>
+                <div class="help-box">
+                  <p><strong>¿Qué puedes hacer?</strong></p>
+                  <p>1. Verifica que el enlace esté completo y no haya sido cortado</p>
+                  <p>2. Solicita un nuevo email de validación desde el sistema</p>
+                  <p>3. Si el problema persiste, contacta con soporte técnico</p>
+                </div>
+              <% end %>
+              <p class="error-message">
+                Si necesitas ayuda adicional, consulta al comercio adherido.
+              </p>
+              <a href="<%= root_path %>" class="back-button">
+                Volver al Inicio
+              </a>
+              <!--<a href="mailto:soporte@puntosaltoque.com" class="contact-button">
+                Contactar Soporte
+              </a>
+              -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

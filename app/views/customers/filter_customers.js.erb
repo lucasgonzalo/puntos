@@ -1,0 +1,6 @@
+
+$('#table-customers').empty();
+$('#table-customers').html("<%= j render 'table_customers', customers: @customers %> ");
+
+// Para iniciar el datatable del filtro
+initializeTables();

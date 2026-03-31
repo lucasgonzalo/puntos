@@ -1,0 +1,7 @@
+<h2>Agregar Producto - <%= @catalog.name %></h2>
+
+<%= render 'form', catalog: @catalog, product: @product %>
+
+<div class="d-flex">
+  <%= link_to 'Volver', catalog_path(@catalog), class: "btn btn-secondary mt-4" %>
+</div>

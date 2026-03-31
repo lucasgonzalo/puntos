@@ -1,0 +1,165 @@
+<div data-controller="catalogs">
+  <%= form_with(model: catalog) do |form| %>
+    <% if catalog.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(catalog.errors.count, "error") %> prohibited this catalog from being saved:</h2>
+
+        <ul>
+          <% catalog.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="row mt-2">
+      
+      <!-- Left Column - Existing fields -->
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <%= form.label :name, class: "form-label" %>
+          <%= form.text_field :name, class: "form-control", required: true %>
+        </div>
+
+        <% if @logged_admin && @current_group.nil? %>
+
+          <div class="form-group mb-3">
+            <%= form.label :entidad, class: "form-label" %>
+            <%= form.select :group_id, @groups.map{ |group| [ group.name, group.id ] },
+                { prompt: "Seleccione Entidad"},
+                { id: "group_id", class: "form-select", required: true, onchange: "" }
+              %>
+          </div>
+
+          <div class="form-group mb-3">
+            <%= form.label :company_id, class: "form-label" %>
+            <%= form.select :company_id,  @companies.map{ |company| [ company.name, company.id ] },
+              { include_blank: true, prompt: "Seleccione Comercio" },
+              { class: "form-select"}
+            %>
+          </div>
+
+        <% else %>
+          <div class="form-group mb-3">
+            <%= form.label :entidad, class: "form-label" %>
+            <div class="form-control-plaintext border rounded px-1 disabled"><%= @current_group.name %></div>
+            <%= form.hidden_field :group_id, value: @current_group.id %>
+          </div>
+
+          <% if_type_store = @current_group.account_type_store? %> <%# El comercio es requerido si es tipo tienda %>
+          <div class="form-group mb-3">
+            <%= form.label :company_id, class: "form-label" %>
+            <% if @current_company %>
+              <div class="form-control-plaintext border rounded px-1 disabled"><%= @current_company.name %></div>
+              <%= form.hidden_field :company_id, value: @current_company.id %>
+            <% else %>
+              <%= form.select :company_id,  @current_group.companies.map{ |company| [ company.name, company.id ] },
+                { include_blank: true, prompt: "Seleccione Comercio" },
+                { class: "form-select", required: if_type_store, disabled: !if_type_store }
+              %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="form-group mb-3">
+          <%= form.label :description, "Descripción", class: "form-label" %>
+          <%= form.text_area :description, class: "form-control", placeholder:"Ingrese descripción" %>
+        </div>
+
+        <div class="form-group mb-3">
+          <%= form.label :image_catalog, "Imagen Principal- Tamaño recomendado: 800x600px." %>
+          <%= form.file_field :image_catalog, multiple: false, class: "form-control" %>
+
+          <% if form.object && form.object.image_catalog.attached? %>
+            <div class="col-12 mb-4 mt-2">
+              <div class="form-group">
+                <%= image_tag url_for(form.object.image_catalog), style:"max-height:200px; max-width: 200px" %>
+              </div>
+              <div class="form-group">
+                <label>
+                  <%= form.check_box :remove_image_catalog %>
+                  Eliminar imagen
+                </label>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Right Column  -->
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <%= form.label :text_color, "Color del texto", class: "form-label" %>
+          <%= form.color_field :text_color, class: "form-control form-control-color", value: form.object.text_color || "white" %>
+        </div>
+
+        <div class="form-group mb-3">
+          <%= form.label :background_color, "Color de fondo", class: "form-label" %>
+          <%= form.color_field :background_color, class: "form-control form-control-color", value: form.object.background_color || "#0dcaf0" %>
+        </div>
+
+        <div class="form-group mb-3">
+          <%= form.label :font_family, "Tipografía", class: "form-label" %>
+          <%= form.hidden_field :font_family, data: { catalogs_target: "fontHiddenInput" } %>
+          
+          <div class="dropdown font-selector">
+            <button class="btn btn-outline-secondary dropdown-toggle  text-start" type="button" id="fontDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <span data-catalogs-target="selectedFont">
+                <% if form.object.font_family.present? %>
+                  <span style="font-family: '<%= form.object.font_family %>', sans-serif;"><%= form.object.font_family %> - Este es un texto de ejemplo</span>
+                <% else %>
+                  Selecciona una tipografía
+                <% end %>
+              </span>
+            </button>
+            <ul class="dropdown-menu " aria-labelledby="fontDropdown">
+              <% fonts = [
+                "Inter", "Montserrat", "Lora", "Roboto", "Open Sans", "Poppins", 
+                "Merriweather", "Playfair Display", "Raleway", "Source Sans Pro", 
+                "Nunito", "Oswald", "Abril Fatface","Asimovian","Comic Relief"
+              ] %>
+              <% fonts.each do |font| %>
+                <li>
+                  <a class="dropdown-item font-option" href="#" data-font="<%= font %>" data-action="click->catalogs#selectFont" data-catalogs-target="fontOption" style="font-family: '<%= font %>', sans-serif;">
+                    <%= font %> - Este es un texto de ejemplo
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+
+
+        <div class="form-group mb-3 mt-2">
+          <%= form.label :background_image, "Imagen de fondo " %>
+          <span class="text-muted" >- Tamaño recomendado: 1200x600px </span>
+          <span title="Esta imagen se utiliza a modo de banner por lo que en dispositivos moviles puede verse acotada, se recomienda centrar su contenido.">&#9432</span>
+          <%= form.file_field :background_image, multiple: false, class: "form-control", data: { action: "change->catalogs#validateBackgroundImage", catalogs_target: "backgroundImageInput" } %>
+
+          <!-- error message target -->
+          <div data-catalogs-target="backgroundImageError" class="text-danger small mt-2"></div>
+          <!-- preview target -->
+          <div data-catalogs-target="backgroundImagePreview"></div>
+
+          <% if form.object && form.object.background_image.attached? %>
+            <div data-catalogs-target="existingBackgroundImage" class="col-12 mb-4">
+              <div class="form-group">
+                <%= image_tag url_for(form.object.background_image), style:"max-height:200px; max-width: 200px" %>
+              </div>
+              <div class="form-group">
+                <label>
+                  <%= form.check_box :remove_background_image %>
+                  Eliminar imagen de fondo
+                </label>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= form.submit  class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

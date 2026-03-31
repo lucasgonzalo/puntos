@@ -1,0 +1,38 @@
+<div class="bg-white py-4 min-vh-100">
+  <div class=" container " style="font-family: <%= font_family_stack(@catalog.font_family) || '' %>;">
+    <div class="row mb-4 p-4 rounded shadow  " style="background-color:<%= @catalog.background_color %>; <%= "background-image:url(#{url_for(@catalog.background_image)}); background-size: cover; background-position: center; background-repeat: no-repeat" if @catalog.background_image.attached? %>;">
+      <% if @catalog.image_catalog.attached? %>
+        <div class="col-12 col-lg-3">
+            <div class="col-md-6 col-sm-12 mb-4 text-center text-md-start">
+              <div class="form-group">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#ImageModal_<%= @catalog.id.to_s %>">
+                  <%= image_tag url_for(@catalog.image_catalog), style:"max-height:20dvh; max-width: 200px", class:"rounded" %>
+                </a>
+                <%= render partial: 'shared/modal_image', locals: {object_id:  @catalog.id.to_s, object: @catalog, object_image: @catalog.image_catalog }%>
+              </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-9 text-center text-md-start">
+          <div class="" >
+            <h1 class="mb-2" style="color:<%= @catalog.text_color %>"><%= @catalog.name %></h1>
+            <h3 class="mb-2" style="color:<%= @catalog.text_color %>"><%= @catalog.description %></h3>
+            <!--<%= "Entidad: #{@catalog.group.name}" %>-->
+            <!--<%= "Comercio: #{ @catalog.company.name}" if @catalog.company.present?%>-->
+          </div>
+        </div>
+      <% else %>
+        <div class="col-12 text-center">
+          <div class="">
+            <h2 class="mb-2" style="color:<%= @catalog.text_color %>"><%= @catalog.name %></h2>
+            <h3 class="mb-2" style="color:<%= @catalog.text_color %>"><%= @catalog.description %></h3>
+            <!--<%= "Entidad: #{@catalog.group.name}" %>-->
+            <!--<%= "Comercio: #{ @catalog.company.name}" if @catalog.company.present? %>-->
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%= render 'showcase_products' %>
+    
+  </div>
+</div>

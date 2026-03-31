@@ -1,0 +1,53 @@
+<div data-controller="products">
+  <div class="mb-2 d-flex align-items-center justify-content-end">
+    <label for="status-filter" class="form-label p-2 text-sm font-medium text-gray-700">Filtrar por estado:</label>
+    <select id="status-filter" data-products-target="filter" data-action="change->products#filterTable" class="form-select form-select-sm w-auto">
+      <option value="all">Todos</option>
+      <option value="active">Activos</option>
+      <option value="inactive">Inactivos</option>
+    </select>
+  </div>
+
+  <table id="products-table" class="table table-striped dt-responsive nowrap ">
+    <thead>
+      <tr>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Nombre</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Descripción</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Activo/Inactivo?</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Tipo</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Puntos</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Precio</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Imagen</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @catalog.products.each do |product| %>
+        <tr class="group border-t border-gray-400 hover:bg-gray-100">
+          <td class="p-3"><%= product.name %></td>
+          <td class="p-3" title="<%= product.description %>"><%= product.description.truncate(30) %></td>
+          <td class="p-3">
+            <turbo-frame id="active_<%= product.id %>" >
+              <%# replaced with hotwire by partial: products/_active_cell.html.erb %>
+              <%= button_to (product.active ? 'Activado' : 'Desactivado'),
+                toggle_active_product_path(product, catalog_id: @catalog.id),
+                method: :patch, params: { active: !product.active },
+                class: "btn btn-sm btn-#{product.active ? 'success' : 'danger'}",
+                data: { turbo: true, product_status: product.active ? 'active' : 'inactive'  },
+                title: "#{product.active ? '¿Desactivar?' : '¿Activar?'}" %>
+            </turbo-frame>
+          </td>
+          <td class="p-3"><%= product.get_type %></td>
+          <td class="p-3"><%= product.points %></td>
+          <td class="p-3"><%= product.price %></td>
+          <td class="p-3"><%= product.image.attached? ? (image_tag url_for(product.image), style: "max-height:100px; max-width: 100px") : "Sin imagen" %></td>
+          <td>
+            <%= link_to 'Ver', product_path(id: product.id, catalog_id: @catalog.id), class: "btn btn-outline-danger" if can? :read, Product %>
+            <%= link_to 'Modificar', edit_product_path(product, catalog_id: @catalog.id), class: "btn btn-outline-danger" if can? :update, Product %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

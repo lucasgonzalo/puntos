@@ -1,0 +1,51 @@
+<a data-bs-toggle="collapse"  href="#sidebarIndicators" 
+   aria-expanded="false"  aria-controls="sidebarIndicators" 
+   class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+  <i class="mdi mdi-chart-bar mx-1" title="Indicadores"></i>
+  <span> Indicadores </span>
+  <span class="menu-arrow"></span>
+</a>
+
+<div class="collapse" id="sidebarIndicators">
+  <ul class="side-nav-second-level">
+
+    <% if show_indicators_general_data? %>
+      <li>
+        <a class="nav-link sidebar-nav-item" href="<%= general_data_path %>" 
+          data-sidebar-navigation-target="subNavItem">
+          <i class="mdi mdi-chart-bar mx-1"></i>
+          <span><%= indicators_general_label %></span> 
+        </a>
+      </li>
+    <% end %>
+
+    <% if show_indicators_periodic_data? %>
+      <li>
+        <a class="nav-link sidebar-nav-item" href="<%= periodic_data_path %>" 
+          data-sidebar-navigation-target="subNavItem">
+          <i class="mdi mdi-chart-areaspline mx-1"></i>
+          <span> Datos Periódicos </span> 
+        </a>
+      </li>
+    <% end %>
+
+    <% if show_indicators_charts? %>
+      <li>
+        <a class="nav-link sidebar-nav-item" href="<%= dashboard_path %>" 
+          data-sidebar-navigation-target="subNavItem">
+          <i class="mdi mdi-chart-pie mx-1"></i>
+          <span> Gráficos </span>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<br/>
+
+
+
+
+
+
+
+

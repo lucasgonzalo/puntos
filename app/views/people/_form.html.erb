@@ -1,0 +1,9 @@
+<!-- lib/templates/erb/scaffold/_form.html.erb.tt -->
+
+<%= form_with(model: person) do |form| %>
+  <%= render 'people/form_fields', form: form %>
+  
+  <div class="justify-between items-center">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>

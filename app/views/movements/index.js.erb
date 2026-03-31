@@ -1,0 +1,9 @@
+function amount_pesos(origin_elem, destination_elem) {
+  console.log(origin_elem.value);
+
+ 
+  const numberFormat = new Intl.NumberFormat('es-AR');
+  number_with_delimiter = numberFormat.format(origin_elem.value)
+ 
+  $(destination_elem).val(number_with_delimiter);
+}

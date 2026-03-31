@@ -1,0 +1,14 @@
+<% frame_id = dom_id(model, "#{attribute}_turbo_frame")%>
+
+<%= form_with model: model, class: 'contents', data:{ turbo_frame: frame_id}  do |form| %>
+  <%= turbo_frame_tag frame_id, data: { turbo: true } do %>
+      <div class="row">
+        <div class="col-4">
+          <%= yield %>
+        </div>
+        <div class="col-2">
+          <%=link_to '<i class="mdi mdi-lead-pencil"></i>'.html_safe, edit_branch_setting_path(model), class: "btn btn-primary" %>
+        </div>
+      </div>
+  <%end %>
+<%end%>

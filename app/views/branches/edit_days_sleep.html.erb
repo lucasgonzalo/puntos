@@ -1,0 +1,7 @@
+
+<%= form_with(model: @branch) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+  <%= render 'branch_settings/field_days_sleep', form: form, attribute: :days_sleep  do %>
+      <%= form.number_field :days_sleep, class: "form-control", placeholder: "Ingrese días de dormido", min: 1, max: 366 %>
+  <%end%>
+<% end %>

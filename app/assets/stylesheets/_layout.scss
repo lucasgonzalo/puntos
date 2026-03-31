@@ -1,0 +1,132 @@
+// Layout-specific styles for the application
+@import "mixins";
+
+// Body element with theme-aware text color
+body {
+  color: var(--theme-text-primary);
+   @include theme-transition; // Smooth color transitions
+}
+
+// Gradient background class for the entire page
+.gradient-background {
+  // Light mode gradient (default)
+  background-image: linear-gradient(135deg, 
+    var(--gradient-start-light, #ededed) 0%, 
+    var(--gradient-end-light, #7e7e7e) 100%);
+  
+  // Dark mode gradient
+  [data-theme="dark"] & {
+    background-image: linear-gradient(135deg, 
+      var(--gradient-start-dark, #000000) 0%, 
+      var(--gradient-end-dark, #8b0000) 100%);
+  }
+  
+  // Ensure gradient covers full viewport
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  
+  // Smooth transition for theme switching
+  transition: background-image 0.3s ease;
+  
+  // Ensure content overlays properly on gradient
+  position: relative;
+}
+
+// Additional layout utilities
+.full-height {
+  min-height: 100vh;
+}
+
+.gradient-overlay {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    z-index: -1;
+  }
+}
+
+// Classic card
+// .card {
+//   background-color: var(--theme-bg-card);
+//   color: var(--theme-text-primary);
+//   border: 1px solid var(--theme-border-color);
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//   @include theme-transition;
+
+//   [data-theme="dark"] & {
+//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+//   }
+// }
+
+// Glass global card
+.card {
+  // padding: 5px;
+  background: var(--glass-bg-light);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border-light);
+  box-shadow: var(--glass-shadow-light);
+  color: var(--theme-text-primary);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    // transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  [data-theme="dark"] & {
+    background: var(--glass-bg-dark);
+    border-color: var(--glass-border-dark);
+    box-shadow: var(--glass-shadow-dark);
+    
+    &:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+.main-card {
+  padding: 5px;
+  background: var(--glass-bg-light);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border-light);
+  box-shadow: var(--glass-shadow-light);
+  color: var(--theme-text-primary);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    // transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  [data-theme="dark"] & {
+    background: var(--glass-bg-dark);
+    border-color: var(--glass-border-dark);
+    box-shadow: var(--glass-shadow-dark);
+    
+    &:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+
+.navbar {
+  background-color: var(--theme-bg-card);
+}
+
+
+.sidebar{
+
+}

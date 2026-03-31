@@ -1,0 +1,79 @@
+<div id="<%= dom_id catalog %>">
+  <div class="row">
+    <!-- Left column: basic catalog info (existing fields) -->
+    <div class="col-md-6">
+      <p>
+        <strong>Nombre:</strong>
+        <%= catalog.name %>
+      </p>
+
+      <p>
+        <strong>Entidad:</strong>
+        <%= catalog.group.name %>
+      </p>
+
+      <p>
+        <strong>Comercio:</strong>
+        <%= catalog.company&.name %>
+      </p>
+
+      <p>
+        <strong>Descripcion:</strong>
+        <span style="font-family: <%= font_family_stack(catalog.font_family) || '' %>"><%= catalog.description %></span>
+      </p>
+
+      <p>
+        <strong>Imagen:</strong>
+        <% if catalog.image_catalog.attached? %>
+          <div class="col-md-6 col-sm-12 mb-4">
+            <div class="form-group">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#ImageModal_<%= catalog.id.to_s %>">
+                <%= image_tag url_for(catalog.image_catalog), style:"max-height:200px; max-width: 200px" %>
+              </a>
+              <%= render partial: 'shared/modal_image', locals: {object_id: catalog.id, object: catalog, object_image: catalog.image_catalog }%>
+            </div>
+          </div>
+        <% else %>
+          <div class="text-muted">Sin imagen</div>
+        <% end %>
+      </p>
+    </div>
+
+    <!-- Right column: readonly visual properties -->
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label class="form-label"><strong>Color de fondo</strong></label>
+        <div class="d-flex align-items-center">
+          <input type="color" value="<%= catalog.background_color.presence || '#0dcaf0' %>" disabled class="form-control form-control-color" style="width:56px; height:36px; padding:0;" />
+          <div class="ms-3">
+            <div><code><%= catalog.background_color.presence || '#0dcaf0' %></code></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><strong>Color del texto</strong></label>
+        <div class="d-flex align-items-center">
+          <input type="color" value="<%= catalog.text_color.presence || '#000000' %>" disabled class="form-control form-control-color" style="width:56px; height:36px; padding:0;" />
+          <div class="ms-3">
+            <div><code><%= catalog.text_color.presence || '#000000' %></code></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><strong>Imagen de fondo</strong></label>
+        <% if catalog.background_image&.attached? %>
+          <div class="mb-2">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#ImageModal_BG_<%= catalog.id.to_s %>">
+              <%= image_tag url_for(catalog.background_image), style: "max-width: 100%; max-height: 200px; object-fit: cover;" %>
+            </a>
+            <%= render partial: 'shared/modal_image', locals: { object_id: "bg_#{catalog.id}", object: catalog, object_image: catalog.background_image } %>
+          </div>
+        <% else %>
+          <div class="text-muted">Sin imagen de fondo</div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

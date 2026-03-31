@@ -1,0 +1,66 @@
+<%= form_with(url: edit_employee_path, html: {class: 'needs-validation', novalidate: '' }, method: :post) do |form| %>
+  <%#= render "shared/error_messages", resource: form.object %>
+
+  <div class="row g-2">
+    <div class="mb-3 col-md-6">
+      <%= form.label :first_name, 'Nombre/s', class: "form-label" %>
+      <%= form.text_field :first_name, value: branch_user.user.first_name, class: "form-control", placeholder:"Ingrese Nombre/s", readonly: true %>
+    </div>
+    <div class="mb-3 col-md-6">
+      <%= form.label :last_name, 'Apellido/s', class: "form-label" %>
+      <%= form.text_field :last_name, value: branch_user.user.last_name, class: "form-control", placeholder:"Ingrese Apellido/s", readonly: true%>
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="mb-3 col-md-6">
+      <%= form.label :email, 'Email', class: "form-label" %>
+      <%= form.text_field :email, value: branch_user.user.email,  class: "form-control", placeholder:"Ingrese email", pattern:"^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}$", readonly: true%>
+    </div>
+  </div>
+
+  
+  <div class="form-check form-switch mb-3">
+    <%= form.check_box :active, class: "form-check-input", checked: branch_user.active %>
+    <%= form.label :active, 'Activo?', class: "form-check-label", for: "floatingInput" %>
+  </div>
+
+
+  <div class="form-check form-switch mb-3">
+    <%= form.check_box :manager_role, class: "form-check-input role-checkbox",checked: branch_user.manager_role  %>
+    <%= form.label :manager_role, 'Rol Gerente Sucursal', class: "form-check-label" %>
+  </div>
+
+  <div class="form-check form-switch mb-3">
+    <%= form.check_box :intermediate_role, class: "form-check-input role-checkbox",checked: branch_user.intermediate_role  %>
+    <%= form.label :intermediate_role, 'Rol Supervisor', class: "form-check-label" %>
+  </div>
+
+  <div class="form-check form-switch mb-3">
+    <%= form.check_box :basic_role, class: "form-check-input role-checkbox",checked: branch_user.basic_role  %>
+    <%= form.label :basic_role, 'Rol Básico', class: "form-check-label" %>
+  </div>
+
+
+  <div class="justify-between items-center">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  const checkboxes = document.querySelectorAll('.role-checkbox');
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        checkboxes.forEach(cb => {
+          if (cb !== this) {
+            cb.checked = false;
+          }
+        });
+      }
+    });
+  });
+});
+</script>

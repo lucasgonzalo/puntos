@@ -1,0 +1,51 @@
+<%= form_with(url: branch_change_background_color_path(branch_id: @branch.id)) do |form| %>
+  <div class="row">
+    <div class="">
+      <% color =  @branch.email_background_color.blank?  ? "" : @branch.email_background_color %>
+
+      <%= form.color_field :background_color, value: color, class: "form-control" %>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <%= form.submit "Aplicar", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+<br/><br/>
+<div class="row justify-content-center">
+  <div class="col-xxl-6 col-lg-12">
+    <!--div class="card col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4" style="max-width:600px; border: 1px solid #0000cd !important; position: relative; background-color: transparent;"-->
+    <div class="card " style="width: 600px; high:100px; border: 1px solid #0000cd !important; background-color: <%= @branch.email_background_color %>;">
+      <div class="text-center">
+        <%= image_tag @branch.email_image_branch, alt: 'Imagen Superior', style: 'width: 100%; height: auto;' if (!@branch.email_image_branch.blank?) %>
+      </div>
+      <br/>
+     
+      <div class="card-title">
+        <div class="text-center  m-auto" style="font-size:1.5rem; margin-right: 1em; text-align: center;">
+          <h2 class=" text-center mt-0 fw-bold" style="color: black;"><%= @branch.company.name %></h2>
+        </div>
+      </div>
+      <br>
+      <div class="card-body">
+        <div class="text-center  m-auto" style="color: black; font-size:1.5rem; margin-right: 1em; text-align: center;">
+          <div class="row" style="font-family: arial; margin-right: 1em; color: black;">
+            <span>Hola <b>Juan Perez</b>!</span>
+          </div>
+          <br/>
+          <div class="row">
+            <span>Has sumado <b>30</b> puntos en <b><%= @branch.company.name %></b>.
+            Te quedan <b> 20</b> puntos disponibles
+            para canjearlos cuando quieras.</span>
+          </div>
+          <br/>
+          <div class="row" style="font-family: arial;color: black;">
+            <span>Te esperamos<br><span>
+            <span>¡Que tengas un hermoso día!<span>
+          </div>
+          <br/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

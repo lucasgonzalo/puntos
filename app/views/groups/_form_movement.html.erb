@@ -1,0 +1,38 @@
+
+<!----------------------------Busqueda de Cliente------------------------------>
+<div class="container-fluid d-flex flex-column justify-content-center align-items-center" >
+  <div class="row mb-3">
+      <h3>Cargar puntos para entidad: <%= @current_group.name.upcase %></h3>
+  </div> 
+</div> 
+
+<!----------------------------Resultado de Busqueda------------------------------>
+<br/>
+
+  <div class="row justify-content-md-center mt-4">
+    <div class="col-8">
+      <%= render partial: "search_person/person", data: { turbo: true}, locals: { person: person } %>
+    </div>
+  </div>
+
+
+<!----------------------------Formulario de carga de puntos------------------------------>
+<div id="movement_id">
+  <%= render partial: 'groups/nav_link_movement_group',  locals: { movement: Movement.new, type: :group_load, person: person } %>
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var searchForm = document.getElementById('search_people');
+    var linkMovement = document.getElementById('movement_id');
+  
+    searchForm.addEventListener('click', function(event) {
+      setTimeout(function() {
+        var middlePosition = window.innerHeight / 1.5; // Calcula la mitad de la altura de la ventana del navegador
+        window.scrollTo(0, middlePosition); // Desplázate hacia la posición media de la página
+        linkMovement.focus();
+      }, 100);
+    });
+  });
+</script>

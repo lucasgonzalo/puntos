@@ -1,0 +1,13 @@
+<div class="card">
+  <div class="card-body">
+    <h4 class="header-title mb-3"><%= "#{person_phone.phone_number}" %></h4>
+    <p><%= get_badges_person_address(person_phone) %></p>
+    <ul class="list-unstyled mb-0">
+      <li>
+        <p class="mb-2"><span class="fw-bold me-2">Código de País:</span> <%= person_phone.country_code %></p>
+        <p class="mb-2"><span class="fw-bold me-2">Código de Área:</span> <%= person_phone.area_code %></p>
+        <p class="mb-2"><span class="fw-bold me-2">Tipo de Teléfono:</span> <%= person_phone.phone_type %></p>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="table-responsive  rounded shadow p-2">
+  <table id="alerts-table" class="table table-striped dt-responsive nowrap ">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Categoría</th>
+        <th>Estado</th>
+        <th>Contenido</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% alerts.each do |alert| %>
+        <tr>
+          <td><%= alert.id %></td>
+          <td><%= Alert.categories[alert.category] %></td>
+          <td><%= get_status_alert(alert) %></td>
+          <td><%= alert.content %></td>
+          <td>
+            <%= link_to 'Ver', alert.link, class: "btn btn-outline-danger" if can?(:mark_as_read, alert) %>
+            <%= link_to 'Descartar', mark_as_read_path(id: alert), method: :post, class: "btn btn-outline-danger" if alert.status_not_read? && can?(:mark_as_read, alert) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+

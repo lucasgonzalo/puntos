@@ -1,0 +1,52 @@
+<!-- lib/templates/erb/scaffold/index.html.erb.tt -->
+
+<% set_page_title("Países") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <% if @countries.exists? && (can? :create, Country.new) %>
+              <%= link_to 'Nuevo País', new_country_path, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+
+          <% if @countries.exists? %>
+            <div class=" rounded shadow p-2">
+              <table id="countries-table" class="table table-striped dt-responsive nowrap ">
+                <thead>
+                  <tr>
+                    <th class="p-3 uppercase text-left text-xs text-gray-700">Nombre</th>
+                    <th class="p-3 uppercase text-left text-xs text-gray-700">Acciones</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @countries.each do |country| %>
+                    <tr class="group border-t border-gray-400 hover:bg-gray-100">
+                      <td class="p-3"><%= country.name %></td>
+                      
+                      <td>
+                        <%= link_to ' Ver', country, class: "mdi mdi-eye btn btn-outline-danger" if can? :read, country %>
+                        <%= link_to ' Editar', edit_country_path(country), class: "mdi mdi-pencil btn btn-outline-danger" if can? :update, country %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            <div class="items-center">
+              <div class="flex-1 text-center">
+                <p class="text-xl font-semibold mb-4">No hay datos</p>
+                <%= link_to 'Nuevo País', new_country_path, class: "btn btn-primary mb-3" if can? :create, Country.new %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

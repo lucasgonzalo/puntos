@@ -1,0 +1,38 @@
+<%= render "shared/error_messages", resource: form.object %>
+
+<div class="row g-2">
+  <div class="form-floating mb-3 col-md-9">
+    <%= form.text_field :address, class: "form-control input-lg", placeholder: "Dirección" , required: true %>
+    <%= form.label :address, "Dirección", for: "floatingInput"%>
+    <div class="valid-feedback">Correcto!</div>
+    <div class="invalid-feedback">Ingrese una Dirección</div>
+  </div>
+  <div class="form-floating mb-3 col-md-3">
+    <%= form.text_field :postal_code, class: "form-control input-lg", placeholder: "Código Postal" %>
+    <%= form.label :postal_code, "Código Postal", for: "floatingInput"%>
+    <div class="valid-feedback">Correcto!</div>
+    <div class="invalid-feedback">Ingrese un Código Postal</div>
+  </div>
+</div>
+
+<div class="row g-2">
+  <div class="form-floating mb-3 col-md-12">
+    <%= render partial: 'cities/collections_fields', locals: { form: form } %>
+  </div>
+</div>
+
+<div class="row g-2"> 
+  <div class="mb-3">
+    <% if controller_name=="person_addresses" %>
+      <div class="form-check form-switch mb-3">
+        <%= form.check_box :main, class: "form-check-input" %>
+        <%= form.label :main, "Principal", class: "form-check-label", for: "floatingInput" %>
+      </div>
+
+      <div class="form-check form-switch mb-3">
+        <%= form.check_box :active, class: "form-check-input" %>
+        <%= form.label :active, "Activo", class: "form-check-label", for: "floatingInput" %>
+      </div>
+    <% end %>
+  </div>
+</div>

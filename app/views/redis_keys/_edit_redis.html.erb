@@ -1,0 +1,28 @@
+<div class="modal fade" id="<%="primary-edit-#{redis_key}"%>" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header modal-colored-header bg-primary">
+        <h5 class="modal-title" id="exampleModalToggleLabel">Nueva Redis</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <%= form_with url: redis_key_update_task_path(redis_key_id: redis_key), method: :put, local: true do |form| %>
+        <div class="modal-body p-2">
+          <div class="row g-2 mb-3">
+            <span class="fs-5">Clave: <%= redis_key %></span>
+            <br>
+            <span class="fs-5">Valor: <%= get_value(redis_key) %></span>
+          </div>
+          <div class="row g-2 mb-3">
+            <%= form.hidden_field :redis_key, value: redis_key %>
+            <%= form.label :redis_value, "Nuevo Valor:" %> 
+            <%= form.text_field :redis_value, class: "form-control" ,  required: true  %>
+          </div> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+          <%= form.submit "Confirmar", class: "btn btn-primary " %>    
+        </div>
+      <% end %>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->   

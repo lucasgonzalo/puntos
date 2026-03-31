@@ -1,0 +1,51 @@
+<!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-K7B2H38L');</script>
+<!-- End Google Tag Manager -->
+
+<title><%= content_for(:page_title) || "Puntos al Toque" %></title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="mobile-web-app-capable" content="yes">
+
+<%#= favicon_link_tag asset_path('/nuevo-logo.png') %>
+<%= favicon_link_tag asset_path('/icono-red.png') %>
+
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+<%#= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+
+<!----------------Una practica recomendable es usar las URL externas aqui---------------------->
+<link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+
+<!--link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css"-->
+
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" >
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.min.css" >
+
+<!-- Add webfonts used by catalog font selector -->
+<%= stylesheet_link_tag google_fonts_url, media: 'all', 'data-turbolinks-track': 'reload' %>
+
+<!-----------------Este no anda solo con importmap-------------->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<%= javascript_importmap_tags %>
+
+
+<script>
+  // Apply theme immediately to prevent flash
+  (function() {
+    const savedTheme = localStorage.getItem('theme');
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'light' : 'dark';
+    const theme = savedTheme || systemTheme;
+
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    
+  })();
+</script>
+
+

@@ -1,0 +1,19 @@
+<!-- lib/templates/erb/scaffold/edit.html.erb.tt -->
+
+<% set_page_title("Editar Usuario de Sucursal") %>
+
+<div class="row">
+  <div class="col-12 card">
+    <div class="card-body">
+      <div class="m-2 col-12">
+        <div class="container mx-auto my-8 px-4">
+          <div class="max-w-xl mx-auto">
+            <%= render 'form_edit', branch_user: @branch_user %>
+          </div>
+        </div>
+
+        <%= link_to 'Volver', branch_users_path, class: "btn btn-secondary m-4" %>
+      </div>
+    </div>
+  </div>
+</div>

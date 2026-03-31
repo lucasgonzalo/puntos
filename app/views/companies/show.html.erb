@@ -1,0 +1,101 @@
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+
+<% set_page_title("Comercio") %>
+
+<div class="card">
+  <div class="card-body">
+    <div class="container">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+
+            <h2 class="row header-title mb-2">
+              <div class="col-6">
+                <%= @company.name %>
+              </div>
+              <div class="col-3">
+                <% if @company.image_company.attached? %>
+                  <%= image_tag @company.image_company, alt: "", height: "60" %>
+                <% end %>
+              </div>
+            </h2>
+            <hr>
+            <div class="row mb-2">
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Entidad:</span></div>
+                <div class="col-8"><%= @company.groups.pluck(:name).join(', ') %></div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Propietario:</span></div>
+                <div class="col-8"><%= @company.user.full_name %></div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Observación:</span></div>
+                <div class="col-8"><%= @company.observation %></div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="row">
+                <div class="col-12"><%= get_badges_company(@company) %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ul class="nav nav-tabs mt-4 mb-3">
+        <li class="nav-item">
+            <a href="#branches" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+              <i class="mdi mdi-home-variant d-md-none d-block"></i>
+              <span class="d-none d-md-block">Sucursales</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#customers" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
+              <i class="mdi mdi-account-circle d-md-none d-block"></i>
+              <span class="d-none d-md-block">Clientes</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#movements" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+              <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+              <span class="d-none d-md-block">Transacciones</span>
+            </a>
+        </li>
+      </ul>
+
+      <div class="tab-content ">
+        <div class="tab-pane show active" id="branches">
+          <%= link_to 'Agregar', new_branch_url(company: @company), class: 'btn btn-primary' %>
+          <p><%= render 'list_branches' %></p>
+        </div>
+        <div class="tab-pane" id="customers">
+          <p><%= render 'list_customers' %></p>
+        </div>
+        <div class="tab-pane" id="movements">
+          <p><%= render 'list_movements' %></p>
+        </div>
+      </div>
+
+      <div class="d-flex bd-highlight mt-4">
+        <div class="p-2 bd-highlight">
+          <%= link_to 'Volver', companies_path, class: "btn btn-secondary" %>
+        </div>
+
+        <div class="ms-auto p-2 bd-highlight">
+          <% if can? :destroy, @company %>
+            <%= render 'shared/destroy', element: @company %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

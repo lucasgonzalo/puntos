@@ -1,0 +1,10 @@
+<%= form_with(url: search_person_customer_customers_path, class: "", method: :post, data_turbo: true) do |f| %>
+  <label class="col-md-3 col-form-label" for="userName">Nro. Documento</label>
+  <div class="col-md-9">
+    <%= f.text_field :document_number, class: 'form-control', placeholder: 'Ingrese Nro. de Documento' %>
+  </div>
+
+  <div class="col-md-9 mt-2">
+    <%= f.submit "Buscar", disable_with: 'Submiting...', class: 'btn btn-primary' %>
+  </div>
+<% end %>

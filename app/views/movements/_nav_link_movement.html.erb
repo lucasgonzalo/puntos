@@ -1,0 +1,311 @@
+<%= turbo_frame_tag 'nav_link_movement' do %>
+
+  <% if customer %>
+    <!----------------------------Seleccion de tipo de Movimiento---------------------------------->
+    <div data-controller="movements" data-customer-id="<%= customer&.id %>" data-branch-id="<%= @branch&.id %>" class="mb-3 card tilebox-one card p-3 mt-2">
+      <label for="movement_type_select" class="form-label">Seleccione tipo de Movimiento</label>
+      <select id="movement_type_select" class="form-select" name="movement_type" data-movements-target="movementTypeSelect" data-action="change->movements#handleMovementTypeChange">
+        <option value="">Seleccione una opción</option>
+        <option value="sale">Venta</option>
+        <% if @branch %>
+          <% if @branch.admits_exchange %>
+            <option value="sale-exchange">Venta-Canje</option>
+          <% end %>
+          <% if @branch.admits_product_exchange && @branch.get_related_catalog %>
+            <option value="product-exchange">Canje por Catalogo</option>
+          <% end %>
+        <% end %>
+      </select>
+   
+      <hr>
+      <!----------------------------FORM PARA VENTA ---------------------------------->
+      <div data-movements-target="saleForm" class="row justify-content-md-center mt-4 d-none mt-2" >
+        <div class="col-xl-8 col-lg-10 col-md-12">
+          <div class=" ">
+            <div class="">
+              <div class="row">
+                <div class="col-md-10 offset-md-1">
+                  <%= form_with(model: movement, data: { controller: 'movements' }, method: :post, html: { class: 'needs-validation', novalidate: true }) do |form| %>
+
+                  <%= render "shared/error_messages", resource: form.object %>
+
+                  <%= form.hidden_field :movement_type, value: 'sale' %>
+                  <%= form.hidden_field :customer_id, value: customer.id %>
+                  <%= form.hidden_field :movement_id, value: movement.id %>
+                  <%= form.hidden_field :points_balance, value: customer.points_balance_amount(customer.company).to_i, data: { movements_target: "pointsBalance" } %>
+
+
+                  <!---------------- VENTA ------------------->
+                  <div class="mb-3 row">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h3 class="text-uppercase mb-0">VENTA</h3>
+                    </div>
+                  </div>
+
+                  <!---------------- SUCURSAL ------------------->
+                  <div class="mb-3 row">
+                    <label for="inputField" class="col-sm-4 col-form-label">Sucursal</label>
+                    <div class="col-sm-8">
+                      <% if @branch %>
+                        <%= form.hidden_field :branch_id, value: @branch.id, data: { movements_target: "branchValue" } %>
+                        <%= form.text_field :branch_name, class: 'form-control', value: @branch.name, disabled: true %>
+                      <% elsif @company %>
+                        <%= form.collection_select :branch_id, @company.branches, :id, :name, { prompt: "Seleccione una Sucursal" }, { 
+                        class: "form-select", 
+                        data: { 
+                          movements_target: "branchValue", action: "change->movements#displayBranchSettings change->movements#validateInputs" 
+                        }}%>
+                      <% end %>
+                    </div>
+                    <div class="invalid-feedback" data-movements-target="errorFeedbackBranch"></div>
+                  </div>
+
+                  <!---------------------- IMPORTE DE VENTA------------------->
+                  <div class="mb-3 row">
+                    <label href="apps-ecommerce-products-details.html" for="inputField" class="col-sm-4 col-form-label">Importe de Venta</label>
+                    <div class="col-sm-8">
+                      <%= form.number_field :amount, class: "form-control", placeholder: "Ingrese importe", step: :any, 
+                      data: { 
+                        movements_target: "amountValue", action: "keyup->movements#displayBranchSettings keyup->movements#validateInputs" 
+                      } %>
+                      <div class="invalid-feedback" data-movements-target="errorFeedbackAmount"></div>
+                    </div>
+                  </div>
+
+
+                  <!-----------------------IMPORTE DESCONTADO ---------------------->
+                  <div class="mb-3 row">
+                    <label for="inputField" class="col-sm-4 col-form-label">
+                      Importe descontado
+                      <br>
+                      <small class="text-muted">Descuento del <%= l Time.now, format: "%A" %> del <label data-movements-target="discountValue"></label></small>
+                    </label>
+                    <div class="col-sm-8">
+                      <%= form.number_field :amount_discounted, class: "form-control", step: :any, data: { movements_target: "amountDiscounted" }, readonly: true %>
+                    </div>
+                  </div>
+
+                  <!------------------ IMPORTE CON DESCUENTO ---------------------->
+                  <% if @discount!=0%>
+                    <div class="mb-3 row">
+                      <label for="inputField" class="col-sm-4 col-form-label">Importe con descuento</label>
+                      <div class="col-sm-8">
+                        <%= form.number_field :amount_with_discount, class: "form-control", step: :any, data: { movements_target: "amountWithDiscount" }, readonly: true %>
+                      </div>
+                    </div>
+                  <% else %>
+                    <%= form.hidden_field :amount_with_discount, class: "form-control", step: :any, data: { movements_target: "amountWithDiscount" }, readonly: true %>
+                  <% end %>
+
+                  <!-------------------- PUNTOS A ACUMULAR------------------------>
+                  <div class="mb-3 row">
+                    <label for="inputField" class="col-sm-4 col-form-label">
+                      Puntos a Acumular
+                      <br>
+                      <small class="text-muted">Conversion del  <%= l Time.now, format: "%A" %> de <label data-movements-target="conversionValue"></label></small>
+                    </label>
+                    <div class="col-sm-8">
+                      <%= form.text_field :points, class: "form-control", placeholder: "Ingrese points", 
+                      data: {
+                        movements_target: "points" , action: "keyup->companySetting#displayBranchSettings"
+                      }, readonly: true %>
+                    </div>
+                    <div class="invalid-feedback" data-movements-target="errorFeedbackExchange"></div>
+                  </div>
+
+                  <%= form.hidden_field :exchange_points, data: { movements_target: "exchangePoints" }  %>
+
+
+                  <!------------------ IMPORTE A PAGAR ---------------------->
+                  <div class="mb-3 row">
+                    <label for="inputField" class="col-sm-4 col-form-label">Importe a Pagar</label>
+                    <div class="col-sm-8">
+                      <%= form.number_field :total_import, class: "form-control", data: { movements_target: "totalImport" }, readonly: true %>
+                    </div>
+                  </div>
+                  
+                  <div data-movements-target="errorMessages"></div>
+                  <br/>
+
+                  <div class="justify-between items-center">
+                    <%= form.button "Aceptar", id: "submit-button", class: "btn btn-primary", 
+                    data: { 
+                      movements_target: "submitButton",
+                      action: "click->movements#validateSubmitForm keyup->movements#validateSubmitForm", 
+                      loading_text: "Cargando..."
+                    },
+                    onclick: "this.disabled=true; this.textContent=this.dataset.loadingText || 'Procesando...'; this.form.submit();" %>
+                  </div>
+
+                <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!----------------------------FORM PARA VENTA Y CANJE---------------------------------->
+      <div  data-movements-target="saleExchangeForm" class="row justify-content-md-center mt-4 d-none">
+        <div class="col-xl-8 col-lg-10 col-md-12">
+          <div class=" ">
+            <div class="">
+              <div class="row">
+                <div class="col-md-10 offset-md-1">
+                  <%= form_with(model: movement, data: { controller: 'movements' }, method: :post, html: { class: 'needs-validation', novalidate: true }) do |form| %>
+
+                    <%= render "shared/error_messages", resource: form.object %>
+
+                    <%= form.hidden_field :movement_type, value: 'exchange' %>
+                    <%= form.hidden_field :customer_id, value: customer.id %>
+                    <%= form.hidden_field :movement_id, value: movement.id %>
+                    <%= form.hidden_field :points_balance, value: customer.points_balance_amount(customer.company).to_i, data: { movements_target: "pointsBalance" } %>
+
+
+                    <!---------------- VENTA ------------------->
+                    <div class="mb-3 row">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <h3 class=" mb-0">VENTA con canje</h3>
+                      </div>
+                    </div>
+
+                    <!---------------- SUCURSAL ------------------->
+                    <div class="mb-3 row">
+                      <label for="inputField" class="col-sm-4 col-form-label">Sucursal</label>
+                      <div class="col-sm-8">
+                        <% if @branch %>
+                          <%= form.hidden_field :branch_id, value: @branch.id, data: { movements_target: "branchValue" } %>
+                          <%= form.text_field :branch_name, class: 'form-control', value: @branch.name, disabled: true %>
+                        <% elsif @company %>
+                          <%= form.collection_select :branch_id, @company.branches, :id, :name, { prompt: "Seleccione una Sucursal" }, { 
+                          class: "form-select", 
+                          data: { 
+                            movements_target: "branchValue", action: "change->movements#displayBranchSettings change->movements#validateInputs" 
+                          }}%>
+                        <% end %>
+                      </div>
+                      <div class="invalid-feedback" data-movements-target="errorFeedbackBranch"></div>
+                    </div>
+
+                    <!---------------------- IMPORTE DE VENTA------------------->
+                    <div class="mb-3 row">
+                      <label href="apps-ecommerce-products-details.html" for="inputField" class="col-sm-4 col-form-label">Importe de Venta</label>
+                      <div class="col-sm-8">
+                        <%= form.number_field :amount, class: "form-control", placeholder: "Ingrese importe", step: :any, 
+                        data: { 
+                          movements_target: "amountValue", action: "keyup->movements#displayBranchSettings keyup->movements#validateInputs" 
+                        } %>
+                        <div class="invalid-feedback" data-movements-target="errorFeedbackAmount"></div>
+                      </div>
+                    </div>
+
+
+                    <!-----------------------IMPORTE DESCONTADO ---------------------->
+                    <div class="mb-3 row">
+                      <label for="inputField" class="col-sm-4 col-form-label">
+                        Importe descontado
+                        <br>
+                        <small class="text-muted">Descuento del <%= l Time.now, format: "%A" %> del <label data-movements-target="discountValue"></label></small>
+                      </label>
+                      <div class="col-sm-8">
+                        <%= form.number_field :amount_discounted, class: "form-control", step: :any, data: { movements_target: "amountDiscounted" }, readonly: true %>
+                      </div>
+                    </div>
+
+                    <!------------------ IMPORTE CON DESCUENTO ---------------------->
+                    <% if @discount!=0%>
+                      <div class="mb-3 row">
+                        <label for="inputField" class="col-sm-4 col-form-label">Importe con descuento</label>
+                        <div class="col-sm-8">
+                          <%= form.number_field :amount_with_discount, class: "form-control", step: :any, data: { movements_target: "amountWithDiscount" }, readonly: true %>
+                        </div>
+                      </div>
+                    <% else %>
+                      <%= form.hidden_field :amount_with_discount, class: "form-control", step: :any, data: { movements_target: "amountWithDiscount" }, readonly: true %>
+                    <% end %>
+
+                    <!-------------------- PUNTOS A ACUMULAR------------------------>
+                    <div class="mb-3 row">
+                      <label for="inputField" class="col-sm-4 col-form-label">
+                        Puntos a Acumular
+                        <br>
+                        <small class="text-muted">Conversion del  <%= l Time.now, format: "%A" %> de <label data-movements-target="conversionValue"></label></small>
+                      </label>
+                      <div class="col-sm-8">
+                        <%= form.text_field :points, class: "form-control", placeholder: "Ingrese points", 
+                        data: {
+                          movements_target: "points" , action: "keyup->companySetting#displayBranchSettings"
+                        }, readonly: true %>
+                      </div>
+                    </div>
+
+                    <!---------------- CANJE ------------------->
+                    <% if @branch && @branch.admits_exchange %>
+                      <div class="mb-3 row">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <h3 class="text-uppercase mb-0">CANJE</h3>
+                        </div>
+                      </div>
+
+                      <!------------------ PUNTOS A CANJEAR ---------------------->
+                      <div class="mb-3 row">
+                        <label for="inputField" class="col-sm-4 col-form-label">Puntos a Canjear</label>
+                        <div class="col-sm-8">
+                          <%= form.text_field :exchange_points, class: "form-control", placeholder: "Ingrese puntos", 
+                          data: { 
+                            movements_target: "exchangePoints", 
+                            action: "change->companySetting#displayBranchSettings change->movements#validateInputs input->movements#updateValues" 
+                          } %>
+                          <div class="invalid-feedback" data-movements-target="errorFeedbackExchange"></div>
+                        </div>
+                      </div>
+                    <% else %>
+                      <%= form.hidden_field :exchange_points, data: { movements_target: "exchangePoints" }  %>
+                    <% end %>
+
+
+                    <!------------------ IMPORTE A PAGAR ---------------------->
+                    <div class="mb-3 row">
+                      <label for="inputField" class="col-sm-4 col-form-label">Importe a Pagar</label>
+                      <div class="col-sm-8">
+                        <%= form.number_field :total_import, class: "form-control", data: { movements_target: "totalImport" }, readonly: true %>
+                      </div>
+                    </div>
+                    
+                    <div data-movements-target="errorMessages"></div>
+                    <br/>
+
+                    <div class="mb-6 flex justify-between items-center">
+                      <%= form.button "Aceptar", id: "submit-button", class: "btn btn-primary", 
+                      data: { 
+                        movements_target: "submitButton",
+                        action: "click->movements#validateSubmitForm keyup->movements#validateSubmitForm", 
+                        loading_text: "Cargando..."
+                      },
+                      onclick: "this.disabled=true; this.textContent=this.dataset.loadingText || 'Procesando...'; this.form.submit();" %>
+                    </div>
+
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!----------------------------FORM PARA CANJE PRODUCTO---------------------------------->
+      <!-- Product Exchange Form Container -->
+      <div data-movements-target="productExchangeForm" class="row justify-content-md-center mt-4 d-none">
+        <div class="col-lg-10 col-md-12">
+          <%= turbo_frame_tag 'product_exchange_form', src: '' %>
+        </div>
+      </div>
+
+    </div> <!--end movements_controller--> 
+
+  <% end %>
+<% end %>
+
+
+
+

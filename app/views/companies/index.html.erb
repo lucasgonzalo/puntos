@@ -1,0 +1,61 @@
+<% set_page_title("Comercios") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <% if (can? :create, Company.new) %>
+              <%= link_to 'Nuevo Comercio', new_company_path, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+
+          <div class=" rounded shadow p-2">
+            <table id="companies-table" class="table table-striped dt-responsive nowrap ">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th></th>
+                  <th>Propietario</th>
+                  <th>Entidad</th>
+                  <th>Sucursales</th>
+                  <th class="d-none">asd</th>
+                  <th>Observación</th>
+                  <th></th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @companies.each do |company| %>
+                  <tr>
+                    <td class="p-3"><%= company.name %></td>
+                    <td class="p-3"> 
+                      <% if company.image_company.attached? %>
+                        <%= image_tag company.image_company, width: "50", height: "30" %>
+                      <% end %>
+                    </td>
+                    <td class="p-3"><%= company.user.full_name %></td>
+                    <td class="p-3"><%= company.active_group ? company.active_group.name : "Ninguna" %></td>
+                    <td class="p-3"><%= company.branches.where(active: true).size %></td>
+                    <td class="p-3 d-none"><%=  company.branches.where(active: true).map { |branch| branch.city.full_name }.join(', ') %></td>
+                    <td class="p-3"><%= company.observation %></td>
+                    <td class="p-3"><%= get_badges_company company %></td>
+                    <td>
+                      <%= link_to 'Ver', company, class: 'btn btn-outline-danger my-1' if can? :read, company %>
+                      <%= link_to 'Editar', edit_company_path(company), class: 'btn btn-outline-danger' if can? :update, company %>
+                      <%= link_to 'QR', qr_companies_path(company), class: 'btn btn-outline-danger', target: '_blank' %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%#= render partial: 'layouts/index_js' %>

@@ -1,0 +1,20 @@
+          
+<div class="row">
+  <% frame_id_1 = dom_id(@company, 'alert_qty_movements_turbo_frame') %>
+  <% frame_id_2 = dom_id(@company, 'alert_days_turbo_frame') %>
+
+  <div class="col-3">
+    <%= turbo_frame_tag frame_id_1, data: { turbo: true } do %>
+      <span class="leading-normal"><%= @company.alert_qty_movements %> movimientos </span>
+      <%=link_to '<i class="mdi mdi-pencil"></i>'.html_safe, edit_alert_quantity_path(@company), class: "btn btn-info btn-sm" %>
+    <% end %>
+  </div>
+  <div class="col-1">
+    <%= turbo_frame_tag frame_id_2, data: { turbo: true } do %>
+      <span class="leading-normal"><%= @company.alert_days %> DÍAS</span>
+    <% end %>
+  </div>
+  <div class="col-2">
+    <%=link_to '<i class="mdi mdi-pencil"></i>'.html_safe, edit_alert_quantity_path(@company) , class: "btn btn-info btn-sm" %>
+  </div>
+</div>

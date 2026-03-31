@@ -1,0 +1,22 @@
+<!----------------------------- Filtro ---------------------------------------------> 
+          
+<%= form_with(url: filter_employees_path, method: :post, local: false, html: {class: 'needs-validation', novalidate: '' }) do |form| %>
+  <div class="row g-2"> 
+    <div class="col-md-3">
+      <%= form.collection_select :user_status, { "Activo": :active, "Inactivo": :inactive }, :second, :first, { prompt: "Todos los estados" }, { class: "form-select" } %>
+    </div>
+    <div class="col-md-3">
+      <%= form.collection_select :user_roles, { "Rol Gerente Sucursal": :manager_role, "Rol Supervisor": :intermediate_role, "Rol Básico": :basic_role }, :second, :first, {prompt: "Todos los roles"}, {class: "form-select"} %>
+    </div>
+      <% if @current_branch %>
+          <%= form.hidden_field :branch, value: @current_branch.id %>
+      <% else %>
+        <div class="col-md-3">
+          <%= form.select :branch, options_for_select(branch_options_for_select(companies)), {prompt: "Todas las sucursales"}, {class: "form-select", required: true} %>
+        </div>
+      <% end %>
+    <div class="col-md-2">
+      <%= form.submit "Filtrar", id: "foo-submit", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %> 

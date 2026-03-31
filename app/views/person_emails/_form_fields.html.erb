@@ -1,0 +1,25 @@
+
+<div class="row g-2">
+    <div class="form-floating mb-3 col-md-12">
+        <%= form.text_field :email, class: "form-control input-lg", placeholder: "Email" , required: true %>
+        <%= form.label :email, for: "floatingInput"%>
+        <div class="valid-feedback">Correcto!</div>
+        <div class="invalid-feedback">Ingrese un Email</div>
+    </div>
+</div>
+
+<% if controller_name=="person_emails"%>
+  <div class="row g-2">
+    <div class="mb-3">
+      <div class="form-check form-switch mb-3">
+        <%= form.check_box :main, class: "form-check-input" %>
+        <%= form.label :main, class: "form-check-label", for: "floatingInput" %>
+      </div>
+
+      <div class="form-check form-switch mb-3">
+        <%= form.check_box :active, class: "form-check-input" %>
+        <%= form.label :active, class: "form-check-label", for: "floatingInput" %>
+      </div>
+    </div>
+  </div>
+<% end %>

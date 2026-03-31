@@ -1,0 +1,40 @@
+
+<%= content_for :body_class, "loading authentication-bg" %>
+
+<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xxl-5 col-lg-10">
+        <div class="card">
+          <div class="card-body ">
+            <div class="text-center  m-auto">
+              <% if @company.image_company.attached? %>
+                <%= image_tag @company.image_company, alt: "", height: "60" %>
+              <% end %>
+            </div>
+            <br>
+            <div class="text-center  m-auto">
+                <h1 class=" text-center mt-0 fw-bold"><%= @company.name %></h1>
+            </div>
+            
+            <br/>
+            <div class="text-center">
+                <%= @svg.html_safe %>
+            </div>
+            <br/>
+            <br/>
+            <div class="text-center  m-auto">
+              <a href="<%= @url_qr_company.to_s %>" target="_blank" class="side-nav-link"><%= @url_qr_company.to_s %></a>
+              <%#= @url.to_s%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,31 @@
+<%= form_with(url: search_person_customer_customers_path, class: "", method: :post, data_turbo: true) do |form| %>
+  <label class="col-md-3 col-form-label mt-1" for="userName">Nro. de Documento</label>
+
+  <%= form.hidden_field :company_id, value: company.id if !company.blank? %>
+  <%= form.hidden_field :branch_id, value: branch.id if !branch.blank? %>
+  <%= form.hidden_field :document_type, value: "DNI" %>
+
+  <div class="col-12 col-sm-12 col-md-9 col-lg-8 col-xl-6">
+    <%= form.text_field :document_number, class: 'form-control', placeholder: 'Nro. de Documento' %>
+  </div>
+
+  <div class="col-md-9 mt-2">
+    <%= form.submit "Buscar",  id: 'search_people' , disable_with: 'Submiting...', class: 'btn btn-primary'%>
+  </div>
+<% end %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var searchForm = document.getElementById('search_people');
+    var linkMovement = document.getElementById('movement_id');
+    console.log(linkMovement);
+    searchForm.addEventListener('click', function(event) {
+      setTimeout(function() {
+        var middlePosition = window.innerHeight / 1.5; // Calcula la mitad de la altura de la ventana del navegador
+        //window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo(0, middlePosition); // Desplázate hacia la posición media de la página
+        linkMovement.focus();
+      }, 100);
+    });
+  });
+</script>

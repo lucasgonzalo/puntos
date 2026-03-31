@@ -1,0 +1,4 @@
+
+<%= turbo_stream.replace("person_search_result", partial: 'people/person', locals: {person: @person}) %>
+<%= turbo_stream.replace("customer_search_result", partial: 'customers/customer', locals: {customer: @customer}) %>
+

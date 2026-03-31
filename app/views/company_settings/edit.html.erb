@@ -1,0 +1,21 @@
+<!-- lib/templates/erb/scaffold/_form.html.erb.tt -->
+
+<%= form_with(model: @company_setting) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+        
+    <%= render 'inline_field', form: form, attribute: :day do %>
+        <%= form.number_field :day, class: "form-control", placeholder:"Ingrese day" %>
+    <%end%>
+  
+    <%= render 'inline_field', form: form, attribute: :conversion do %>
+        <%= form.text_field :conversion, class: "form-control", placeholder:"Ingrese conversion" %>
+    <%end%>
+
+    <%= render 'inline_field', form: form, attribute: :discount do %>
+        <%= form.text_field :discount, class: "form-control", placeholder:"Ingrese discount" %>
+    <%end%>
+  
+  <div class="justify-between items-center">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,50 @@
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+
+<% set_page_title("País") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="container mx-auto my-2 px-4">
+            <div class="box p-1">
+              <div class="h4 m-2 text-lg font-semibold">Nombre:</div>
+              <span class="leading-normal"><%= @group.name %></span>
+            </div>
+            <div class="box p-1">
+              <div class="h4 m-2 text-lg font-semibold">Acumula puntos:</div>
+              <span class="leading-normal"><%= @group.account_type ? I18n.t("activerecord.attributes.group.account_types.#{@group.account_type}") : "-" %></span>
+            </div>
+            <div class="box p-1">
+              <div class="h4 m-2 text-lg font-semibold">Descripción:</div>
+              <span class="leading-normal"><%= @group.description %></span>
+            </div>
+            <div class="box p-1">
+              <div class="h4 m-2 text-lg font-semibold">Imagen:</div>
+
+
+              <% if @group.image.attached? %>
+                <%= image_tag @group.image, width: "auto", height: "200" %>
+              <% else %>
+                <span class="leading-normal">Ninguna</span>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="d-flex bd-highlight mt-4">
+            <div class="p-2 bd-highlight">
+              <%= link_to 'Volver', groups_path, class: "btn btn-secondary" %>
+            </div>
+
+            <div class="ms-auto p-2 bd-highlight">
+              <% if can? :destroy, @group %>
+                <%= render 'shared/destroy', element: @group %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

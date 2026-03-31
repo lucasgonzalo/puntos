@@ -1,0 +1,47 @@
+/* Hero Section */
+.hero-section {
+  position: relative;
+  padding: 80px 0 120px;
+  
+  &:after {
+    content: ' ';
+    background-image: linear-gradient(to bottom, #ff3939, #d00000);
+    position: absolute;
+    top: -400px;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    width: 100%;
+    transform: skewY(-3deg);
+  }
+
+  .hero-title {
+    line-height: 42px;
+  }
+}
+
+
+.background-page {
+  background: radial-gradient(circle, 
+              #a0daff 10%, 
+              #8dbff7 30%, 
+              #7aa4f0 50%, 
+              #6789e9 70%, 
+              #536ce3 90%);
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; // Asegúrate de tener esta posición
+  z-index: 0; // Asegúrate de que esté por debajo de la tarjeta
+  
+  [data-theme="dark"] & {
+    background: radial-gradient(circle, 
+                #1a365d 10%, 
+                #2c5282 30%, 
+                #2a4e7c 50%, 
+                #2b4c7a 70%, 
+                #2c4a78 90%);
+  }
+}

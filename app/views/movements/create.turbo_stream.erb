@@ -1,0 +1,10 @@
+<%= turbo_stream.replace("person_search_result", partial: 'people/person', locals: {person: @person}) %>
+<%= turbo_stream.replace("customer_search_result", partial: 'customers/customer', locals: {customer: @customer}) %>
+<%= turbo_stream.replace("nav_link_movement_type", partial: 'movements/nav_link_movement_type',  locals: {movement: @movement, type: @type, customer: @customer}) %>
+
+
+<% if @error %>
+  <%= turbo_stream.prepend "flash", partial: 'layouts/messages', locals: {alert: @msg } %>
+<% else %>
+  <%= turbo_stream.prepend "flash", partial: 'layouts/messages', locals: {notice:@msg } %>
+<% end %>

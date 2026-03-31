@@ -1,0 +1,221 @@
+
+<% set_page_title("Configuración de Comercio "+@company.name )%>
+
+<div class="row">
+  <div class="col-12">
+    
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Configuración de Alertas </h4>
+            <br/>
+
+            <div class="row">
+              
+              <div class="col-sm-6 col-md-3">
+                <h3>
+                  <span class="badge rounded-pill p-1 px-2 badge-secondary-lighten">En Base a Movimientos</span>
+                </h3>
+              </div>
+              
+              <div class="col-sm-6 col-md-3">
+                <%= render 'company_settings/edit_alert_quantity', company: @company, attribute: :alert_days do %>
+                  CANTIDAD DE DÍAS: <b><%= @company.alert_days.to_i %></b> 
+                <% end %>
+              </div>
+
+              <div class="col-sm-6 col-md-3">
+                <%= render 'company_settings/edit_alert_quantity', company: @company, attribute: :alert_qty_movements do %>
+                  CANTIDAD DE MOVIMIENTOS: <b><%= @company.alert_qty_movements.to_i %></b> 
+                <% end %>
+              </div>
+          
+              
+            </div>
+            <br/>
+            <div class="col-sm-6 col-md-5">
+              <div class="alert alert-primary" role="alert">
+                <p class="mb-0">
+                Estas alertas son para notificar sobre clientes que realizaron determinada 
+                cantidad de movimientos en un lapso de dias hasta la fecha actual. Se deben cumplir ambas condiciones.</p>
+              </div>
+            </div>
+
+            <br/>
+            <div class="row">
+              <div class="col-sm-6 col-md-3">
+                <h3>
+                  <span class="badge rounded-pill p-1 px-2 badge-secondary-lighten">En Base al Monto</span>
+                </h3>              
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <%= render 'company_settings/edit_alert_quantity', company: @company, attribute: :alert_amount do %>
+                  MONTO: <b> $<%= @company.alert_amount.to_f %></b>  
+                <% end %>
+              </div>
+            </div>
+            <br/>
+
+            <div class="col-sm-6 col-md-5">
+              <div class="alert alert-primary" role="alert">
+                <p class="mb-0">
+                Estas alertas son para notificar sobre clientes que realizaron un movimiento con monto mayor al definido aquí.
+                </p>
+              </div>
+            </div>
+            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Imagen de Comercio</h4>
+          </div>
+          
+          <div class="flexitems-center mb-4">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#load-image-modal">Cambiar Imagen</button>
+          </div>
+
+
+          <div id="load-image-modal" class="modal fade" tabindex="-1" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <%=render partial: 'modal_image' %>
+            </div>
+          </div>
+          
+          <%#= link_to @current_company.image_company ? @current_company.image_company.filename : '#', @current_company.image_company, target: "_blank" %>
+          <% if @current_company.image_company.attached? %>
+            <%= image_tag @current_company.image_company, alt: "", height: "100"  %>
+            <br><br><br>
+            <div class="flexitems-center mb-4">
+              <% if can? :destroy, @current_company %>
+                <%= render 'shared/destroy', element: delete_image_company_path %>
+              <% end %>
+            </div>
+          <% else %>
+            <%= "Aun no tiene imagen este comercio" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Link para Consulta de Saldos</h4>
+            <div class="text-center  m-auto">
+              <a href="<%= @url_query_customer %>" target="_blank" class="side-nav-link"><%= @url_query_customer.to_s %></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Clientes dormidos</h4>
+            <br/>
+            <div class="text-center  m-auto">
+              <%= render 'company_settings/edit_days_sleep', model: @company, attribute: :days_sleep do %>
+                <span class="leading-normal"><%= @company.days_sleep %> DÍAS </span>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Email</h4>
+            <br/>
+            <div class="text-center  m-auto">
+              <%= render 'company_settings/edit_email', model: @company, attribute: :email do %>
+                <span class="leading-normal"><%= @company.email %> </span>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+            <div class="flexitems-center mb-4">
+              <h4 class="page-title">Puntos/Descuento</h4>
+            </div>
+            <div class="table-responsive  rounded shadow p-2">
+              <table id="datatable-buttons" class="table table-striped dt-responsive nowrap ">
+                <thead>
+                  <tr>
+                    <th scope="col">Día</th>
+                    <th scope="col">Puntos <i>([Importe] x [Este valor] = [Puntos])</i></th>
+                    <th scope="col">Descuento</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% if @company.company_settings.exists? %>
+                    <% @company.company_settings.order('day ASC').each do |company_setting| %>
+                      <tr scope="row">
+                        <td><%= get_show_day company_setting %></td>
+                        <td>
+                          <%= render 'inline_edit', model: company_setting, attribute: :conversion do %>
+                            <span class="leading-normal"><%= number_with_precision(company_setting.conversion) %></span>
+                          <%end%>
+                        </td>
+                        <td>
+                          <%= render 'inline_edit', model: company_setting, attribute: :discount do %>
+                            <span class="leading-normal"><%= number_to_percentage(company_setting.discount, precision: 2) %></span>
+                          <%end%>
+                        </td>
+                      </tr>
+                    <% end %>
+                  <% else %>
+                    <td colspan="3">No se encontraron datos</td>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

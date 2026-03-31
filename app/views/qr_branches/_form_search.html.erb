@@ -1,0 +1,20 @@
+<%= form_with(url: search_person_customer_customers_path, method: :post, data_turbo: true) do |form| %> <%# CustomersController#search_person_customer as TURBO_STREAM %>
+
+  <label class="col-md-6 col-form-label mt-1" for="userName">
+    <h6 class=" " >Nro. Documento</h6> 
+  </label>
+  
+  <%= form.hidden_field :company_id, value: company.id if !company.blank? %>
+  <%= form.hidden_field :branch_id, value: branch.id if !branch.blank? %>
+  <%= form.hidden_field :document_type, value: "DNI" %>
+  <%= form.hidden_field :action_name_param, value: action_name %>
+  <%= form.hidden_field :controller_name_param, value: controller_name %>
+  
+  <div class="col-md-9">
+    <%= form.text_field :document_number, class: 'form-control', placeholder: 'Nro. de Documento' %>
+  </div>
+  
+  <div class="col-md-9 mt-2">
+    <%= form.submit "Buscar",  id: 'search_people' , disable_with: 'Submiting...', class: 'btn btn-primary'%>
+  </div>
+<% end %>

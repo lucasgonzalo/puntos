@@ -1,0 +1,20 @@
+
+<%= turbo_stream.replace("person_search_result", partial: 'people/person', locals: {person: @person}) %>
+
+
+<%= turbo_stream.replace("customer_search_result", partial: 'customers/customer', locals: {customer: @customer}) %>
+<%= turbo_stream.replace("new_customer_wizard_buttons", partial: 'customers/wizard_buttons') %>
+
+<%#= turbo_stream.replace("customer_new_link", partial: 'movements/link_add_customer',  locals: {customer: @customer}) %>
+<%# Se comenta y se agrega link externo ya que no funciona actualmente movements/link_add_customer %>
+<%= turbo_stream.replace("customer_new_link", (link_to 'Agregar cliente', new_client_qr_url, class: 'btn btn-primary m-3') )%>
+
+<%= turbo_stream.replace("nav_link_movement", partial: 'movements/nav_link_movement',  locals: {movement: Movement.new, type: :sale, customer: @customer}) %>
+<%= turbo_stream.replace("nav_link_movement_group", partial: 'groups/nav_link_movement_group',  locals: {movement: Movement.new, type: :sale, person: @person}) if @person%>
+
+
+
+<%# -------------------------------Esto es para el codigo QR---------------------------------------%>
+<%= turbo_stream.replace("show_person_qr", partial: 'qr_code/result_person', locals: {person: @person, company: @company}) %>
+<%= turbo_stream.replace("show_customer_qr", partial: 'qr_code/customer', locals: {person: @person,customer: @customer, company: @company}) %>
+

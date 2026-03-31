@@ -1,0 +1,32 @@
+<%= form_with(url: create_customer_external_path, html: {class: 'needs-validation', novalidate: ''}, method: :post, local: true) do |form| %>
+  
+  <%= form.hidden_field :token, value: token %>
+  <%= form.hidden_field :first_person, value: first_person %>
+
+  <% unless first_person.blank? %>
+    <div class="row">
+      <h4 class="mt-0 mb-3">
+        <span class="fw-bold me-2">GRUPO FAMILIAR DE:</span>
+        <%= Person.find(first_person).full_name.upcase %>
+      </h4>
+    </div>
+    <div class="row g-2">
+      <div class="form-floating mb-3 col-md-6">
+        <%= form.collection_select :relationship, Relationship.all, :id, :name, {prompt: "Seleccione un parentezco"}, {class: "form-select", required: true} %>
+        <%= form.label :relationship, for: "floatingInput" %>
+      </div>
+    </div>
+    <br/><br/>
+  <% end %>
+
+  <div class="<%= Company.find_by(token: @token).name=='Bixi'  ? 'text-white' : '' %> ">
+    <!-------------------Datos Personales, Direccion, Email, Telefono --------------------------------->
+    <%= render partial: 'people/form_additional_person', locals: {form: form, person: person} %>
+  </div>
+
+  <div class="justify-between items-center">
+    <div class="float-end">
+      <%= form.button "Guardar", class: "btn btn-success" %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,51 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  hig_cell = style.add_style(
+    bg_color: "EFC376",
+    border: Axlsx::STYLE_THIN_BORDER,
+    alignment: { horizontal: :center },
+    :format_code => '#.##'
+  )
+
+  wb.add_worksheet(name: "SaleOrders") do |sheet|
+    sheet.add_row
+
+    sheet.add_row ['EXCEL DE CLIENTES']
+
+    sheet.add_row ['Fecha de emision del reporte:', date_in_time_zone(Time.now)]
+    sheet.add_row ['Hora de emision del reporte:', time_in_time_zone(Time.now)]
+    sheet.add_row
+
+    sheet.add_row [
+      'Comercio',
+      'Cliente',
+      'Documento',
+      'Email',
+      'Tel',
+      'Dirección',
+      'Sexo',
+      'Edad',
+      'Estado',
+      'Fecha de Carga'
+      
+    ],
+    style: [hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell]
+    
+    unless @customers.blank?
+      @customers.each do |customer|
+        sheet.add_row [
+          customer.company.name,
+          customer.person.full_name,
+          customer.person.full_document,
+          customer.person.person_emails.first&.email,
+          customer.person.person_phones.first&.phone_number,
+          customer.person.person_addresses.first&.address,
+          customer.person.formated_gender,
+          customer.person.get_years_person,
+          Customer.statuses[customer.status],
+          customer.created_at
+        ]
+      end
+    end 
+  end
+end

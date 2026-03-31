@@ -1,0 +1,17 @@
+
+<%= form_with(model: @company) do |form| %>
+  <div class="col-5">
+    <%= render 'company_settings/field_alert_quantity', form: form, attribute: :alert_qty_movements  do %>
+      <%= form.number_field :alert_qty_movements, class: "form-control", placeholder: "Ingrese cantidad de movimientos" %>
+    <%end%>
+  </div>
+
+    <%= render 'company_settings/field_alert_quantity', form: form, attribute: :alert_days  do %>
+        <%= form.number_field :alert_days, class: "form-control", placeholder: "Ingrese cantidad de movimientos" %>
+    <%end%>
+
+    <%= render 'company_settings/field_alert_quantity', form: form, attribute: :alert_amount  do %>
+        <%= form.number_field :alert_amount, class: "form-control", placeholder: "Ingrese monto", step: :any %>
+    <%end%>
+
+<% end %>

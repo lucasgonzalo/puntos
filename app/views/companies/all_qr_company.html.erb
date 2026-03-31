@@ -1,0 +1,144 @@
+
+
+<%= content_for :body_class, "loading authentication-bg" %>
+
+
+<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5 ">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xxl-8 col-lg-12">
+
+        <!--------------------------- Link para Registrar nuevos clientes ----------------------------->
+        <div class="card mb-3">
+          <div class="card-body ">
+            <div class="row justify-content-between">
+              <div class="col text-left">
+                <h4 class="page-title">Link para Registrar Clientes </h4>
+              </div>
+              <!------------------------- Botón de Descarga de PDF ----------------------------->
+              <div class="col-auto text-end">
+                <%= link_to generate_qr_pdf_path("PDF", 
+                  format: 'pdf', 
+                  url: @url_qr_company.to_s, 
+                  company_id: @company.id,
+                  name: "Registracion_Clientes_#{Time.current.in_time_zone(-4).strftime("%d-%m-%Y_%H-%M")}"
+                ), class: "btn btn-primary mb-2 me-1" do %>
+                  Descargar <i class="mdi mdi-file-pdf ms-1"></i> 
+                <% end %>
+              </div>
+            </div>
+
+            <div class="text-center  m-auto">
+              <% if @company.image_company.attached? %>
+                <%= image_tag @company.image_company, alt: "", height: "60" %>
+              <% end %>
+            </div>
+            <br>
+            <div class="text-center  m-auto">
+                <h1 class=" text-center mt-0 fw-bold"><%= @company.name %></h1>
+            </div>
+            
+            <br/>
+            <div class="text-center">
+                <%= image_tag(@qrcode_png.to_data_url)  %>
+            </div>
+            <br/>
+            <br/>
+            <div class="text-center  m-auto">
+              <a href="<%= @url_qr_company.to_s %>" target="_blank" class="side-nav-link"><%= @url_qr_company.to_s %></a>
+            </div>
+            
+          </div>
+        </div>
+        
+        <!--------------------------- Link para consulta de saldos ----------------------------->
+        <div class="card mb-3">
+          <div class="card-body ">
+
+            <div class="row justify-content-between">
+              <div class="col text-left">
+                <h4 class="page-title">Link para Consultar de Saldos </h4>
+              </div>
+              <!------------------------- Botón de Descarga de PDF ----------------------------->
+              <div class="col-auto text-end">
+                <%= link_to generate_qr_pdf_path("PDF", 
+                format: 'pdf', 
+                url: @url_query_customer.to_s, 
+                company_id: @company.id,
+                name: "Consulta_Saldos_#{Time.current.in_time_zone(-4).strftime("%d-%m-%Y_%H-%M")}"
+                ), class: "btn btn-primary mb-2 me-1" do %>
+                  Descargar <i class="mdi mdi-file-pdf ms-1"></i> 
+                <% end %>
+              </div>
+            </div>
+
+            <div class="text-center  m-auto">
+              <% if @company.image_company.attached? %>
+                <%= image_tag @company.image_company, alt: "", height: "60" %>
+              <% end %>
+            </div>
+            <br>
+            <div class="text-center  m-auto">
+                <h1 class=" text-center mt-0 fw-bold"><%= @company.name %></h1>
+            </div>
+            
+            <br/>
+            <div class="text-center">
+                <%= image_tag(@qrcode_png_query_customer.to_data_url)  %>
+            </div>
+            <br/>
+            <br/>
+            <div class="text-center  m-auto">
+              <a href="<%= @url_query_customer.to_s %>" target="_blank" class="side-nav-link"><%= @url_query_customer.to_s %></a>
+            </div>
+            
+          </div>
+        </div>
+
+        <!--------------------------- Link para Nuevos Movimientos ----------------------------->
+        <div class="card mb-3">
+          <div class="card-body ">
+
+            <div class="row justify-content-between">
+              <div class="col text-left">
+                <h4 class="page-title">Link para Nuevos Movimientos </h4>
+              </div>
+              <!------------------------- Botón de Descarga de PDF ----------------------------->
+              <div class="col-auto text-end">
+                <%= link_to generate_qr_pdf_path("PDF", 
+                format: 'pdf', 
+                url: @url_new_movement.to_s, 
+                company_id: @company.id,
+                name: "Nuevos_Movimientos_#{Time.current.in_time_zone(-4).strftime("%d-%m-%Y_%H-%M")}"
+                ), class: "btn btn-primary mb-2 me-1" do %>
+                  Descargar <i class="mdi mdi-file-pdf ms-1"></i> 
+                <% end %>
+              </div>
+            </div>
+
+            <div class="text-center  m-auto">
+              <% if @company.image_company.attached? %>
+                <%= image_tag @company.image_company, alt: "", height: "60" %>
+              <% end %>
+            </div>
+            <br>
+            <div class="text-center  m-auto">
+                <h1 class=" text-center mt-0 fw-bold"><%= @company.name %></h1>
+            </div>
+            
+            <br/>
+            <div class="text-center">
+                <%= image_tag(@qrcode_png_new_movement.to_data_url)  %>
+            </div>
+            <br/>
+            <br/>
+            <div class="text-center  m-auto">
+              <a href="<%= @url_new_movement.to_s %>" target="_blank" class="side-nav-link"><%= @url_new_movement.to_s %></a>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

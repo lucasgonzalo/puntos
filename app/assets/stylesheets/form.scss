@@ -1,0 +1,195 @@
+// =============================================================================
+// Form Component Theme Overrides
+// Uses direct CSS properties for better specificity and browser inspector clarity
+// =============================================================================
+
+// =============================================================================
+// Priority 1 - Critical Components (Most Used)
+// =============================================================================
+
+// Form Select (56 occurrences)
+.form-select {
+  background-color: var(--form-bg);
+  border-color: var(--form-border);
+  color: var(--form-text);
+}
+
+.form-select:focus {
+  border-color: var(--red-brand);
+  box-shadow: 0 0 0 0.25rem rgba(253, 13, 13, 0.25);
+}
+
+// Form Floating (101 occurrences)
+.form-floating {
+  > .form-control,
+  > .form-select {
+    &:focus ~ label,
+    &:not(:placeholder-shown) ~ label {
+      color: var(--red-brand);
+    }
+  }
+  
+  label {
+    // Only override color properties, preserve all positioning properties
+    color: var(--form-text) !important;
+    
+    &:hover,
+    &:active {
+      color: var(--form-text);
+    }
+  }
+}
+
+// Form Label (61 occurrences)
+.form-label {
+  color: var(--form-text);
+  font-weight: 500;
+}
+
+.col-form-label {
+  color: var(--form-text);
+  font-weight: 500;
+}
+
+// Form Group (31 occurrences)
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group .form-label {
+  color: var(--form-text);
+}
+
+// =============================================================================
+// Priority 2 - Important Components
+// =============================================================================
+
+// Form Switch (27 occurrences)
+.form-switch {
+  .form-check-input {
+    background-color: #cbd5e0;
+    border-color: #cbd5e0;
+    
+    &:checked {
+      background-color: var(--red-brand);
+      border-color: var(--red-brand);
+    }
+    
+    &:focus {
+      border-color: var(--red-brand);
+      box-shadow: 0 0 0 0.25rem rgba(253, 13, 13, 0.25);
+    }
+  }
+}
+
+// Input Group (13 occurrences)
+.input-group {
+  .input-group-text {
+    background-color: var(--form-bg);
+    border-color: var(--form-border);
+    color: var(--form-text);
+  }
+  
+  .form-control {
+    &:focus + .input-group-text {
+      border-color: var(--red-brand);
+    }
+  }
+}
+
+// =============================================================================
+// Priority 3 - Additional Components
+// =============================================================================
+
+// Form Check (95 occurrences)
+.form-check {
+  .form-check-input {
+    &:checked {
+      background-color: var(--red-brand);
+      border-color: var(--red-brand-lighten);
+    }
+    
+    &:focus {
+      border-color: var(--red-brand);
+      box-shadow: 0 0 0 0.25rem rgba(253, 13, 13, 0.25);
+    }
+  }
+  
+  .form-check-label {
+    color: var(--form-text);
+  }
+}
+
+// Form Control (192 occurrences) - Base styling
+.form-control {
+  background-color: var(--form-bg);
+  border-color: var(--form-border);
+  color: var(--form-text);
+  
+  &:focus {
+    border-color: var(--red-brand);
+    box-shadow: 0 0 0 0.25rem rgba(253, 13, 13, 0.25);
+  }
+  
+  &::placeholder {
+    color: var(--form-placeholder);
+  }
+}
+
+// =============================================================================
+// Priority 4 - Custom Classes
+// =============================================================================
+
+// Input Group Merge (9 occurrences)
+.input-group-merge {
+  .input-group-text {
+    background-color: var(--form-bg);
+    border-color: var(--form-border);
+    color: var(--form-text);
+  }
+}
+
+// =============================================================================
+// Additional Form Enhancements
+// =============================================================================
+
+// Form validation states (if used in future)
+.was-validated {
+  .form-control:valid {
+    border-color: var(--btn-success-bg);
+    
+    &:focus {
+      border-color: var(--btn-success-bg);
+      box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+    }
+  }
+  
+  .form-control:invalid {
+    border-color: var(--btn-danger-bg);
+    
+    &:focus {
+      border-color: var(--btn-danger-bg);
+      box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
+  }
+}
+
+// Disabled states
+.form-control:disabled,
+.form-select:disabled {
+  background-color: var(--theme-border-color);
+  color: var(--theme-text-muted);
+  border-color: var(--theme-border-color);
+}
+
+// Readonly states
+.form-control[readonly] {
+  background-color: var(--theme-border-color);
+  color: var(--form-text);
+}
+
+.dropdown-item:active,
+.dropdown-item.active {
+  background-color: var(--red-brand);
+  
+}

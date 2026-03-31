@@ -1,0 +1,14 @@
+<!-- Modal -->
+    <div class="modal fade" id="ImageModal_<%= object_id %>" tabindex="-1" aria-labelledby="catalogImageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="catalogImageModalLabel"> <%= object.name %></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body text-center rounded" >
+            <%= image_tag url_for(object_image), style:"max-width:100%; max-height:80vh;", class: "rounded"  %>
+          </div>
+        </div>
+      </div>
+    </div>

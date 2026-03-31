@@ -1,0 +1,247 @@
+<%= @company %>
+<br/>
+<%= @branch %>
+<br/>
+<%= @conversion %>
+<br/>
+<%= @discount %>
+<br/>
+
+
+<%= form_with(model: movement, data:{ 
+    # turbo: true,
+    controller: 'companySetting', 
+    companySetting_current_conversion_value: @conversion, 
+    companySetting_current_discount_value: @discount,
+    companySetting_current_type_value: type,
+    companySetting_current_available_points_value: customer.points_balance_amount(customer.company).to_i 
+  }, method: :post, html: {class: 'needs-validation', novalidate: '' }) do |form| %>
+
+  <%= render "shared/error_messages", resource: form.object %>
+  <%= form.hidden_field :movement_type, value: type %>
+  <%= form.hidden_field :customer_id, value: customer.id %>
+
+
+  <div class="row justify-content-md-center">
+    <div class="col-xl-8 col-lg-6">
+      <div class="card tilebox-one card border-primary border">
+        <div class="card-body">
+          
+          <%= form.hidden_field :movement_id, value: movement.id %>
+
+          <table class="table table-nowrap table-centered mb-0">
+            <tbody>
+              <tr>
+                <td>
+                  <h3 class="text-uppercase mt-0 text-left">VENTA</h3>
+                </td>
+              </tr>
+
+              <!---------------- SUCURSAL ------------------->
+              <% if @current_branch %>
+                <%= form.hidden_field :branch_id, value: @current_branch.id, 
+                  data:{ 
+                    companySetting_target: "branchValue", 
+                    action: "keyup->companySetting#validation_method" 
+                  } %>
+                <tr>
+                  <td><p class="m-0 d-inline-block align-middle">
+                    <a href="apps-ecommerce-products-details.html" class="text-body fw-semibold">Sucursal</a><br>
+                  </p></td>
+                  <td class="text-end">
+                    <%= form.text_field :branch_id, class: 'form-control', value: @current_branch.name, disabled: true %>
+                  </td>
+                </tr>
+              <% else %>
+                <div class="form-floating mb-4 col-md-12">
+                    <%= form.collection_select :branch_id, @company.branches, :id, :name, 
+                    { prompt: "Seleccione una Sucursal" }, 
+                    { class: "form-select", data:{ companySetting_target: "branchValue", action: "keyup->companySetting#validation_method" } }
+                     %>
+                    <%= form.label :branch_id, for: "floatingInput" %>
+                    
+                </div>
+              <% end %>
+              <div class="invalid-feedback" data-companysetting-target="errorFeedbackBranch"></div>
+
+            
+              <!---------------------- IMPORTE ------------------->
+              <tr>
+                <td>
+                  <p class="m-0 d-inline-block align-middle">
+                    <a href="apps-ecommerce-products-details.html" class="text-body fw-semibold">Importe de Venta</a>
+                    <br>
+                  </p>
+                </td>
+                <td class="text-end">
+                    <%= form.number_field :amount, 
+                    class: "form-control", 
+                    placeholder:"Ingrese importe", 
+                    step: :any, 
+                    data: {
+                      companySetting_target: "field", 
+                      action: "keyup->companySetting#movement_method keyup->companySetting#validation_method"
+                    } %>
+                    <div class="invalid-feedback" data-companysetting-target="errorFeedback"></div>
+
+                </td>
+              </tr>
+
+              <!-----------------------IMPORTE DESCONTADO ---------------------->
+              <tr>
+                <td>
+                  <p class="m-0 d-inline-block align-middle">
+                    <a href="apps-ecommerce-products-details.html" class="text-body fw-semibold">Importe descontado</a>
+                    <br>
+                      <small><%=  "Descuento del" %> <%= l Time.now, :format => "%A" %> de 
+                      <%= number_to_percentage(@discount, precision: 2, separator: ',')%></small>
+                  </p>
+                </td>
+
+                <td class="text-end">
+                  <%= form.number_field :amount_discounted, 
+                  class: "form-control", 
+                  step: :any, 
+                  data:{
+                    companySetting_target: "importDiscounted"
+                  }, 
+                  readonly: true%>
+                </td>
+              </tr>  
+
+              <!------------------ IMPORTE CON DESCUENTO ---------------------->
+              <% if @discount!=0%>
+                <tr>
+                  <td>
+                    <p class="m-0 d-inline-block align-middle">
+                      <a  class="text-body fw-semibold">Importe con descuento</a>
+                      <br>
+                    </p>
+                  </td>
+                  <td class="text-end">
+                      <%= form.number_field :amount_with_discount, 
+                      class: "form-control", 
+                      step: :any, 
+                      data:{
+                        companySetting_target: "amountWithDiscount"
+                      }, 
+                      readonly: true %>
+                  </td>
+                </tr>
+              <% else %>
+                <%= form.hidden_field :amount_with_discount, 
+                    class: "form-control", 
+                    step: :any, 
+                    data:{
+                      companySetting_target: "amountWithDiscount"
+                    }, 
+                    readonly: true %>
+              <% end %>
+
+
+              <!-------------------- PUNTOS A ACUMULAR------------------------>
+              <tr>
+                <td>
+                  <p class="m-0 d-inline-block align-middle">
+                    <a href="apps-ecommerce-products-details.html" class="text-body fw-semibold">Puntos a Acumular</a>
+                    <br>
+                      <small><%= "Conversion del" %> <%= l Time.now, :format => "%A" %> de 
+                      <%= number_with_precision(@conversion, precision: 2, separator: ',', delimiter: '.') %></small>
+                  </p>
+                </td>
+                <td class="text-end">
+                  <%= form.text_field :points, 
+                  class: "form-control", 
+                  placeholder:"Ingrese points", 
+                  data: {
+                    companySetting_target: "points", 
+                    action: "keyup->companySetting#movement_method"
+                  }, 
+                  readonly: true %>
+                </td>
+              </tr> 
+
+              <tr>
+                <td>
+                  <h3 class="text-uppercase mt-0 text-left">CANJE</h3>
+                </td>
+              </tr>
+              <!------------------ PUNTOS A CANJEAR ---------------------->
+              <tr>
+                <td>
+                  <p class="m-0 d-inline-block align-middle">
+                    <a  class="text-body fw-semibold">Puntos a Canjear</a>
+                    <br>
+                  </p>
+                </td>
+                <td class="text-end"> 
+                  <%= form.text_field :exchange_points, 
+                  class: "form-control", 
+                  value: 0, 
+                  placeholder:"Ingrese puntos", 
+                  data:{
+                    companySetting_target: "exchangePoints", 
+                    action: "keyup->companySetting#movement_method keyup->companySetting#validation_method"
+                  } %>
+                  <div class="invalid-feedback" data-companysetting-target="errorFeedbackExchange"></div>
+                </td>
+              </tr>
+
+              <!------------------ IMPORTE A PAGAR ---------------------->
+              <tr>
+                <td>
+                  <p class="m-0 d-inline-block align-middle">
+                    <a class="text-body fw-semibold">Importe a Pagar</a>
+                    <br>
+                  </p>
+                </td>
+                <td class="text-end"> 
+                  <%= form.number_field :total_import, 
+                  class: "form-control", 
+                  data:{ 
+                    companySetting_target: "totalImport"
+                  },
+                  readonly: true %>
+                </td>
+              </tr>  
+
+            </tbody>
+          </table>
+        
+          <div data-company-setting-target="errorMessages"></div>
+
+          <br/>
+          <div class="justify-between items-center">
+            <%#= form.button "Aceptar", class: "btn btn-primary", data: { action: "click->companySetting#validation_send click->companySetting#submitOnce" } %>
+            <%= form.button "Aceptar", id: "submit-button", class: "btn btn-primary", data: { 
+              action: "keyup->companySetting#validation_send keyup->companySetting#submit_once",
+              loading_text: "Cargando..."
+            } %>
+
+          </div>
+            
+        </div> <!-- end card-body-->
+      </div>
+    </div> <!-- end col -->
+  </div>
+
+<% end %>
+
+
+<script>
+  document.addEventListener("turbo:before-fetch-request", function() {
+    const submitButton = document.getElementById("submit-button");
+    if (submitButton) {
+      submitButton.disabled = true;
+      const loadingText = submitButton.dataset.loadingText;
+      if (loadingText) {
+        submitButton.textContent = loadingText;
+      }
+    }
+  });
+</script>
+
+
+
+
+ 

@@ -1,0 +1,106 @@
+<div class="d-md-none fixed-bottom bottom-bar-glass p-1">
+  <div class="d-flex justify-content-center">
+    <!-- Main User Menu Dropdown -->
+    <div class="dropup">
+      <button class="btn btn-custom dropdown-toggle d-flex align-items-center" 
+              type="button" 
+              id="mobileUserMenuDropdown" 
+              data-bs-toggle="dropdown" 
+              aria-expanded="false">
+        <i class="mdi mdi-account me-2"></i>
+        <span><%= current_user.full_name %></span>
+      </button>
+      
+      <ul class="dropdown-menu" aria-labelledby="mobileUserMenuDropdown">
+        <!-- User Info Header -->
+        <li>
+          <h6 class="dropdown-header">
+            <i class="mdi mdi-account me-2"></i>
+            <%= current_user.global_role(@current_branch) %>
+          </h6>
+        </li>
+        
+        <li><hr class="dropdown-divider"></li>
+        
+        <!-- Current Status Display -->
+        <li>
+          <span class="dropdown-item-text">
+            <i class="mdi mdi-account-group me-2"></i>
+            <strong>Entidad:</strong> <%= @current_group ? @current_group.name : 'Administrador' %>
+          </span>
+        </li>
+        
+        <li>
+          <span class="dropdown-item-text">
+            <i class="mdi mdi-store me-2"></i>
+            <strong>Comercio:</strong> <%= @logged_admin ? 'Administrador' : (@current_company ? @current_company.name : 'Seleccionar') %>
+          </span>
+        </li>
+        
+        <% unless @logged_admin %>
+        <li>
+          <span class="dropdown-item-text">
+            <i class="mdi mdi-map-marker me-2"></i>
+            <strong>Sucursal:</strong> <%= @current_branch ? @current_branch.name : 'Todas' %>
+          </span>
+        </li>
+        <% end %>
+        
+        <li><hr class="dropdown-divider"></li>
+        
+        <!-- Action Items -->
+        <% if  current_user.active_groups.any? %>
+        <li>
+          <a href="<%= select_company_path %>" class="dropdown-item">
+            <i class="mdi mdi-account-group-plus me-2"></i>
+            Cambiar entidad
+          </a>
+        </li>
+        <% end %>
+        
+        <% if (current_user.active_companies.size == 1) %>
+        <% else %>
+          <li>
+            <a href="<%= select_company_path %>" class="dropdown-item">
+              <i class="mdi mdi-store-edit me-2"></i>
+              Cambiar comercio
+            </a>
+          </li>
+        <% end %>
+        
+        <% unless @logged_admin %>
+          <% if (current_user.my_branches(@current_company).size == 1) && @current_branch && !@current_user.company_owner_role? %>
+          <% else %>
+            <li>
+              <a href="<%= select_branch_url %>" class="dropdown-item">
+                <i class="mdi mdi-map-marker-edit me-2"></i>
+                Cambiar sucursal
+              </a>
+            </li>
+          <% end %>
+        <% end %>
+        
+        <li><hr class="dropdown-divider"></li>
+        
+        <!-- Theme Toggle -->
+        <li>
+          <button class="dropdown-item d-flex align-items-center" 
+                  type="button" 
+                  data-action="click->theme#toggle" 
+                  data-theme-target="toggle">
+            <i class="mdi mdi-theme-light-dark me-2"></i>
+            Cambiar tema
+          </button>
+        </li>
+        
+        <!-- Logout -->
+        <li>
+          <%= button_to destroy_user_session_path, method: :delete, class: "dropdown-item d-flex align-items-center text-danger" do %>
+            <i class="mdi mdi-logout me-2"></i>
+            Cerrar Sesión
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

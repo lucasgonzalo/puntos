@@ -1,0 +1,24 @@
+<%#= turbo_frame_tag 'new_customer_wizard_buttons' do %>
+
+  <% if @new_customer_finish_enabled %>
+    <ul class="list-inline wizard mb-0 text-center">
+      <li class="previous list-inline-item disabled">
+        <%= link_to 'Finalizar', customers_url, class: "btn btn-success" %>
+      </li>
+    </ul>
+  <% else %>
+    
+    <ul class="list-inline wizard mb-0">
+      <li class="previous list-inline-item disabled">
+        <%#= button_to 'Anterior', wizard_previous_step_path, method: :post, class: "btn btn-info #{@new_customer_previous_enabled ? '' : 'disabled'}"%>
+        <%= button_to 'Anterior', wizard_previous_step_path, method: :post, class: "btn btn-secondary #{@new_customer_previous_enabled ? '' : 'disabled'} "%>
+
+      </li>
+      <li class="next list-inline-item float-end">
+        <%#= button_to 'Siguiente', wizard_next_step_path, method: :post, class: "btn btn-info #{@new_customer_next_enabled ? '' : 'disabled'}"%>
+        <%= button_to 'Siguiente', wizard_next_step_path, method: :post, class: "btn btn-primary #{@new_customer_next_enabled ? '' : 'disabled'}"%>
+
+      </li>
+    </ul>
+  <% end %>
+<%#= end %>

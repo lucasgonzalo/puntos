@@ -1,0 +1,16 @@
+<%= turbo_frame_tag dom_id(post) do %>
+  <div class="card m-4">
+    <div class="card-title">
+      TITLE: <%= post.title %>
+    </div>
+    <div class="card-body">
+      CONTENIDO: <%= post.content %>
+    </div>
+    <div class="card-footer bg-transparent border-success">
+      <%= link_to 'Edit', edit_post_path(post), data: { turbo_frame: dom_id(post) }, class: 'btn btn-sm btn-outline-danger ' %>
+      <%#= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger ' %>
+      <%= link_to 'Destroy', post, method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger ' %>
+
+    </div>
+  </div>
+<% end %>

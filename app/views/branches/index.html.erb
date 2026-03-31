@@ -1,0 +1,32 @@
+<!-- lib/templates/erb/scaffold/index.html.erb.tt -->
+
+<% set_page_title("Sucursales") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <% if @branches.exists? && (can? :create, Branch.new) %>
+              <%= link_to 'Nueva Sucursal', new_branch_path, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+
+          <% if @branches.exists? %>
+            <div class=" rounded shadow p-2">
+              <%= render 'list' %>
+            </div>
+          <% else %>
+            <div class=" rounded shadowitems-center">
+              <div class="flex-1 text-center">
+                <p class="text-xl font-semibold mb-4">No hay datos</p>
+                <%= link_to 'Nueva Sucursal', new_branch_path, class: "btn btn-primary mb-3" if can? :create, Branch.new %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

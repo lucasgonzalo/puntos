@@ -1,0 +1,29 @@
+<%= form_with url: '/redis_keys', method: :post, local: true do |form| %>
+  <div class="modal-body">
+    <div class="form-floating mb-3">
+      <div class="row g-2">
+        <div class="form-group mb-3 col-md-3">
+          <%= form.label :key_redis, "CLAVE=" %>
+          <%= form.text_field :key_redis_text, class: "form-control", id:"key_redis_text" %>
+        </div>
+      </div>
+
+      <div class="row g-2">
+        <%= form.label :value_redis, "VALOR=" %> 
+        <div class="form-group mb-3 col-md-3">
+            <%= form.text_field :value_redis_text, class: "form-control", id:"value_redis_text" %>
+        </div>
+        <div class="form-group mb-3 col-md-3">
+            <%= form.number_field :value_redis_number, class: "form-control", id:"value_redis_number"%>
+        </div>
+        <div class="form-group mb-3 col-md-3">
+              <%= form.date_field :value_redis_date, {class: "form-control date",  id:"value_redis_date"} %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <%= link_to 'Atrás', :back , class: "btn btn-secondary" %>
+    <%= form.submit "Confirmar", class: "btn btn-primary ", data: {disable_with: 'Confirmando...'} %>
+  </div>
+<% end %>

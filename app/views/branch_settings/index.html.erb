@@ -1,0 +1,196 @@
+
+<% set_page_title("Configuración de Sucursal "+ @branch.name )%>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Configuración de Alertas </h4>
+            <%= render 'alert_settings' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Imagen de Sucursal</h4>
+          </div>
+          <%= render 'branch_settings/add_image_branch' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Link para Consulta de Saldos</h4>
+            <div class="text-center  m-auto">
+              <a href="<%= @url_query_customer %>" target="_blank" class="side-nav-link"><%= @url_query_customer.to_s %></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+-->
+
+<%# Se quita ya que se realiza a nivel de company no de branch, quitar codigo si se vuelve a ver luego de un tiempo %>
+<% if false %>
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Clientes dormidos</h4>
+            <br/>
+            <div class="text-center  m-auto">
+              <%= render 'branch_settings/edit_days_sleep', model: @branch, attribute: :days_sleep do %>
+                <span class="leading-normal"><%= @branch.days_sleep %> DÍAS </span>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<!--
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Email</h4>
+            <br/>
+            <div class="text-center  m-auto">
+              <%= render 'branch_settings/edit_email', model: @branch, attribute: :email do %>
+                <span class="leading-normal"><%= @branch.email %> </span>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Correo Electronico</h4>
+            <br/>
+            <%= render 'email_setting' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12 col-md-6">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Permite Venta Canje</h4>
+            <br/>
+            <%= render 'admits_exchange_setting' %>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-6">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Permite Canje por Catalogo</h4>
+            <br/>
+            <%= render 'admits_product_exchange_setting' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="m-2 col-12">
+            <div class="flexitems-center mb-4">
+              <h4 class="page-title">Puntos/Descuento</h4>
+            </div>
+            <div class="table-responsive  rounded shadow p-2">
+              <table id="datatable-buttons" class="table table-striped dt-responsive nowrap ">
+                <thead>
+                  <tr>
+                    <th scope="col">Día</th>
+                    <th scope="col">Puntos <i>([Importe] x [Este valor] = [Puntos])</i></th>
+                    <th scope="col">Descuento</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% if @branch.branch_settings.exists? %>
+                    <% @branch.branch_settings.order('day ASC').each do |branch_setting| %>
+                      <tr scope="row">
+                        <td><%= get_show_day branch_setting %></td>
+                        <td>
+                          <%= render 'inline_edit', model: branch_setting, attribute: :conversion do %>
+                            <span class="leading-normal"><%= number_with_precision(branch_setting.conversion) %></span>
+                          <%end%>
+                        </td>
+                        <td>
+                          <%= render 'inline_edit', model: branch_setting, attribute: :discount do %>
+                            <span class="leading-normal"><%= number_to_percentage(branch_setting.discount, precision: 2) %></span>
+                          <%end%>
+                        </td>
+                      </tr>
+                    <% end %>
+                  <% else %>
+                    <td colspan="3">No se encontraron datos</td>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,4 @@
+<!-- app/views/branch_users/_active_cell.html.erb -->
+<turbo-frame id="active_<%= branch_user.id %>">
+  <%= button_to (branch_user.active ? 'Activado' : 'Desactivado'), toggle_active_branch_user_path(branch_user), method: :patch, params: { active: !branch_user.active }, class: "btn btn-sm btn-#{branch_user.active ? 'success' : 'danger'}", data: { turbo: true }, title:"#{branch_user.active ? '¿Desactivar?' : '¿Activar?'}" %>
+</turbo-frame>

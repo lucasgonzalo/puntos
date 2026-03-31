@@ -1,0 +1,41 @@
+
+
+<%= form_with(model: user, url: users_path,  html: {class: 'needs-validation', novalidate: '' }, method: :post) do |form| %>
+  <%#= render "shared/error_messages", resource: form.object %>
+
+  <div class="row g-2">
+    <div class="mb-3 col-md-6">
+      <%= form.label :first_name, 'Nombre/s', class: "form-label" %>
+      <%= form.text_field :first_name, class: "form-control", placeholder:"Ingrese Nombre/s", required: true%>
+    </div>
+    <div class="mb-3 col-md-6">
+      <%= form.label :last_name, 'Apellido/s', class: "form-label" %>
+      <%= form.text_field :last_name, class: "form-control", placeholder:"Ingrese Apellido/s", required: true%>
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="mb-3 col-md-6">
+      <%= form.label :email, 'Email', class: "form-label" %>
+      <%= form.text_field :email, class: "form-control", placeholder:"Ingrese email", pattern:"^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}$", required: true%>
+    </div>
+    <div class="mb-3 col-md-6">
+      <%= form.label :password, 'Contraseña', class: "form-label" %>
+      <% if @minimum_password_length %>
+      <em>(mínimo <%= @minimum_password_length %> caractéres)</em>
+      <% end %><br />
+      <div class="input-group input-group-merge">
+        <%= form.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "Contraseña" %>
+        <div class="input-group-text" data-password="false">
+          <span class="password-eye"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="justify-between items-center">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+
+

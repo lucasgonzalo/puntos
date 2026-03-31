@@ -1,0 +1,135 @@
+// SCSS Mixins for Theme-Aware Styling
+
+// Theme-aware mixin for switching properties between light and dark
+@mixin theme-aware($property, $light-value, $dark-value) {
+  #{$property}: $light-value;
+  
+  [data-theme="dark"] & {
+    #{$property}: $dark-value;
+  }
+}
+
+// Button theme mixin for Bootstrap button customization
+@mixin button-theme($button-type, $light-bg, $light-border, $light-hover, $dark-bg, $dark-border, $dark-hover) {
+  .btn-#{$button-type} {
+    --bs-btn-bg: $light-bg;
+    --bs-btn-border-color: $light-border;
+    --bs-btn-hover-bg: $light-hover;
+    --bs-btn-hover-border-color: $light-hover;
+    
+    [data-theme="dark"] & {
+      --bs-btn-bg: $dark-bg;
+      --bs-btn-border-color: $dark-border;
+      --bs-btn-hover-bg: $dark-hover;
+      --bs-btn-hover-border-color: $dark-hover;
+    }
+  }
+}
+
+// Custom button theme mixin using CSS variables
+@mixin custom-button-theme($button-type) {
+  .btn-#{$button-type} {
+    --bs-btn-bg: var(--btn-#{$button-type}-bg);
+    --bs-btn-border-color: var(--btn-#{$button-type}-border);
+    --bs-btn-hover-bg: var(--btn-#{$button-type}-hover);
+    --bs-btn-hover-border-color: var(--btn-#{$button-type}-hover);
+    --bs-btn-focus-shadow-rgb: var(--btn-#{$button-type}-focus-shadow-rgb, 60, 153, 110);
+    --bs-btn-active-bg: var(--btn-#{$button-type}-active-bg);
+    --bs-btn-active-border-color: var(--btn-#{$button-type}-active-border);
+  }
+}
+
+// Theme-aware background and text color
+@mixin theme-colors($bg-var, $text-var) {
+  background-color: var($bg-var);
+  color: var($text-var);
+}
+
+// Theme-aware border
+@mixin theme-border($border-var) {
+  border-color: var($border-var);
+}
+
+// Responsive theme-aware container
+@mixin theme-container {
+  background-color: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
+  border-color: var(--theme-border-color);
+}
+
+// Theme-aware card styling
+@mixin theme-card {
+  background-color: var(--theme-bg-card);
+  color: var(--theme-text-primary);
+  border: 1px solid var(--theme-border-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  [data-theme="dark"] & {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Theme-aware form control
+@mixin theme-form-control {
+  background-color: var(--form-bg);
+  color: var(--form-text);
+  border-color: var(--form-border);
+  
+  &::placeholder {
+    color: var(--form-placeholder);
+  }
+  
+  &:focus {
+    border-color: var(--form-focus-border);
+    box-shadow: 0 0 0 0.2rem var(--form-focus-border);
+  }
+}
+
+// Theme-aware sidebar
+@mixin theme-sidebar {
+  background-color: var(--theme-bg-sidebar);
+  color: var(--theme-text-sidebar);
+  width: var(--sidebar-width);
+  transition: var(--sidebar-transition);
+  
+  &.collapsed {
+    width: var(--sidebar-collapsed-width);
+  }
+}
+
+// Theme-aware header
+@mixin theme-header {
+  background-color: var(--theme-bg-header);
+  color: var(--theme-text-header);
+  height: var(--header-height);
+}
+
+// Smooth transition for theme switching
+@mixin theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+// Apply theme transition to common elements
+%theme-transition {
+  @include theme-transition;
+}
+
+// Utility class for theme transition
+.theme-transition {
+  @include theme-transition;
+}
+
+// Glassmorphism mixin
+@mixin glass-effect {
+  background: var(--glass-bg-light);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border-light);
+  box-shadow: var(--glass-shadow-light);
+  
+  [data-theme="dark"] & {
+    background: var(--glass-bg-dark);
+    border-color: var(--glass-border-dark);
+    box-shadow: var(--glass-shadow-dark);
+  }
+}

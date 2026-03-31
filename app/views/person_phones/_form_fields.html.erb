@@ -1,0 +1,46 @@
+<div class="row g-2">
+  <div class="form-floating mb-3 col-md-6">
+      <%= form.collection_select :phone_type, PersonPhone.phone_types.map {|value| [value.first, value.second]}, :first, :second, {prompt: "Tipo de Teléfono"}, {class: "form-select"} %>
+      <%= form.label :phone_type ,  for: "floatingInput"%>
+      <div class="valid-feedback">Correcto!</div>
+      <div class="invalid-feedback">Ingrese un Tipo de Teléfono</div>
+  </div>
+  <div class="form-floating mb-3 col-md-6">
+      <%#= form.collection_select :country_code, PersonPhone.country_codes.values.map {|value| [value[0], "("+value[1]+")"+" "+ value[0]]}, :first, :second, {prompt: "Codigo de Pais"}, {class: "form-select"} %>
+      <%= form.collection_select :country_code, PersonPhone.country_codes.keys.map {|key| [key, "(#{PersonPhone.country_codes[key]}) #{key.capitalize}"]}, :first, :second, {prompt: "Código de País"}, {class: "form-select"} %>
+      <%= form.label :country_code, for: "floatingInput" %>
+      <div class="valid-feedback">Correcto!</div>
+      <div class="invalid-feedback">Ingrese una Código de País</div>
+  </div>
+</div>
+
+<div class="row g-2">
+  <div class="form-floating mb-3 col-md-3"> 
+      <%= form.text_field :area_code, class: "form-control input-lg", placeholder: "Código de area", required: true%>
+      <%= form.label :area_code, for: "floatingInput"%>
+      <div class="valid-feedback">Correcto!</div>
+      <div class="invalid-feedback">Ingrese un Código Área</div>
+  </div>
+  <div class="form-floating mb-3 col-md-9"> 
+      <%= form.text_field :phone_number, class: "form-control input-lg", placeholder: "Número de Teléfono" , required: true %>
+      <%= form.label :phone_number,  for: "floatingInput"%>
+      <div class="valid-feedback">Correcto!</div>
+      <div class="invalid-feedback">Ingrese un Número de Teléfono</div>
+  </div>
+</div>
+
+<% if controller_name == 'person_phones' %>
+  <div class="row g-2">
+    <div class="mb-3">
+      <div class="form-check form-switch mb-3">
+        <%= form.check_box :main, class: "form-check-input" %>
+        <%= form.label :main, class: "form-check-label", for: "floatingInput" %>
+      </div>
+
+      <div class="form-check form-switch mb-3">
+        <%= form.check_box :active, class: "form-check-input" %>
+        <%= form.label :active, class: "form-check-label", for: "floatingInput" %>
+      </div>
+    </div>
+  </div>
+<% end %>

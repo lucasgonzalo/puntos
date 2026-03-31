@@ -1,0 +1,16 @@
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+
+            
+<%= render 'inline_edit', model: @branch_setting, attribute: :day do %>
+  <span class="leading-normal"><%= @branch_setting.day %></span>
+<%end%>
+            
+<%= render 'inline_edit', model: @branch_setting, attribute: :conversion do %>
+  <span class="leading-normal"><%= number_with_precision(@branch_setting.conversion, precision: 2, separator: ',', delimiter: '.') %></span>
+<%end%>
+
+<%= render 'inline_edit', model: @branch_setting, attribute: :discount do %>
+  <span class="leading-normal"><%= number_to_percentage(@branch_setting.discount, precision: 2, separator: ',') %></span>
+<%end%>
+            
+            

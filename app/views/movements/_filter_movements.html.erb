@@ -1,0 +1,43 @@
+
+
+<%= form_with(url: filter_movements_path, method: :post, local: false, html: {class: 'needs-validation', novalidate: '' }) do |form| %>
+  <div class="container">
+    <div class="row g-2"> 
+      <div class="col-md-5">
+        <%= form.collection_select :movement_type,
+            Movement.movement_types.map { |key, value| [Movement.movement_type_label_for(key), value] },
+            :second,  # Value method: DB-stored string (e.g., 'Canje Producto')
+            :first,   # Text method: Custom label (e.g., 'Canje Catalogo')
+            { prompt: "Todos los Movimientos" },
+            { class: "form-select" } %>
+      </div>
+      <div class="col-md-5">
+        <%= form.number_field :points, class: "form-control", id:"points", placeholder:"Puntos Disponibles"%>
+      </div>
+      
+    </div>
+    <br/>
+    <div class="row g-2"> 
+      <div class="col-md-5">
+        <%= form.text_field :customer, class: "form-control", id:"customer", placeholder:"Nombre de Cliente"%>
+      </div>
+     
+      <div class="col-md-5">
+        <%= form.text_field :document_number, class: "form-control", id:'document_number', placeholder:"Número de Documento"%>
+      </div>
+    </div>
+    <br/>
+
+    <div class="row g-2"> 
+      <div class="col-md-5">
+        <%= form.date_field :date_start, {class: "form-control date", placeholder:"Fecha Desde", value: @date_start} %>
+      </div>
+      <div class="col-md-5">
+        <%= form.date_field :date_end,  {class: "form-control date", placeholder:"Fecha Hasta" , value: @date_end} %>
+      </div>
+      <div class="col-md-2">
+        <%= form.submit "Filtrar", id: "foo-submit", class: "btn btn-primary", data: {disable_with: 'Filtrando...'} %>
+      </div>
+    </div>
+  </div>
+<% end %>

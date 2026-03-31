@@ -1,0 +1,64 @@
+//Product catalog card styling
+@import "mixins";
+
+.product-card {
+  // border: 1px solid;
+  // @include theme-border(var(--theme-border-color));
+  border-radius: 4px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+  
+  &.active-product {
+    // @include theme-border(var(--bs-primary));
+    // border-width: 2px;
+    // @include theme-colors(var(--bs-primary-bg), var(--bs-primary-text));
+    border-color: var(--red-brand);
+    border-width: 2px;
+    box-shadow: 10px 0 12px rgba(0, 0, 0, 0.15);
+    [data-theme="dark"] & {
+      box-shadow: 0 6px 16px rgba(226, 8, 19, 0.5);
+    }
+    // background: #9b9b9b;
+  }
+}
+
+.hover-shadow {
+    transition: box-shadow 0.2s;
+  }
+  
+.hover-shadow:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.25)!important;
+}
+
+
+   // Product catalog card styling
+// .product-card {
+//         cursor: pointer;
+//         border: 1px solid #dee2e6;
+//         border-radius: 4px;
+//         margin-bottom: 6px;
+//         transition: background 0.2s, border-color 0.2s;
+//         background: #fff;
+//       }
+//       .product-card.active-product {
+//         border-color: #0d6efd;
+//         border-width: 2px;
+//         background: #e7f1ff;
+//       }
+//       .product-card:last-child {
+//         margin-bottom: 0;
+//       }
+
+.apexcharts-menu-open{
+   [data-theme="dark"] & {
+      // box-shadow: 0 6px 16px rgba(226, 8, 19, 0.5);
+      background-color: var(--gray-brand);
+    }
+
+    
+}

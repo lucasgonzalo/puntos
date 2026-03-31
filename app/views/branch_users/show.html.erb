@@ -1,0 +1,74 @@
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+
+<% set_page_title("Información de Empleado de Sucursal") %>
+
+<div class="card">
+  <div class="card-body">
+    <div class="container">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row mb-2">
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Sucursal:</span></div>
+                <div class="col-8"><%= @branch_user.branch.name.to_s+" - "+@branch_user.branch.company.name.to_s %></div>
+              </div>
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Dirección:</span></div>
+                <div class="col-8"><%= @branch_user.branch.address+" / "+ @branch_user.branch.city.full_name %></div>
+              </div>
+            </div>
+            
+            <div class="row mb-2">
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Usuario:</span></div>
+                <div class="col-8"><%= @branch_user.user.full_name %></div>
+              </div>
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Email:</span></div>
+                <div class="col-8"><%= @branch_user.user.email  %></div>
+              </div>
+            </div>
+           
+            <div class="row mb-2">
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Estado:</span></div>
+                <div class="col-8"><%=  get_active_branch_user(@branch_user)  %></div>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-6 row">
+                <div class="col-4"><span class="fw-bold me-2">Rol en Sucursal:</span></div>
+                <div class="col-8"><%=  get_role_branch_user(@branch_user)  %></div>
+              </div>
+            </div>
+
+            <div class="d-flex bd-highlight mt-4">
+              <div class="p-2 bd-highlight">
+                <%= link_to 'Volver', @return_page=='branch_user' ? branch_users_path : request.referer , class: "btn btn-secondary" %>
+              </div>
+
+              <div class="ms-auto p-2 bd-highlight">
+                <div class="ms-auto p-2 bd-highlight">
+                  <% if (can? :enable_employee, @branch_user) && @branch_user.active %>
+                    <%= render 'shared/enable_employee', element: @branch_user.id, activate: false, return_page: @return_page %>
+                  <% elsif (can? :enable_employee, @branch_user) && !@branch_user.active %>
+                    <%= render 'shared/enable_employee', element: @branch_user.id, activate: true, return_page: @return_page %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        
+
+
+
+

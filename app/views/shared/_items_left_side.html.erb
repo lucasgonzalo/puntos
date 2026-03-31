@@ -1,0 +1,241 @@
+<%#
+  Se refactoriza para utilizar sidebar_helper.rb y partials para mejorar la legibilidad
+
+  Los items se muestran segun:
+  1) Tipo de usuario (Admin, @logged_admin, dueño comercio, gerente, intermedio o basico )
+  2) Si tiene seleccionado Grupo, Comercio o Sucursal
+  3) Si tiene el permiso asignado según ability.rb
+
+  Los subitems pueden tener su permiso segun sidebar_helper.rb
+%>
+
+<!--- INDICADORES -->
+<%= render 'shared/left_sidebar/indicators' if show_indicators? %>
+
+<!--- ALERTAS -->
+<%= render 'shared/left_sidebar/alerts_branch_section' if can?(:access, Alert) && @current_branch %>
+<%= render 'shared/left_sidebar/alerts_company_section' if can?(:access, Alert) %>
+
+<!--- ENTIDADES -->
+<%= render 'shared/left_sidebar/entities_section' if show_entities? %>
+
+<!--- COMERCIOS -->
+<%= render 'shared/left_sidebar/companies_section' if show_companies? %>
+
+<!--- CLIENTES -->
+<%= render 'shared/left_sidebar/customers_section' %>
+
+
+<!--- Personas --> 
+  <% if @logged_admin && (can? :access, Person) %>
+    <li class="side-nav-item">
+      <a href="<%= people_path %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+        <i class="mdi mdi-account mx-1" title="Personas"></i>
+        <span> Personas </span>
+      </a>
+    </li>
+  <% end %>
+
+<!--- Movimientos --> 
+  <% if can? :access, Movement %>
+    <li class="side-nav-item ">
+      <a data-bs-toggle="collapse" href="#sidebarMovements" aria-expanded="false" aria-controls="sidebarMovements" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+        <i class="mdi mdi-cash-usd mx-1" title="Movimientos"></i>
+        <span> Movimientos </span>
+        <span class="menu-arrow"></span>
+      </a>
+      <div class="collapse" id="sidebarMovements">
+        <ul class="side-nav-second-level">
+
+          <% if (can? :create, Movement.new) && !current_user.group_owner_role? %>
+            <li>
+              <a class="nav-link sidebar-nav-item" href="<%= new_movement_path %>" data-sidebar-navigation-target="subNavItem">
+                <i class="mdi mdi-cash-plus mx-1"></i>
+                <span> Nuevo Movimiento </span> 
+              </a>
+            </li>
+          <% end %>
+          <li>
+            <a class="nav-link sidebar-nav-item" href="<%= movements_path %>" data-sidebar-navigation-target="subNavItem">
+                <i class="mdi mdi-cash-multiple mx-1"></i>
+                <span> Lista de Movimientos </span> 
+              </a>
+          </li>
+
+        </ul>
+      </div>
+    </li>
+  <% end %>
+
+<!--- QR --> 
+  <% if @current_company && (can? :access, :my_qr) %>
+    <li class="side-nav-item d-none">
+      <a href="<%= all_qr_company_path(@current_company) %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+        <i class="mdi mdi-qrcode mx-1" title="QR"></i>
+        <span>QR</span>
+      </a>
+    </li>
+  <% end %>
+
+<!--- QR de sucursal--> 
+  <% if @current_branch && (can? :access, :my_qr) %>
+    <li class="side-nav-item">
+      <a href="<%= all_qr_branch_qr_branches_path(branch_id: @current_branch.id) %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+        <i class="mdi mdi-qrcode mx-1" title="QR"></i>
+        <span>QR</span>
+      </a>
+    </li>
+
+  <% elsif  current_user.group_owner_role? %>
+    <!--- QR de entidad(toma primera sucursal)--> 
+    <% first_branch = @current_group.companies&.first&.branches&.first %>
+    <% if first_branch && (can? :access, :my_qr) %>
+      <li class="side-nav-item">
+        <a href="<%= all_qr_branch_qr_branches_path(branch_id: first_branch.id) %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+          <i class="mdi mdi-qrcode mx-1" title="QR"></i>
+          <span>QR </span>
+        </a>
+      </li>
+    <% end %>
+  <% end %>
+
+<!--- Empleados --> 
+  <% if (can? :access, BranchUser) %>
+    <li class="side-nav-item">
+      <a href="<%= branch_users_path %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+        <i class="mdi mdi-account-convert mx-1" title="Empleados"></i>
+        <span> Empleados </span>
+      </a>
+    </li>
+  <% end %>
+
+<!--- Usuarios --> 
+  <% if (can? :access, User) %>
+    <li class="side-nav-item">
+      <a href="<%= users_path %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+        <i class="mdi mdi-account mx-1" title="Usuarios"></i>
+        <span> Usuarios </span>
+      </a>
+    </li>
+  <% end %>
+
+<!--- Configuración de Sucursal --> 
+  <% if @current_branch && (can? :access, :branch_setting) %>
+    <li class="side-nav-item">
+      <a href="<%= branch_settings_path %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+        <i class="mdi mdi-account-key mx-1" title="Configuracion de Sucursal"></i>
+        <span> Configuración</span>
+      </a>
+    </li>
+  <% end %>
+
+  <% if @current_company && @current_user.company_owner_role? && !@current_branch %>
+
+  <li class="side-nav-item"></li>
+      <a data-bs-toggle="collapse" href="#config_comercio" aria-expanded="false" aria-controls="config_comercio" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+        <i class="mdi mdi mdi-cog mx-1" title="Configuración Comercio"></i>
+        <span> Configuración </span>
+        <span class="menu-arrow"></span>
+      </a>
+      <div class="collapse" id="config_comercio">
+        <ul class="side-nav-second-level">
+
+            <li class="side-nav-item">
+              <a href="<%= show_days_sleep_path(id: @current_company.id) %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+                <i class="mdi mdi-sleep mx-1" title="Dias dormir"></i>
+                <span> Días para dormir</span>
+              </a>
+            </li>
+            <% if false %>
+              <li class="side-nav-item">
+                <a href="<%= show_email_path(id: @current_company.id) %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+                  <i class="mdi mdi-account-key mx-1" title="Dias dormir"></i>
+                  <span> Email</span>
+                </a>
+              </li>
+
+              <li class="side-nav-item">
+                <a href="<%= show_alert_quantity_path(id: @current_company.id) %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+                  <i class="mdi mdi-account-key mx-1" title="Dias dormir"></i>
+                  <span> Alertas</span>
+                </a>
+              </li>
+            <% end %>
+        </ul>
+      </div>
+  <% end %>
+
+<!-- Configuracion de email -->
+  <li class="side-nav-item d-none">
+    <a href="<%= redis_keys_path %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+      <i class="mdi mdi-email-open mx-1 " title="Conf. de Email"></i>
+      <span> Conf. de Email</span>
+    </a>
+  </li>
+
+<!-- Localizaciones -->
+  <% if (can? :access, Country) || (can? :access, State) || (can? :access, City) %>
+    <li class="side-nav-item">
+      <a data-bs-toggle="collapse" href="#sidebarLocation" aria-expanded="false" aria-controls="sidebarLocation" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+        <i class="mdi mdi-google-maps mx-1" title="Localizaciones"></i>
+        <span> Localizaciones </span>
+        <span class="menu-arrow"></span>
+      </a>
+      <div class="collapse" id="sidebarLocation">
+        <ul class="side-nav-second-level">
+          <% if can? :access, Country %>
+            <li>
+              <a href="<%= countries_path %>" class= "nav-link sidebar-nav-item" data-sidebar-navigation-target="subNavItem">
+                <i class="mdi mdi-google-maps mx-1" title="Paises"></i>
+                <span>Países</span>
+              </a>
+            </li>
+          <% end %>
+
+          <% if can? :access, State %>
+            <li>
+              <a href="<%= states_path %>" class= "nav-link sidebar-nav-item" data-sidebar-navigation-target="subNavItem">
+                <i class="mdi mdi-google-maps mx-1" title="Paises"></i>
+                <span>
+                  Provincias
+                </span>
+              </a>
+            </li>
+          <% end %>
+
+          <% if can? :access, City %>
+            <li>
+              <a href="<%= cities_path %>" class= "nav-link sidebar-nav-item" data-sidebar-navigation-target="subNavItem">
+                <i class="mdi mdi-google-maps mx-1" title="Paises"></i>
+                <span>
+                  Ciudades
+                </span>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </li>
+  <% end %>
+
+<!-- Parentezco -->
+  <% if @logged_admin && (can? :access, :relationship)  %>
+    <li class="side-nav-item">
+      <a href="<%= relationships_path %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+        <i class="mdi mdi-account-multiple-outline mx-1"></i>
+        <span> Parentezco </span>
+      </a>
+    </li>
+  <% end %>
+
+<!-- Catalogos -->
+  <li class="side-nav-item">
+    <a href="<%= catalogs_path %>" class="nav-link sidebar-nav-item" data-sidebar-navigation-target="navItem">
+      <i class="mdi mdi-view-list mx-1" title="Catálogos"></i>
+      <span> Catálogos </span>
+    </a>
+  </li>
+
+
+
+

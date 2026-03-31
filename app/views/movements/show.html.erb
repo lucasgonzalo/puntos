@@ -1,0 +1,154 @@
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+
+<% set_page_title("Movimiento") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="m-2 col-12">
+        <div class="col-md-10">
+          <div class="card ">
+              <div class="card-body">
+                <!---------------- CABECERA ------------------->
+                <div class="mb-3 row">
+                  <p class="mb-2"><span class="fw-bold me-2">COMERCIO:</span> <%= @movement.branch&.company&.name %></p>
+                  <p class="mb-2"><span class="fw-bold me-2">SUCURSAL:</span> <%= @movement.branch&.name %></p>
+                  <p class="mb-2"><span class="fw-bold me-2">CLIENTE:</span> <%= @movement.customer&.full_name%> - Documento N°: <%= @movement.customer&.person&.document_number %></p>
+                  <p class="mb-2"><span class="fw-bold me-2">TIPO DE MOVIMIENTO:</span> <%= get_badges_movement_type @movement %></p>
+                  <% if @movement.annulled  %>
+                    <div class="badge text-bg-danger " style="display:inline-block;">MOVIMIENTO ANULADO</div> 
+                  <% end %>
+                </div>
+
+
+                <!---------------- VENTA ------------------->
+                <div class="mb-3 row">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="text-uppercase mb-0">VENTA</h3>
+                  </div>
+                </div>
+
+                <!---------------------- IMPORTE DE VENTA------------------->
+                <div class="mb-3 row">
+                  <div class="col-sm-4 d-flex align-items-center" style="margin-left: 20px;">
+                    <span  style="margin-right: 20px;" >Importe de Venta</span>
+                  </div>
+                  <div class="col-sm-7 text-end">
+                    <span class="text-body fw-semibold"><%= number_to_currency(@movement.amount)%></span>
+                  </div>
+                </div>
+
+
+                <!-----------------------IMPORTE DESCONTADO ---------------------->
+                <div class="mb-3 row">
+                  <div class="col-sm-4" style="margin-left: 20px;">
+                    <a class="text-body fw-semibold">Importe descontado</a>
+                    <br>
+                    <small><%=  "Descuento del" %> <%= l Time.now, :format => "%A" %> de 
+                    <%= number_to_percentage(@movement.discount, precision: 2, separator: ',')%></small>
+                  </div>
+                  <div class="col-sm-7 text-end">
+                    <span class="text-body fw-semibold">
+                      <% discount_value = @movement.amount*(@movement.discount/100)%>
+                      <%= number_to_currency(discount_value) %>
+                    </span>
+                  </div>
+                </div>
+
+                <!------------------ IMPORTE CON DESCUENTO ---------------------->
+                <div class="mb-3 row">
+                  <div class="col-sm-4 d-flex align-items-center" style="margin-left: 20px;">
+                    <span  style="margin-right: 20px;" >Importe con Descuento</span>
+                  </div>
+                  <div class="col-sm-7 text-end">
+                    <span class="text-body fw-semibold"> <%= number_to_currency(@movement.amount-discount_value) %></span>
+                  </div>
+                </div>
+
+                <!-------------------- PUNTOS A ACUMULAR------------------------>
+                <div class="mb-3 row">
+                  <div class="col-sm-4" style="margin-left: 20px;">
+                    <a class="text-body fw-semibold">Puntos a Acumular</a>
+                    <br>
+                    <small>
+                      <%= "Conversión del" %> <%= l @movement.created_at, :format => "%A" %> de 
+                      <%= number_with_precision(@movement.conversion) %>
+                    </small>
+                  </div>
+                  <div class="col-sm-7 text-end">
+                    <span class="text-body fw-semibold"> 
+                      <%= number_with_precision(@accumulate_points, precision: 0) %>
+                    </span>
+                  </div>
+                </div>
+
+                <!---------------- CANJE ------------------->
+                <div class="mb-3 row">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="text-uppercase mb-0">CANJE</h3>
+                  </div>
+                </div>
+
+                <!-------------------- PUNTOS A CANJEAR------------------------>
+                <div class="mb-3 row">
+                  <div class="col-sm-4" style="margin-left: 20px;">
+                    <a class="text-body fw-semibold">Puntos a Canjear</a>
+                  </div>
+                  <div class="col-sm-7 text-end">
+                    <span class="text-body fw-semibold"> 
+                      <%= number_with_precision(@exchange_points, precision: 0) %>
+                    </span>
+                  </div>
+                </div>
+
+                <% if @movement.movement_type_product_exchange? || @movement.movement_type_product_exchange_annulment? %>
+                  <div class="mb-3 row">
+                    <div class="col-sm-4" style="margin-left: 20px;">
+                      <a class="text-body fw-semibold">Descripción</a>
+                    </div>
+                    <div class="col-sm-7 text-end">
+                      <span class="text-body fw-semibold"> 
+                        <%= Movement.find_by(movement_related_id: @movement.id)&.description %>
+                      </span>
+                    </div>
+                  </div>
+                <% end %>
+
+                <% if @movement.movement_type_exchange? && @movement.description %>
+                  <div class="mb-3 row">
+                    <div class="col-sm-4" style="margin-left: 20px;">
+                      <a class="text-body fw-semibold">Descripción</a>
+                    </div>
+                    <div class="col-sm-7 text-end">
+                      <span class="text-body fw-semibold"> 
+                        <%=@movement.description %>
+                      </span>
+                    </div>
+                  </div>
+                <% end %>
+
+
+                <!------------------ IMPORTE A PAGAR  ---------------------->
+                <div class="mb-3 row">
+                  <div class="col-sm-4 d-flex align-items-center" style="margin-left: 20px;">
+                    <span  style="margin-right: 20px;" >Importe a Pagar</span>
+                  </div>
+                  <div class="col-sm-7 text-end">
+                    <span class="text-body fw-semibold"> <%= number_to_currency(@movement.total_import) %></span>
+                  </div>
+                </div>
+              </div>
+            </div> 
+        </div>
+      </div>
+
+      <div class="d-flex bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+          <%= link_to request.referer || root_path, class: "btn btn-secondary" do %>
+            <i class="mdi mdi-arrow-left me-1"></i>
+            Volver
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

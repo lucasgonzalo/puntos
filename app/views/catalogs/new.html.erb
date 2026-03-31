@@ -1,0 +1,24 @@
+<% content_for :title, "New catalog" %>
+
+<h1>Nuevo Catálogo</h1>
+<% 
+  if @current_group.account_type_store?
+    catalogs = Catalog.where(group: @current_group, company: @current_company)
+    hay_catalogs ||= true if catalogs.any?
+  else
+    catalogs = Catalog.where(group: @current_group)
+    hay_catalogs ||= true if catalogs.any?
+  end
+%>
+
+<% if hay_catalogs %>
+  <div class="bg-danger-lighten text-danger"> Avertencia: Ya existe un catalogo<%="(#{catalogs.last.name})"%> para este comercio, generar uno nuevo anulará la visibilidad del anterior al generar movimientos.</div>
+<% end %>
+
+<%= render "form", catalog: @catalog %>
+
+<br>
+
+<div>
+  <%= link_to "Volver", :back, class: 'btn btn-secondary' %>
+</div>

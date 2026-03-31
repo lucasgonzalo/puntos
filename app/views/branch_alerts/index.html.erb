@@ -1,0 +1,31 @@
+<% set_page_title("Alertas") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <!----------------------------- Filtro ---------------------------------------------> 
+          <%= form_with(url: filter_alerts_branch_alerts_path, method: :post, local: false, html: {class: 'needs-validation', novalidate: '' }) do |form| %>
+            
+            <div class="row g-2"> 
+              <div class="col-md-5">
+                <%= form.collection_select :alert_status, BranchAlert.statuses.map {|value| [value.first, value.second]}, :first, :second, {prompt: "Todas las alertas"}, {class: "form-select"} %>
+              </div>
+              <div class="col-md-2">
+                <%= form.submit "Filtrar", id: "foo-submit", class: "btn btn-primary" %>
+              </div>
+            </div>
+          <% end %>
+          <br/>
+
+          <!----------------------------- Tabla ---------------------------------------------> 
+          <div id="table-index-alert">
+            <%= render 'table_alerts', alerts: @alerts %>
+          </div> 
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

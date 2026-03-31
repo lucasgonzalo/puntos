@@ -1,0 +1,6 @@
+
+$('#table-index-alert').empty();
+$('#table-index-alert').html("<%= j render partial: 'alerts/table_alerts', locals: { alerts: alerts }%> ")
+
+// Para iniciar el datatable del filtro
+initializeTables();

@@ -1,0 +1,26 @@
+<%= turbo_frame_tag 'show_person_qr', class: 'col-12' do %>
+  <% if person %>
+    <!--div class="card border " style="height: 11rem;" -->
+    <div class="card border ">
+      <div class="card-body">
+        <h4 class="header-title mb-3"><%= "#{person.full_name}" %></h4>
+        <ul class="list-unstyled mb-0">
+          <li>
+            <p class="mb-2"><span class="fw-bold me-2">Documento:</span> <%= person.full_document %></p>
+            <p class="mb-2"><span class="fw-bold me-2">Fecha Nacimiento:</span> <%= person.formatted_date_birth %></p>
+            <p class="mb-2"><span class="fw-bold me-2">Sexo:</span> <%= Person.genders[person.gender] %></p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  <% else %>
+    <div class="card border mb-3" style="height: 4rem;" >
+      <div class="card-body">
+        <h4 class="header-title mb-3">PERSONA NO ENCONTRADA</h4>
+      </div>
+    </div>
+    <div class="text-center">
+      <%= link_to 'Registrarse', form_new_person_path(token_company: @company.token, token_branch: @branch.token), method: :post, class: "btn btn-outline-danger" %>
+    </div>
+  <% end %>
+<% end %>

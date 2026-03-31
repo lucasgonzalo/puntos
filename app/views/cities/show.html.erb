@@ -1,0 +1,42 @@
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+
+<% set_page_title("Ciudad") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="container mx-auto my-2 px-4">
+            <div class="row">
+              <div class="col-4">
+                <div class="h4 m-2 text-lg font-semibold">País:</div>
+                <span class="leading-normal"><%= @city.state.country.name %></span>
+              </div>
+              <div class="col-4">
+                <div class="h4 m-2 text-lg font-semibold">Provincia:</div>
+                <span class="leading-normal"><%= @city.state.name %></span>
+              </div>
+              <div class="col-4">
+                <div class="h4 m-2 text-lg font-semibold">Nombre:</div>
+                <span class="leading-normal"><%= @city.name %></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex bd-highlight mt-4">
+            <div class="p-2 bd-highlight">
+              <%= link_to 'Volver', cities_path, class: "btn btn-secondary" %>
+            </div>
+
+            <div class="ms-auto p-2 bd-highlight">
+              <% if can? :destroy, @city %>
+                <%= render 'shared/destroy', element: @city %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

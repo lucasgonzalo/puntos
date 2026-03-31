@@ -1,0 +1,26 @@
+<div class="offset-1 col-10">
+  <p id="notice"><%= notice %></p>
+
+  <h1>Posts</h1>
+
+  <%= turbo_stream_from "posts" %>
+
+  <div>
+    <h3>New Post</h3>
+    <%= turbo_frame_tag "post_tag", data: { turbo: true } do %>
+      <%= render 'posts/form', post: @post %>
+    <% end %>
+  </div>
+
+  <hr/>
+
+  <div class="d-flex ">
+    <%= turbo_frame_tag "posts", data: { turbo: true } do %>
+      <% @posts.each do |post| %>
+        <%= render 'posts/post', post: post %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= button_to 'Job Grupos', job_groups_path, method: :post, class: "btn btn-info" %>
+</div>

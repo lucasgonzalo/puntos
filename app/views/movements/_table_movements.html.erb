@@ -1,0 +1,74 @@
+
+<!-------------------------Excel------------------------------>
+<div class="row">
+  <div class="col-12">
+    <div class="float-end">
+      <%= form_with url: excel_movements_path(format: "xlsx"), method: :post, class: "d-inline" do |form| %>
+        <%= form.hidden_field :movements, value: movements.map(&:id).join(",") %>
+        <%= form.button type: "submit", class: "btn btn-success pull-right" do %>
+          <i class="mdi mdi-file-excel pr-1"></i> Excel
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<br/>
+
+
+<!-------------------------Tabla------------------------------>
+  <div class="table-responsive  rounded shadow p-2">
+    <table id="movements-table" class="table display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Fecha</th>
+          <th>Sucursal</th>
+          <th>Cliente</th>
+          <th>Tipo</th>
+          <th>Importe</th>
+          <th>Puntos</th>
+          <th>Dto. Aplic.</th>
+          <th>Imp. Desc.</th>
+          <th>Imp. Total</th>
+          <th>Usuario</th>
+          <th>Comercio</th>
+          <th>Entidad</th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% is_manager = ((@current_branch && current_user.role_on_branch?(:manager_role, @current_branch)) || @logged_admin || current_user.company_owner_role?) %>
+        <% movements.each do |movement| %>
+          <tr>
+            <td><%= movement.id %></td>
+            <td>
+             <div> <%= movement.created_at.in_time_zone('America/Argentina/Buenos_Aires')&.strftime("%d/%m/%Y")  %></div>
+             <div> <%= movement.created_at.in_time_zone('America/Argentina/Buenos_Aires')&.strftime(" %H:%M")  %></div>
+            </td>
+            <td><%= movement.branch.name if movement.branch %></td>
+            <td>
+              <div> <%= movement.person.full_name %> </div>
+              <div> (<%= movement.person.full_document %>) </div>
+            </td>
+            <td><%= get_badges_movement_type(movement) %></td>
+            <td data-order="<%= movement.amount %>"><%= number_to_currency(movement.amount) %></td>
+            <td data-order="<%= movement.points %>"><%=((movement.movement_type_exchange? || movement.movement_type_product_exchange?) ? "-" : "") + number_with_precision(movement.points, precision: 0) %></td>
+            <td data-order="<%= movement.discount %>"><%= number_to_percentage(movement.discount, precision: 2) %></td>
+            <td data-order="<%= movement.amount_discounted %>"><%= number_to_currency(movement.amount_discounted) %></td>
+            <td data-order="<%= movement.total_import %>"><%= number_to_currency(movement.total_import) %></td>
+            <td><%= "#{movement.user.full_name} - #{movement.user.email}"  if movement.user%></td>
+            <td><%= movement.branch.company.name if movement.branch %></td>
+            <td><%= movement.group.name if movement.group %></td>
+            <td><%= movement.description %></td>
+            <td>
+              <%= link_to '<i class="mdi mdi-eye">Ver</i>'.html_safe, movement, title:"Ver", class: "btn btn-outline-danger" if can?(:read, movement) %>
+              <% if !movement.annulled && !movement.annulment_movement? %>
+                <%= link_to '<i class="mdi mdi-repeat">Anular</i>'.html_safe, annulment_path(movement), title:"Anular", class: "btn btn-outline-danger" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>

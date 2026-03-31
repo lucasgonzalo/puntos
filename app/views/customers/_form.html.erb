@@ -1,0 +1,26 @@
+<%= form_with(model: customer) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+
+  <div class="form-floating mb-3">
+    <%= form.collection_select :company_id, @companies, :id, :name, {prompt: "Seleccione Comercio"}, {class: "form-select"} %>
+      <%= form.label :company_id, for: "floatingInput" %>
+  </div>
+
+  <%
+=begin%>
+ <div class="form-floating mb-3">
+      <%= form.text_field :person_id, class: "form-control", placeholder:"Ingrese person_id" %>
+      <%= form.label :person_id, for: "floatingInput" %>
+  </div>
+
+  <div class="form-floating mb-3">
+      <%= form.check_box :active, class: "form-control", placeholder:"Ingrese active" %>
+      <%= form.label :active, for: "floatingInput" %>
+  </div> 
+<%
+=end%>
+  
+  <div class="justify-between items-center">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>

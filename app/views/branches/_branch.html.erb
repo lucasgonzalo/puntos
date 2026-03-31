@@ -1,0 +1,13 @@
+<div class="card">
+  <div class="card-body">
+    <h4 class="header-title mb-3"><%= "#{branch.company.name} - #{branch.name}" %></h4>
+    <p><%= get_badges_branch(branch) %></p>
+    <ul class="list-unstyled mb-0">
+      <li>
+        <p class="mb-2"><span class="fw-bold me-2">Comercio:</span> <%= branch.company.name %></p>
+        <p class="mb-2"><span class="fw-bold me-2">Dirección:</span> <%= branch.address %></p>
+        <p class="mb-2"><span class="fw-bold me-2">Ciudad:</span> <%= branch.city.full_name %></p>
+      </li>
+    </ul>
+  </div>
+</div>

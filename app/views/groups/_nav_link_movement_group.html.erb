@@ -1,0 +1,64 @@
+<%= turbo_frame_tag 'nav_link_movement_group' do %>
+  <% if @current_group %>
+    <!----------------------------FORM PARA VENTA Y CANJE---------------------------------->
+    <div class="row justify-content-md-center mt-4">
+      <div class="col-xl-8 col-lg-10 col-md-12">
+        <div class="card tilebox-one card border-primary border">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-10 offset-md-1">
+                <%= form_with(url: create_group_movement_path, model: movement, data: { controller: 'groups' }, method: :post, html: { class: 'needs-validation', novalidate: true }) do |form| %>
+
+                  <%= render "shared/error_messages", resource: form.object %>
+
+                  <%= form.hidden_field :movement_type, value: type %>
+                  <%= form.hidden_field :movement_id, value: movement.id %>
+                  <%= form.hidden_field :person_id, value: person.id %>
+                  <%= form.hidden_field :points_balance, value: person.points_balance_amount(@current_group).to_i, data: { movements_target: "pointsBalance" } %>
+
+
+                  <!---------------- VENTA ------------------->
+                  <div class="mb-3 row">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h3 class="text-uppercase mb-0">Carga de puntos</h3>
+                    </div>
+                  </div>
+
+                  <!---------------------- PUNTOS A CARGAR ------------------->
+                  <div class="mb-3 row">
+                    <label href="apps-ecommerce-products-details.html" for="inputField" class="col-sm-4 col-form-label">Cantidad de puntos</label>
+                    <div class="col-sm-8">
+                      <%= form.number_field :points, class: "form-control", placeholder: "Ingrese cantidad de puntos", step: :any, 
+                      data: { 
+                        movements_target: "points", action: "keyup->movements#displayBranchSettings keyup->movements#validateInputs" 
+                      } %>
+                      <div class="invalid-feedback" data-movements-target="errorFeedbackAmount"></div>
+                    </div>
+                  </div>
+                  
+                  <div data-movements-target="errorMessages"></div>
+                  <br/>
+
+                  <div class="justify-between items-center">
+                    <%= form.button "Aceptar", id: "submit-button", class: "btn btn-primary", 
+                    data: { 
+                      movements_target: "submitButton",
+                      action: "click->movements#validateSubmitForm keyup->movements#validateSubmitForm", 
+                      loading_text: "Cargando..."
+                    },
+                    onclick: "this.disabled=true; this.textContent=this.dataset.loadingText || 'Procesando...'; this.form.submit();" %>
+                  </div>
+
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>        
+  <% end %>
+<% end %>
+
+
+
+

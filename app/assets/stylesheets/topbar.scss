@@ -1,0 +1,42 @@
+// Navbar
+
+.navbar{
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 12px 0 rgba(0,0,0,0.37);
+  border: 1px solid rgba(0,0,0,0.37);
+}
+
+
+/* Botones personalizados */
+.btn-custom {
+  color: var(--theme-text-sidebar);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  
+  &.btn-custom {
+    background-color: var(--btn-primary);
+
+    &:hover {
+      background-color: var(--theme-border-color);
+      [data-theme="dark"] & {
+        background-color: var(--red-brand);
+      }
+    }
+
+    
+  }
+ 
+}
+
+// On mobile there is a bottom navbar
+.bottom-bar-glass {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 -8px 12px 0 rgba(0,0,0,0.37);
+  border: 1px solid rgba(0,0,0,0.37);
+  z-index: 1000; // Above content but below modal
+}
+

@@ -1,0 +1,113 @@
+<% set_page_title("Configuración Redis") %>
+
+
+<!------------------------- Redis para conexión-------------------------------->
+<div class="row">
+  <div class="col-12">
+    <div class="card  mb-3">
+      <div class="card-body">
+        <div class="m-2 col-12">
+
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Redis Keys para Correo Electrónico </h4>
+            <%#= link_to 'Nueva', new_redis_key_path , class: "btn btn-primary" %>
+            <div class="form-group col">
+              <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#new_redis_key">Nueva Redis</button>
+            </div>
+            <%= render partial: 'new_redis' %>
+            <br/>
+            <b> Para utilizar esta configuracion asegurate de que exista la variable "enable_mail_by_redis" y que su valor sea "true", de lo contrario se tomaran las variables de entorno</b>
+            <div class="text-muted">Si vas a cambiar valores de redis para mail, debes reiniciar la aplicación para que te tome los nuevos valores. </div>
+            <br/>
+          </div>
+          <div class="table-responsive  rounded shadow p-2" style="overflow-x: scroll; white-space: nowrap;">
+            <table id="rediskeysTable" class="table table-striped dt-responsive nowrap ">
+              <thead>
+                <tr>
+                    <th class="p-2">Clave</th>
+                    <th class="p-2">Valor</th>
+                    <th class="p-2">Opciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <%= "Cantidad: #{@redis.keys.size}" %>
+                <% @redis.keys.each do |redis_key| %>
+                  <% next if ["queue:default", "queues"].include?(redis_key) %>
+
+                  <tr class="group border-t border-gray-400 hover:bg-gray-100">
+                    <td class="p-2"><%= redis_key %></td>
+                    <td class="p-2"><%= get_value(redis_key) if @redis.type(redis_key) == "string"%></td>
+                    <td class="p-2">
+                      <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="<%="#primary-edit-#{redis_key}"%>">Editar</button>
+                      <%= render partial: 'edit_redis', locals: {redis_key: redis_key} %>
+
+                      <button type="button" class="btn btn-outline-danger " data-bs-toggle="modal" data-bs-target="<%="#primary-delete#{redis_key}"%>">Eliminar</button>
+                      <%= render partial: 'delete_redis', locals: {redis_key: redis_key} %>
+                      <%#= link_to t('Edit'), url_for("redis_keys/#{redis_key}/edit"), class: "btn btn-info" %>
+                      <%#= link_to t('Delete'),url_for("redis_keys/#{redis_key}") ,method: :delete, data: { confirm: 'Esta seguro?' }, class: 'btn btn-danger ' %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <div class="col-3">
+            <% color =   Rails.env.upcase == 'DEVELOPMENT' ?  'info' : 'danger'%>
+            Environment: <span class='badge bg-<%= color %>'><%= Rails.env.upcase %></span>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-------------------------Correo de Prueba-------------------------------->
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Prueba de Envio (visualiza configuración)</h4>
+          </div>
+          <div class=" rounded shadow p-2">
+            <%= form_with(url: test_email_path, method: :post, local: true) do |form| %>
+              <div class="row g-2"> 
+                <div class="col-md-5">
+                  <%= form.text_field :test_email, class: "form-control", placeholder:"Ingrese Correo electronico",  required: true  %>
+                </div> 
+                <div class="col-md-2">
+                  <%= form.submit "Enviar", class: "btn btn-primary " %>    
+                </div> 
+              </div> 
+            <% end %>
+          </div>
+
+            
+          </div>
+          <h4 class="page-title mt-5">Reenvio de mail de movimiento</h4>
+          <div class=" rounded shadow p-2">
+            <%= form_with(url: re_send_movement_mail_path, method: :post, local: true) do |form| %>
+              <div class="row g-2"> 
+                
+                <div class="col-md-5">
+                  <%= form.text_field :movement_id, class: "form-control", placeholder:"Ingrese id de movimiento"  %>
+                </div> 
+                <div class="col-md-2">
+                  <%= form.submit "Enviar", class: "btn btn-primary " %>
+                </div> 
+              </div> 
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%#= render partial: 'layouts/index_js' %>

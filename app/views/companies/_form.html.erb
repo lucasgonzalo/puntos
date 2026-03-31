@@ -1,0 +1,48 @@
+<%= form_with(model: company) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+
+  <div class="form-floating mb-3">
+    <% if @current_group %>
+      <%= form.hidden_field :group_id, value: @current_group.id %>
+      <%= form.text_field :group_name, value: @current_group.name, class: "form-control", readonly: true, placeholder: "Entidad" %>
+      <%= form.label :group_name, "Entidad", for: "group_name" %>
+    <% else %>
+      <%= form.collection_select :group_id, @groups, :id, :name, {prompt: "Seleccione Entidad", selected: company.groups.first&.id}, {class: "form-select", required: true} %>
+      <%= form.label :group_id, "Entidad", for: "group_id" %>
+    <% end %>
+  </div>
+
+  <div class="form-floating mb-3">
+    <%= form.text_field :name, class: "form-control", placeholder:"Ingrese nombre" %>
+    <%= form.label :name, "Nombre", for: "company_name" %>
+  </div>
+
+  <div class="form-floating mb-3">
+    <%= form.collection_select :user_id, @users, :id, ->(user) { "#{user.full_name} (#{user.email})" }, {prompt: "Seleccione Dueño del Comercio"}, {class: "form-select"} %>
+    <%= form.label :user_id, "Dueño", for: "company_user_id" %>
+  </div>
+
+  <div class="form-floating mb-3">
+    <%= form.text_area :observation, class: "form-control", placeholder:"Ingrese OBSERVACIÓN" %>
+    <%= form.label :observation, "Observación", for: "floatingInput" %>
+  </div>
+
+  <div class="form-check form-switch mb-3">
+    <%= form.check_box :active, class: "form-check-input", checked: default_checkbox(form) %>
+    <%= form.label :active, "Activo", class: "form-check-label", for: "floatingInput" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :image_company, "Imagen de Comercio", class: "form-label" %>
+    <%= form.file_field :image_company, class: "form-control", accept: "image/*" %>
+    <% if @company.image_company.attached? %>
+      <div class="mt-2">
+        <%= image_tag @company.image_company, alt: "Imagen actual", height: "100" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="justify-between items-center">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>  
+<% end %>

@@ -1,0 +1,33 @@
+<!-- START HERO -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row justify-content-start">
+      <!-- Left-aligned column with responsive behavior -->
+      <div class="col-12 px-5">
+        <div class="text-start">
+          <h1 class="fw-bold hero-title">
+            Bienvenidos 
+          </h1>
+          <p class="fw-bold ">
+            Transformemos la información de su negocio en conocimiento para tomar acción.
+          </p>
+          
+          <% if user_signed_in?
+              first_url = dashboard_path
+            else
+              first_url = new_user_session_path
+            end
+          %> 
+          <a href="https://www.puntosaltoque.com" class="btn btn-light mt-3"><i class="mdi mdi-arrow-left ms-1"></i> Visitar el Sitio Web </a>
+          <a href="<%= first_url %>" class="btn btn-light mt-3">Ingresar al Panel<i class="mdi mdi-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Logo positioned at bottom right (center on mobile) -->
+  <div class="hero-logo">
+    <%= image_tag 'logos/imagotipo-white.webp', alt: 'Puntos Logo', class: 'img-fluid' %>
+  </div>
+</section>
+<!-- END HERO -->

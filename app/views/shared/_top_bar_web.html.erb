@@ -1,0 +1,142 @@
+<!-- Top Bar web -->
+<div class="navbar fixed-top col-12  d-flex justify-content-between align-items-center p-2">
+  
+  <!-- Nombre y logo -->
+  <div class="d-flex align-items-center">
+    <% version =  "v#{ defined?(Puntos::VERSION) ? Puntos::VERSION : '0.0.0'}" %>
+
+    <% if @current_group && @current_group.account_type_group? %>
+      <% if @current_group.image.attached? %>
+        <%= image_tag @current_group.image, alt: "group_image", width: "auto", height: "40", title: version, class:"rounded" %>
+      <% end %>
+      <h4 class="m-0 mx-2"><%= @current_group.name %></h4 >
+    <% else %>
+      <% if !@logged_admin && @current_branch && @current_branch.image_branch.attached? %>
+        <%= image_tag @current_branch.image_branch, alt: "branch image", height: "40", title: version, class:"rounded" %>
+        <h4 class="m-0 mx-2" title="<%= @current_branch.name %>"><%= @current_branch.name.truncate(30) %></h4 >
+      <% elsif @current_company && @current_company.image_company.attached? %>
+          <%= image_tag @current_company.image_company, alt: "company image", height: "40", title: version, class:"rounded" %>
+          <h4 class="m-0 mx-2" title="<%= @current_company.name %>"><%= @current_company.name.truncate(30) %></h4 >
+      <% else %>
+        <%= image_tag image_url('logos/nuevo-logo.png'), alt: "PAT image", height: "40", title: version, class:"rounded" %>
+        <h4 class="m-0 mx-2">Puntos al Toque</h4 > 
+      <% end %>
+    <% end %>
+    
+    
+    <div class="d-flex ms-4">
+      <button id="sidebarToggle" class="btn btn-sm btn-custom sidebar-toggle" type="button">
+        ☰
+      </button>
+    </div>
+  
+  </div>
+
+  <!-- Botones en desktop -->
+  <div class="d-none d-md-flex align-items-center">
+
+    <!-- Boton de entidad -->
+    <% if current_user.active_groups.any? %>
+      <div class="dropdown">
+        <button class="btn btn-sm btn-custom dropdown-toggle me-2" type="button" id="entityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <%= @current_group ? @current_group.name : 'Administrador' %>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="entityDropdown">
+          <li>
+            <a href="<%= select_company_path %>" class="dropdown-item">
+              <span class="align-middle">Elegir entidad</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Boton de comercio -->
+    <% if  (current_user.active_companies.size == 1) %>
+       <button class="btn btn-sm btn-custom"><%= @current_company.full_name %> </button>
+    <% else %>
+      <div class="dropdown">
+        <button class="btn btn-sm btn-custom dropdown-toggle me-2" type="button" id="companyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <%= @logged_admin ? 'Administrador' : (@current_company ? @current_company.full_name : 'ELIJA COMERCIO') %>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end " aria-labelledby="companyDropdown">
+          <% if current_user.active_companies.count.to_i > 0 %>
+            <li>
+              <a href="<%= select_company_path %>" class="dropdown-item">
+                <span class="align-middle">Cambiar comercio</span>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Boton de sucursal -->
+    <% unless @logged_admin %>
+      <% if (current_user.my_branches(@current_company).size == 1) && @current_branch && !@current_user.company_owner_role?%>
+        <button class="btn btn-sm btn-custom"><%= @current_branch.name %> </button>
+      <% else %>
+        <div class="dropdown">
+          <button class="btn btn-sm btn-custom dropdown-toggle me-2" type="button" id="branchDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <span><%= (@current_branch ? @current_branch.name : 'Todas') %></span> 
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="branchDropdown">
+            <li>
+              <a href="<%= select_branch_url %>" class="dropdown-item">
+                <span class="align-middle">Cambiar sucursal</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      <% end %>
+    <% end %>
+
+    
+    <!-- Nombre de usuario -->
+    <!-- User Menu Dropdown -->
+      <div class="dropdown">
+        <button class="btn btn-sm btn-custom dropdown-toggle d-flex align-items-center" 
+                type="button" 
+                id="userMenuDropdown" 
+                data-bs-toggle="dropdown" 
+                aria-expanded="false"
+                title="<%= current_user.email.downcase %>">
+          <i class="mdi mdi-account me-1"></i>
+          <span><%= current_user.full_name %></span>
+        </button>
+        
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuDropdown">
+          <!-- User Info Header -->
+          <li>
+            <h6 class="dropdown-header">
+              <i class="mdi mdi-account me-2"></i>
+              <%= current_user.global_role(@current_branch) %>
+            </h6>
+          </li>
+          
+          <li><hr class="dropdown-divider"></li>
+          
+          <!-- Theme Toggle -->
+          <li>
+            <button class="dropdown-item d-flex align-items-center" 
+                  type="button" 
+                  data-action="click->theme#toggle" 
+                  data-theme-target="toggle">
+            <i class="mdi mdi-theme-light-dark me-2"></i>
+            Cambiar tema
+            </button>
+            
+          </li>
+          
+          <!-- Logout -->
+          <li>
+            <%= button_to destroy_user_session_path, method: :delete, class: "dropdown-item d-flex align-items-center text-danger" do %>
+              <i class="mdi mdi-logout me-2"></i>
+              Cerrar Sesión
+            <% end %>
+          </li>
+        </ul>
+      </div>
+
+  </div>
+</div>

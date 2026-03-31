@@ -1,0 +1,26 @@
+<table id="datatable-buttons" class="table table-striped dt-responsive nowrap ">
+  <thead>
+    <tr>
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Email</th> 
+      <th class="p-3 uppercase text-left text-xs text-gray-700"></th>                            
+      <th class="p-3 uppercase text-left text-xs text-gray-700">Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if person_emails.exists? %>
+      <% person_emails.each do |person_email| %>
+        <tr class="group border-t border-gray-400 hover:bg-gray-100">
+          <td class="p-3"><%= person_email.email %></td>
+          <td class="p-3"><%= get_badges_person_email(person_email) %></td>
+          <td>
+            <%= link_to 'Ver', person_email_path(id: person_email, customer: !customer.blank? ? customer.id : ''), class: "btn btn-outline-danger my-1" if can? :read, person_email %>
+            <%= link_to 'Editar', edit_person_email_path(id: person_email, customer: !customer.blank? ? customer.id : ''), class: "btn btn-outline-danger" if can? :edit, person_email %>
+          </td>
+        </tr>
+      <% end %>
+    <%else%>
+      <td class="p-3" colspan="3">No se encontraron emails registrados</td>
+    <%end%>
+  </tbody>
+</table>

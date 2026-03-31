@@ -1,0 +1,6 @@
+<%= form_with(model: @branch) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+  <%= render 'branch_settings/field_admits_product_exchange', form: form, attribute: :admits_product_exchange  do %>
+      <%= form.check_box :admits_product_exchange %>
+  <%end%>
+<% end %>

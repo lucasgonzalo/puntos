@@ -1,0 +1,27 @@
+<%= content_for :body_class, "loading authentication-bg" %>
+
+<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xxl-8 col-lg-7">
+          <div class="card">
+            <div class="card-body p-4">
+              <div class="text-center  m-auto">
+                <% if Company.find_by(token: @token).image_company.attached? %>
+                  <%= image_tag Company.find_by(token: @token).image_company, alt: "", height: "60" %>
+                <% end %>
+              </div>
+              <br>
+              <div class="text-center  m-auto">
+                  <h1 class=" text-center mt-0 fw-bold"><%= Company.find_by(token: @token).name.upcase %></h1>
+              </div>
+              <br/>
+
+              <br/>
+              <%= render 'people/form_one_person', person: @person, token: @token,  first_person: @first_person %>
+            </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>

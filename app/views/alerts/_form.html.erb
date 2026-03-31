@@ -1,0 +1,45 @@
+<!-- lib/templates/erb/scaffold/_form.html.erb.tt -->
+
+<%= form_with(model: alert) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+
+  
+    <div class="form-floating mb-3">
+    
+        <%= form.text_field :company_id, class: "form-control", placeholder:"Ingrese company_id" %>
+        <%= form.label :company_id, for: "floatingInput" %>
+    
+    </div>
+  
+    <div class="form-floating mb-3">
+    
+        <%= form.text_field :category, class: "form-control", placeholder:"Ingrese category" %>
+        <%= form.label :category, for: "floatingInput" %>
+    
+    </div>
+  
+    <div class="form-floating mb-3">
+    
+        <%= form.text_field :status, class: "form-control", placeholder:"Ingrese status" %>
+        <%= form.label :status, for: "floatingInput" %>
+    
+    </div>
+  
+    <div class="form-floating mb-3">
+    
+        <%= form.text_area :content, class: "form-control", placeholder:"Ingrese content" %>
+        <%= form.label :content, for: "floatingInput" %>
+    
+    </div>
+  
+    <div class="form-floating mb-3">
+    
+        <%= form.text_field :link, class: "form-control", placeholder:"Ingrese link" %>
+        <%= form.label :link, for: "floatingInput" %>
+    
+    </div>
+  
+  <div class="justify-between items-center">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>

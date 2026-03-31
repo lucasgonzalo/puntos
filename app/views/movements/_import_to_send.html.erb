@@ -1,0 +1,40 @@
+<tr>
+  <td>
+    <p class="m-0 d-inline-block align-middle">
+      <a href="apps-ecommerce-products-details.html" class="text-body fw-semibold"><%= value_type=="import" ? "Importe" : "Importe con descuento" %></a>
+      <br>
+    </p>
+  </td>
+
+
+  <td class="text-end">
+
+    <!---------------------- Aqui tenemos el caso de IMPORTE ------------------->
+    <% if value_type=="import" %>
+      <%= form.number_field :amount, 
+      class: "form-control", 
+      placeholder:"Ingrese importe", 
+      step: :any, 
+      data: {
+        companySetting_target: "field", 
+        action: "keyup->companySetting#sale_method"
+      }, 
+      readonly: type.in?([:sale_annulment, :exchange_annulment]) %>
+
+    <!---------------------- Aqui tenemos el caso de IMPORTE CON DESCUENTO------------------->
+    <% else %>
+      <%=  "Estoy en else "%>
+      
+      <%= form.number_field :amount_with_discount, 
+      class: "form-control", 
+      step: :any, 
+      data:{
+        companySetting_target: "amountWithDiscount"
+      }, 
+      readonly: true%>
+    <% end %>
+  </td>
+</tr>
+
+
+

@@ -1,0 +1,18 @@
+<%= form_with(model: group_user) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+
+  <div class="form-floating mb-3">
+    <%= form.text_field :group_name, class: "form-control", disabled: true, value: @group.name %>
+    <%= form.label :group_name, "Entidad", for: "group_name" %>
+    <%= form.hidden_field :group_id, value: @group.id %>
+  </div>
+
+  <div class="form-floating mb-3 col-md-12">
+    <%= form.collection_select :user_id, @users, :id, :email, { prompt: "Seleccione Usuario" }, { class: "form-select" } %>
+    <%= form.label :branch_id, 'Usuario', for: "floatingInput" %>
+  </div>
+
+  <div class="justify-between items-center">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>  
+<% end %>

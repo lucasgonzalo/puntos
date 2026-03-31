@@ -1,0 +1,14 @@
+
+<% if notice %>
+  <div class="alert alert-success alert-dismissible  border-0 fade show" role="alert" style="font-size: larger;">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <strong><i class=" uil-check-circle"></i> Info - </strong> <%= notice %>
+  </div> 
+<% end %>
+
+<% if alert %>
+  <div class="alert alert-danger alert-dismissible  border-0 fade show" role="alert" style="font-size: larger;">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <strong><i class=" uil-info-circle"></i> Error - </strong> <%= alert %>
+  </div>
+<% end %>

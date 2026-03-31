@@ -1,0 +1,48 @@
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+
+<% set_page_title("Catalogo: #{@catalog.name}") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="container mx-auto my-2 px-4">
+            <div class="col-lg-8">
+              <%= render partial: 'catalog', locals: { catalog: @catalog } %>
+            </div>
+
+            <div class="d-flex bd-highlight mt-4">
+              <div class="p-2 bd-highlight">
+                <%= link_to 'Volver', catalogs_path, class: "btn btn-secondary" %>
+                <%= link_to 'Editar cabecera', edit_catalog_path(@catalog), class: "btn btn-outline-danger" %>
+              </div>
+
+              <div class="ms-auto p-2 bd-highlight">
+                <% if can? :destroy, @catalog %>
+                  <%= render 'shared/destroy', element: @catalog %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" my-3 p-3 card">
+  <h3>Productos en este catálogo</h3>
+  <div class="col-12 mb-2">
+    <%= link_to 'Agregar Producto', new_catalog_product_path(@catalog), class: "btn btn-success" %>
+  </div>
+  <div class="col-12">
+    <div class="">
+        <% if @catalog.products.none? %>
+          <p>Aún no hay productos en este catalogo</p>
+        <% else %>
+          <%= render 'list_products' %>
+        <% end %>
+    </div>
+  </div>
+</div>

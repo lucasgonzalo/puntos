@@ -1,0 +1,8 @@
+
+
+<%= form_with(model: person_address, html: {class: 'needs-validation', novalidate: '' }) do |form| %>
+  <%= form.hidden_field :person_id, value: person.id %>
+  <%= form.hidden_field :customer_id, value: !customer.blank? ? customer.id : '' %>
+  <%= render partial: 'form_fields', locals: {form: form, person: person} %>
+  <%= form.submit "Guardar", class: "btn btn-primary " %>
+<% end %>

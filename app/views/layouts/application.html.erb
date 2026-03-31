@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= render 'layouts/header' %>
+    <%= Sentry.get_trace_propagation_meta.html_safe %>
+  </head>
+
+  <body id="points_body" data-controller="theme" class="gradient-background">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K7B2H38L"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header class="header">
+      <%= render 'shared/top_bar_web' %>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row">
+
+        <!-- Panel de izquierda -->
+        <nav id="sidebarId" class="sidebar glass rounded " data-controller="sidebar-navigation"  style="overflow-y: scroll;max-height: 100%;">
+          <div class="p-1 my-3">
+            <h6 class="text-center">Menú</h6>
+            <nav class="nav flex-column">
+              <%= render 'shared/items_left_side' %>
+            </nav>
+          </div>
+        </nav> 
+        
+        <!-- Contenido -->
+        <div class="content" style="background-color: transparent;">
+          <% if Rails.env.development? && request.host == 'localhost' %>
+             <%#= render 'shared/debug_data' %>
+          <% end %>
+
+          <div class="main-card mx-1 px-1  mx-lg-2 px-lg-4 " style="min-height: 85dvh;" >
+            <div class="my-2">
+              <%= render 'shared/page_title' %>
+            </div>
+
+            <div id="flash" class="flash">
+              <%= render partial: 'layouts/messages' %>
+            </div>
+
+            <%= yield %>
+          </div>
+
+        </div>
+
+        <%= render 'shared/bottom_bar_app' %>
+
+      </div>
+    </div>
+  </body> 
+
+</html>
+
+
+<script defer type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function() {
+    activeLink()
+  });
+
+  function activeLink(){
+    const sidebar = document.getElementById('sidebarId');
+    const isMobile = window.innerWidth<= 768;
+    if (isMobile) {
+      sidebar.classList.remove('active');
+      sidebar.classList.add('collapsed');
+    } else {
+      sidebar.classList.remove('collapsed');
+      sidebar.classList.add('active');
+    }
+  }
+
+  document.querySelector('.sidebar-toggle').addEventListener('click', function () {
+    const sidebar = document.getElementById('sidebarId');
+    const isMobile = window.innerWidth <= 768;
+
+    // Get current state
+    const currentState = sidebar.classList.contains('active') ? 'active' : 'collapsed';
+    const newState = currentState === 'active' ? 'collapsed' : 'active';
+
+    // Remove existing classes
+    sidebar.classList.remove('active', 'collapsed');
+
+    // Add new state class
+    sidebar.classList.add(newState);
+
+    // Save to localStorage for persistence
+    localStorage.setItem('sidebarState', newState);
+
+    // For mobile, also handle overlay if needed
+    if (isMobile) {
+      // You could add overlay logic here if needed
+      // For now, the CSS transform handles the show/hide
+    }
+  });
+
+
+  document.addEventListener('show.bs.modal', function (e) {
+    const modal = e.target; // Modal que se está mostrando
+    if (modal) {
+      document.body.appendChild(modal); // Asegúrate de que esté al final del body
+    }
+  });
+
+  document.addEventListener('shown.bs.modal', function (e) {
+    const modal = e.target;
+    if (modal) {
+      modal.classList.add('show'); // Asegúrate de que la clase `show` se aplica suavemente
+    }
+  });
+
+ 
+
+</script>

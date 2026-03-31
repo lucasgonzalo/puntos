@@ -1,0 +1,3 @@
+<%= turbo_stream.replace("show_person_qr", partial: 'qr_branches/result_person', locals: {person: @person, company: @company}) %>
+<%= turbo_stream.replace("show_customer_qr", partial: 'qr_branches/customer', locals: {person: @person,customer: @customer, company: @company, branch: @branch}) %>
+

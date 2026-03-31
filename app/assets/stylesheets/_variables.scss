@@ -1,0 +1,187 @@
+// CSS Custom Properties for Theme System (NOT only colors)
+:root {
+    --red-brand: #e20813;
+    --red-brand-lighten: #dd242d;
+    --gray-brand: #626061;
+
+    --background-1-light: #fdfdfd;
+    --background-2-light: #eaeaea;
+
+  // shared mode colors(default)
+
+    --bs-nav-link-color: var(--red-brand);
+    --bs-nav-link-hover-color: var(--red-brand) !important;
+  
+  // Light mode colors (default)
+  --theme-bg-primary: var(--background-1-light);
+  --theme-bg-secondary: #8f483a;
+  --theme-bg-sidebar: var(--background-1-light);
+  --theme-bg-header: #afff8c;
+  --theme-bg-card: #f5f5f5;
+  
+  // Bootstrap primary color overrides - Light mode
+  --bs-primary: #fa6666;
+  --bs-primary-rgb: #fb6b6b !important;
+  --bs-primary-bg: #f86565;
+  --bs-primary-text: #212529;
+  --bs-primary-border: #fe8686;
+
+  --theme-text-primary: #212529; //mayoria del texto, no filas de datatables(si externo del datatable)
+  --theme-text-secondary: #7a6c7d;
+  --theme-text-sidebar: #000000; // algunas letras en menu lateral y en menu superior(botones)
+  --theme-text-header: #212529;
+  --theme-text-muted: #6c757d;
+  
+  --theme-border-color: #e4e4e4; // borde de las cards
+  --theme-border-light: #ffb4f9;
+  
+  // Bootstrap button colors - Light mode
+  --btn-primary-bg: #f50000;
+  --btn-primary-border: #fb4040;
+  --btn-primary-hover: #ec2a2a;
+  --btn-primary-color: #ffffff;  // White text on red
+  
+  --btn-success-bg: #198754;
+  --btn-success-border: #198754;
+  --btn-success-hover: #157347;
+  --btn-success-color: #ffffff;  // White text on green
+  
+  --btn-danger-bg: #f53346;
+  --btn-danger-border: #e21529;
+  --btn-danger-hover: var(--red-brand);
+  --btn-danger-color: #ffffff;  // White text on red
+  --btn-danger-outline-color: var(--red-brand);  // White text on red
+  
+  --btn-warning-bg: #ffc107;
+  --btn-warning-border: #ffc107;
+  --btn-warning-hover: #ffca2c;
+  --btn-warning-color: #000000;  // Black text on yellow
+  
+  --btn-info-bg: #0d95f0;
+  --btn-info-border: #0d8af0;
+  --btn-info-hover: #319bf2;
+  --btn-info-color: #ffffff;  // Black text on light blue
+  
+  --btn-light-bg: #f8f9fa;
+  --btn-light-border: #f8f9fa;
+  --btn-light-hover: #d3d4d5;
+  --btn-light-color: #000000;  // Black text on light gray
+  
+  --btn-dark-bg: #212529;
+  --btn-dark-border: #212529;
+  --btn-dark-hover: #424649;
+  --btn-dark-color: #ffffff;  // White text on dark gray
+  
+  // Form colors
+  --form-bg: #ffffff;
+  --form-border: #ced4da;
+  --form-focus-border: #86b7fe;
+  --form-text: #212529;
+  --form-placeholder: #6c757d;
+  
+  // Sidebar specific (same in dark)
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 100px;
+  --sidebar-transition: transform 0.3s ease, width 0.3s ease;
+  
+  // Header height
+  --header-height: 75px;
+  
+  // Glassmorphism
+  --glass-bg-light: rgba(255, 255, 255, 0.5);
+  --glass-bg-dark: rgba(30, 30, 30, 0.5);
+  --glass-border-light: rgba(255, 255, 255, 0.3);
+  --glass-border-dark: rgba(255, 255, 255, 0.1);
+  --glass-shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --glass-shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --glass-backdrop: blur(15px);
+}
+
+[data-theme="dark"] {
+  // Dark mode colors
+  --theme-bg-primary: #1a1a1a;
+  --theme-bg-secondary: #2d3748;
+  --theme-bg-sidebar: #222222;
+  --theme-bg-header: #2d3748;
+  --theme-bg-card: #13181f;
+  
+  // Bootstrap primary color overrides - Dark mode
+  --bs-primary: #1a1a1a;
+  --bs-primary-rgb: 26, 26, 26;
+  --bs-primary-bg: #1a1a1a;
+  --bs-primary-text: #ffffff;
+  --bs-primary-border: #1a1a1a;
+  
+  --theme-text-primary: #ffffff;
+  --theme-text-secondary: #a0aec0;
+  --theme-text-sidebar: #ffffff;
+  --theme-text-header: #ffffff;
+  --theme-text-muted: #718096;
+  
+  --theme-border-color: #4a5568;
+  --theme-border-light: #2d3748;
+
+  // Glassmorphism
+  --glass-bg-light: rgba(30, 30, 30, 0.8);
+  --glass-border-light: rgba(255, 255, 255, 0.1);
+  --glass-shadow-light: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  // Bootstrap button colors - Dark mode
+  --btn-primary-bg: var(--red-brand);
+  --btn-primary-border: var(--red-brand);
+  --btn-primary-hover: var(--red-brand-lighten);
+  --btn-primary-color: #efefef;  // light text on red button
+  
+  --btn-success-bg: #0e3f20;
+  --btn-success-border: #034e1e;
+  --btn-success-hover: #054a1f;
+  --btn-success-color: #ffffff;  // Keep white text on dark green
+  
+  --btn-danger-bg: #ef4444;
+  --btn-danger-border: #ef4444;
+  --btn-danger-hover: var(--red-brand);
+  --btn-danger-color: #ffffff;  // Keep white text on dark red
+  --btn-danger-outline-color: #ffffff;  // White text on red
+  
+  --btn-warning-bg: #f59e0b;
+  --btn-warning-border: #f59e0b;
+  --btn-warning-hover: #d97706;
+  --btn-warning-color: #000000;  // Keep black text on orange
+  
+  --btn-info-bg: #0d95f0;
+  --btn-info-border: #0d8af0;
+  --btn-info-hover: #319bf2;
+  --btn-info-color: #ffffff;  // Switch to white text on dark blue
+
+  
+  --btn-light-bg: #4a5568;
+  --btn-light-border: #4a5568;
+  --btn-light-hover: #2d3748;
+  --btn-light-color: #ffffff;  // Switch to white text on dark gray
+  
+  --btn-dark-bg: #718096;
+  --btn-dark-border: #718096;
+  --btn-dark-hover: #4a5568;
+  --btn-dark-color: #ffffff;  // Keep white text on medium gray
+  
+  // Form colors - Dark mode
+  --form-bg: #2d3748;
+  --form-border: #4a5568;
+  --form-focus-border: #63b3ed;
+  --form-text: #ffffff;
+  --form-placeholder: #a0aec0;
+  
+  // Sidebar specific (same in dark)
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 100px;
+  --sidebar-transition: transform 0.3s ease, width 0.3s ease;
+  
+  // Header height (same in dark)
+  --header-height: 70px;
+  
+  // Gradient background colors - Dark mode
+  --gradient-start-dark: #000000;
+  --gradient-end-dark: #8b0000;
+  
+}
+

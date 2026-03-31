@@ -1,0 +1,2 @@
+$('#return_state').empty()
+$('#return_state').append(`<%= collection_select(:state_id, :id, states, :id, :name,{prompt:'Seleccione Provincia'}, {id: 'state_id', class: 'form-select form-control', onChange: 'changeState(this)' } ) %>`)

@@ -1,0 +1,39 @@
+<tr>
+  <td>
+    <p class="m-0 d-inline-block align-middle">
+      <a href="apps-ecommerce-products-details.html" class="text-body fw-semibold"><%= value_type=="points" ? "Cantidad de Puntos" : "Importe descontado" %></a>
+      <br>
+        <% if type ==:sale || type == :sale_annulment %>
+          <small><%= value_type=="points" ? "Conversion del" : "Descuento del" %> <%= l Time.now, :format => "%A" %> de 
+          <%= value_type=="points" ? number_with_precision(@conversion, precision: 2, separator: ',', delimiter: '.') : number_to_percentage(@discount, precision: 2, separator: ',')%></small>
+        <% end %>
+    </p>
+  </td>
+
+  
+  <td class="text-end">
+    <% if value_type=="points" %>
+      <% if type == :exchange_annulment %>
+        <%= form.text_field :points, 
+        class: "form-control", 
+        placeholder:"Ingrese points", 
+        value: movement.try(:points), 
+        readonly: type!=:exchange %>
+      <% else %>
+        <%= form.text_field :points, 
+        class: "form-control", 
+        placeholder:"Ingrese points", 
+        data:{companySetting_target: "points", action: "keyup->companySetting#exchange_method"}, 
+        readonly: type!=:exchange %>
+      <% end %>
+    <% else %>
+       <%= form.number_field :amount_discounted, 
+      class: "form-control", 
+      step: :any, 
+      data:{companySetting_target: "importDiscounted"}, 
+      readonly: true%>
+    <% end %>
+  </td>
+</tr>  
+
+

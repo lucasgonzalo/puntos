@@ -1,0 +1,57 @@
+<!-- CANTIDAD DE TRANSACCIONES -->
+<%# The problem is a mismatch between chart libraries:
+1. What's installed: ApexCharts gem and loaded via CDN (line 25 in _header.html.erb)
+2. What's being used: Chartkick helpers (column_chart, pie_chart) in the partials
+3. What's missing: Chartkick gem and its dependencies (Chart.js)
+In importmap.rb:37-38, Chartkick is commented out:
+# pin "chartkick", to: "chartkick.js"
+# pin "Chart.bundle", to: "Chart.bundle.js"
+In Gemfile:59, only ApexCharts is installed:
+gem 'apexcharts'
+Why it fails sometimes
+When transactions_and_points loads first, it tries to use Chartkick helpers that reference non-existent JavaScript, causing the Turbo frame for customer_graphs to fail when it loads later. The execution order and Turbo's caching create inconsistent behavior.
+Recommended Solution
+Replace Chartkick with ApexCharts since ApexCharts is already installed and loaded. This involves:
+1. Remove Chartkick calls from partials
+2. Create ApexCharts equivalents using existing helper methods
+3. Add Stimulus controllers for chart initialization
+Alternative: Install Chartkick properly if you prefer keeping the current code structure.%>
+
+  <div class="row">
+    <div class="col-xl-6">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h4 class="header-title">CANTIDAD DE TRANSACCIONES</h4>
+          <% series = [{name: "Transacciones", data: get_transaction_count(@movements) } ] %>
+          <% options = {
+            xtitle: 'Meses',
+            ytitle: 'Cantidad de Transacciones',
+            stacked: true
+          } %>
+          <%= column_chart(series, {**options, theme: 'palette4'}) %>
+        </div>
+      </div>
+    </div>
+
+<!-- PUNTOS OTORGADOS Y CANJEADOS -->
+    <div class="col-xl-6">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h4 class="header-title">PUNTOS OTORGADOS Y CANJEADOS</h4>
+          <% series = [{
+            name: "Puntos", 
+            data: {
+              "Puntos Otorgados"=> get_four_mounth_awarded_points(@movements),
+              "Puntos Canjeados"=> get_four_mounth_excheange_points(@movements)
+            }
+          }]%>
+          <% options = {
+            xtitle: 'Tipo de puntos',
+            ytitle: 'Cantidad de Puntos',
+            stacked: true
+          } %>
+          <%= column_chart(series, {**options, theme: 'palette4'}) %>
+        </div>
+      </div>
+    </div>
+  </div>

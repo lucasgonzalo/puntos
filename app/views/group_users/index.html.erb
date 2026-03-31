@@ -1,0 +1,42 @@
+<%= set_page_title("Usuarios de Entidad") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <% if (can? :create, GroupUser.new) %>
+              <%= link_to 'Nueva Usuario Entidad', new_group_user_path(group_id: @group.id), class: "btn btn-primary" %>
+            <% end %>
+          </div>
+
+          <div class=" rounded shadow p-2">
+            <table id="companies-table" class="table table-striped dt-responsive nowrap ">
+              <thead>
+                <tr>
+                  <th>E-mail</th>
+                  <th>Nombre</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @group_users.each do |group_user| %>
+                  <tr>
+                    <td class="p-3"><%= group_user.user.email %></td>
+                    <td class="p-3"><%= group_user.user.full_name %></td>
+                    <td>
+                      <%= link_to 'Eliminar', group_user, method: :delete, class: 'btn btn-outline-danger', data: { confirm: 'Esta seguro?' } if can? :update, group_user %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%= link_to 'Volver', groups_path, class: "btn btn-secondary m-4" %>
+  </div>
+</div>

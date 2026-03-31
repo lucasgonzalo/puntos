@@ -1,0 +1,60 @@
+<p style="color: green"><%= notice %></p>
+<!-- lib/templates/erb/scaffold/index.html.erb.tt -->
+
+<% set_page_title("Catálogos") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <% if @catalogs.exists? && (can? :create, Catalog.new) %>
+              <%= link_to 'Nuevo Catálogo', new_catalog_path, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+
+          <% if @catalogs.any? %>
+            <div class=" rounded shadow p-2">
+              <%= render 'list' %>
+            </div>
+          <% else %>
+            <div class=" rounded shadowitems-center">
+              <div class="flex-1 text-center">
+                <p class="text-xl font-semibold mb-4">No hay datos</p>
+                <%= link_to 'Nuevo Catálogo', new_catalog_path, class: "btn btn-primary mb-3" if can? :create, Catalog.new %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <% if @logged_admin %>
+          <div class="card-body">
+            <h5>Catalogos Activos por entidad - Tipo Grupo</h5>
+            
+            <div class=" rounded shadow p-2">
+              <% Group.where(account_type: :group).each do |group| %>
+                <%= " * #{group.name} - CATALOGO: #{group.catalogs.last.name} - catalog_id:#{group.catalogs.last.id} " if group.catalogs.any?%>
+                <br>
+              <% end %>
+            </div>
+            <hr>
+            <h5>Catalogos Activos por entidad+compañia - Tipo Comercio</h5>
+            <div class=" rounded shadow p-2">
+               <% Group.where(account_type: :store).each do |group| %>
+                  <% group.companies.each do |company| %>
+                    <% catalog = Catalog.where(group: group, company: company).last %>
+                    <% if catalog %>
+                       <%= " * Group:#{group.name}, Company: #{company.name} - CATALOGO: #{catalog.name} - catalog_id:#{catalog.id} " %>
+                       <br>
+                    <% end %>
+                  <% end %>
+               <% end %>
+                <br>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

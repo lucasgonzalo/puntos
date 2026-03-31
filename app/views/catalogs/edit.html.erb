@@ -1,0 +1,11 @@
+<% content_for :title, "Editing catalog" %>
+
+<h1>Actualizar Catálogo</h1>
+
+<%= render "form", catalog: @catalog %>
+
+<br>
+
+<div>
+  <%= link_to "Volver", :back, class: 'btn btn-secondary' %>
+</div>

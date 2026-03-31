@@ -1,0 +1,29 @@
+<!-- lib/templates/erb/scaffold/index.html.erb.tt -->
+
+<% set_page_title("Lista de Movimientos") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2">
+          <!-------------------Creacion de Movimiento--------------------------->
+          <% if (can? :create, Movement.new) && !current_user.group_owner_role? %>
+            <%= link_to 'Nuevo Movimiento', new_movement_path, class: "btn btn-primary" %>
+          <% end %>
+          <br/><br/><br/>
+
+          <!-------------------Filtros de Movimiento--------------------------->
+          <div class="flexitems-center mb-4">
+            <%= render 'filter_movements'%>
+          </div>
+
+          <!-------------------Tabla de Movimientos--------------------------->
+          <section id="table-movements" data-turbo-cache="<%= @cache_key %>">
+            <%= render 'table_movements', movements: @movements %>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

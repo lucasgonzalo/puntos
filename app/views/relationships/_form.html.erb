@@ -1,0 +1,16 @@
+<!-- lib/templates/erb/scaffold/_form.html.erb.tt -->
+
+<%= form_with(model: relationship) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+  <div class="row g-2">
+    <div class="form-floating mb-3 col-md-12">
+        <%= form.text_field :name, class: "form-control input-lg", placeholder: "Nombre" , required: true %>
+        <%= form.label :name, for: "floatingInput"%>
+        <div class="valid-feedback">Correcto!</div>
+        <div class="invalid-feedback">Ingrese una Código de País</div>
+    </div>
+  </div>
+  <div class="justify-between items-center">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>

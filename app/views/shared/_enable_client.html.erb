@@ -1,0 +1,24 @@
+
+<button  type="button" class="btn btn-<%= activate==false ? 'danger' : 'success' %>" data-bs-toggle="modal" data-bs-target="#danger-header-modal">
+    <%= activate==false ? 'Desactivar Cliente' : 'Activar Cliente' %>
+</button>
+
+<div id="danger-header-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="danger-header-modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header modal-colored-header bg-<%= activate==false ? 'danger' : 'success' %>">
+        <h4 class="modal-title" id="danger-header-modalLabel">
+          Confirme <%= activate==false ? 'desactivación' : 'activación' %>
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+      </div>
+      <div class="modal-body">
+          ¿Confirma la <%= activate==false ? 'desactivación' : 'activación' %> de este registro?
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+          <%= button_to activate==false ? "Desactivar" : "Activar" , activate_customer_path(id: element, activate: activate), class: activate==false ? 'btn btn-danger' : 'btn btn-success' %>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

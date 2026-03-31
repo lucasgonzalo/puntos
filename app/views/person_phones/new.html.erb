@@ -1,0 +1,17 @@
+<% set_page_title("Nuevo Teléfono") %>
+
+<div class="row">
+  <div class="col-12 card">
+    <div class="card-body">
+      <div class="m-2 col-12">
+        <div class="container mx-auto my-8 px-4">
+          <div class="max-w-xl mx-auto">
+            <%= render 'form', person_phone: @person_phone, person: @person, customer: @customer %>
+          </div>
+        </div>
+
+        <%= link_to 'Volver', !@customer.blank? ? @customer : @person , class: "btn btn-secondary m-4" %>
+      </div>
+    </div>
+  </div>
+</div>

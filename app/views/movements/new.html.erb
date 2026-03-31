@@ -1,0 +1,20 @@
+<!-- lib/templates/erb/scaffold/edit.html.erb.tt -->
+
+<% set_page_title("Nuevo Movimiento") %>
+
+
+
+  <div class="card">
+    <div class="card-body p-0 m-0">
+      <div class="m-2 col-12">
+        <div class="container mx-auto my-8 px-md-4">
+          <div class="max-w-xl mx-auto">
+            <%= render partial: 'movements/form', locals: { movement: @movement, company: @company, branch: @branch} %>
+          </div>
+        </div>
+
+        <%#= link_to 'Volver', movements_path, class: "btn btn-info m-4" %>
+      </div>
+    </div>
+  </div>
+

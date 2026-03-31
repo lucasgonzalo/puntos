@@ -1,0 +1,32 @@
+
+<%= turbo_frame_tag 'form' do %>
+  <div class="row col-6">
+    <%= form_with(model: post, id: dom_id(post), data_turbo: true, local: false) do |form| %>
+      <% if post.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+          <ul>
+            <% post.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-floating mb-3">
+        <%= form.text_field :title, class: "form-control", placeholder: "Title" %>
+        <%= form.label :title %>
+      </div>
+
+      <div class="form-floating mb-3">
+        <%= form.text_area :content, class: "form-control", placeholder: "Content" %>
+        <%= form.label :content %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit "Submit", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

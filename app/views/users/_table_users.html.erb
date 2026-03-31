@@ -1,0 +1,23 @@
+   
+<div class=" rounded shadow p-2">
+  <table id="users-table" class="table table-striped dt-responsive nowrap ">
+    <thead>
+      <tr>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Apellido</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Nombre</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Email</th>
+      </tr>
+    </thead>
+    <tbody>  
+      <% users.order(:last_name).each do |user| %>
+        <tr class="group border-t border-gray-400 hover:bg-gray-100">
+          <td class="p-3"><%= user.last_name %></td>
+          <td class="p-3"><%= user.first_name %></td>
+          <td class="p-3"><%= user.email %></td>   
+        </tr> 
+      <%end%>
+    </tbody>
+  </table>
+</div>
+
+<%#= render partial: 'layouts/index_js' %>

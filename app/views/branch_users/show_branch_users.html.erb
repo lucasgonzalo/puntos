@@ -1,0 +1,70 @@
+
+<% set_page_title("Empleados de #{@branch.name}") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+
+          <%  if (can? :create, BranchUser) %>
+            <%= link_to 'Agregar',form_employee_path(branch_id: @branch.id), class: "btn btn-primary my-2" %>
+          <% end %>
+
+          <!----------------------------- Tabla --------------------------------------------->
+          <section id="table-users">
+            <div class=" rounded shadow p-2">
+              <table id="basic-datatable" class="table table-striped dt-responsive nowrap ">
+                <thead>
+                <tr>
+                    <th class="p-3 uppercase text-left text-xs text-gray-700">Rol</th>
+                    <th class="p-3 uppercase text-left text-xs text-gray-700">Activar/Desactivar</th>
+                    <th class="p-3 uppercase text-left text-xs text-gray-700">Nombre</th>
+                    <th class="p-3 uppercase text-left text-xs text-gray-700">Apellido</th>
+                    <th class="p-3 uppercase text-left text-xs text-gray-700">Email</th>
+                    <th class="p-3 uppercase text-left text-xs text-gray-700">Comercio / Sucursal</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <!-------------------------Me fijo si hay condicion de Sucursal------------------------------>
+                  <% get_cond_branches(@branch.company, @branch.id).each do |branch| %>
+                    <!-------------------------Me fijo si los usuarios tienen alguna condicion------------------------------>
+                    <% if !branch.branch_users.blank? %>
+                      <% branch.branch_users.order(id: :desc).each do |branch_user| %>
+                        <tr class="group border-t border-gray-400 hover:bg-gray-100">
+                          <td class="p-3"><%= get_role_branch_user(branch_user) %></td>
+                          <!--<td class="p-3"><%#= get_active_branch_user(branch_user) %></td>-->
+                          <td class="p-3">
+                            <turbo-frame id="active_<%= branch_user.id %>">
+                              <%= button_to (branch_user.active ? 'Activado' : 'Desactivado'), toggle_active_branch_user_path(branch_user), method: :patch, params: { active: !branch_user.active }, class: "btn btn-sm btn-#{branch_user.active ? 'success' : 'danger'}", data: { turbo: true }, title:"#{branch_user.active ? '¿Desactivar?' : '¿Activar?'}" %>
+                            </turbo-frame>
+                          </td>
+                          <td class="p-3"><%= branch_user.user.first_name %></td>
+                          <td class="p-3"><%= branch_user.user.last_name %></td>
+                          <td class="p-3"><%= branch_user.user.email %></td>
+                          <td class="p-3"><%= branch.company.name + " / " + branch.name%></td>
+                        </tr>
+                      <%end%>
+                    <% else %>
+                      <td colspan="10">No se encontraron empleados registrados</td>
+                    <% end %>
+                  <%end%>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <div class="d-flex bd-highlight mt-4">
+            <div class="p-2 bd-highlight">
+              <%= link_to @branch.company, class: "btn btn-secondary" do %>
+                <i class="mdi mdi-arrow-left me-1"></i>
+                Volver
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%#= render partial: 'layouts/index_js' %>

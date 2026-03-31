@@ -1,0 +1,51 @@
+<!-------------------------Excel------------------------------>
+<% unless current_user.role_on_branch?(:intermediate_role, @current_branch) %>
+  <div class="row">
+    <div class="col-12">
+      <div class="float-end">
+        <%= form_with url: excel_customers_path(format: "xlsx"), method: :post, class: "d-inline" do |form| %>
+          <%= form.hidden_field :customers, value: @customers.map(&:id).join(",") %>
+          <%= form.button type: "submit", class: "btn btn-success pull-right" do %>
+            <i class="mdi mdi-file-excel pr-1"></i> Excel
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <% end %>
+
+<!-------------------------Tabla------------------------------>
+
+<div class="table-responsive  rounded shadow p-2">
+  <table id="customers-table" class="table table-striped dt-responsive nowrap ">
+    <thead>
+      <tr>
+        <th>Comercio</th>
+        <th>Cliente</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+        <!--<th>Fecha carga</th>-->
+      </tr>
+    </thead>
+
+    <tbody>
+      <% customers.each do |customer| %>
+        <tr class="group border-t border-gray-400 hover:bg-gray-100">
+          <td><%= customer.company.name %></td>
+          <td><%= customer.person.full_name %> (<%= customer.person.full_document %>)</td>
+          <td><%= get_badges_customer(customer) %></td>
+          <td>
+            <%= link_to 'Ver', customer, class: "btn btn-outline-danger" if can? :read, customer %>
+            <%= link_to 'Editar', edit_customer_path(customer), class: "btn btn-outline-danger" if can? :edit, customer %>
+            <%= link_to 'Cta. Cte.', current_account_path(customer), class: "btn btn-outline-danger" if can? :read, customer %>
+          </td>
+          <!--<td><%#= datetime_in_time_zone(customer.created_at) %></td>-->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%#= render partial: 'layouts/index_js' %>
+

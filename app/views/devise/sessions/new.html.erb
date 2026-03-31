@@ -1,0 +1,83 @@
+<%= content_for :body_class, "loading authentication-bg" %>
+
+<div class="account-pages d-flex align-items-center justify-content-center vh-100 " >
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xxl-4 col-lg-5">
+        <div class="card">
+          <!-- Logo -->
+          <div class="card-header pt-4 pb-4 text-center bg-primary">
+            <a href="<%= root_url %>">
+              <span>
+                <%= image_tag image_url('logos/imagotipo-red.webp'), alt: '',  height: '', width: '300', class: 'mw-100 ' %>
+              </span>
+            </a>
+          </div>
+
+          <div class="card-body p-4">
+            <div class="text-center m-auto">
+                <h4 class="text-center mt-0 fw-bold">Iniciar sesión</h4>
+                <p class="text-muted mb-4">Ingresá con tu e-mail y contraseña.</p>
+            </div>
+
+            <%= render partial: 'layouts/messages' %>
+
+            <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+              <div class="mb-3">
+                <%= f.label :email, class: 'form-label' %>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Ingresá tu e-mail" %>
+              </div>
+
+              <div class="mb-3">
+                  <a href="<%= new_password_path(resource_name) %>" class="text-muted float-end"><small>¿Olvidaste tu contraseña?</small></a>
+                  <%= f.label :password, class: "form-label" %>
+                  <div class="input-group input-group-merge">
+                    <%= f.password_field :password, autocomplete: "current-password", class: "form-control", id:"login_password",
+                     placeholder: "Ingresá tu contraseña" %>
+                    <button type="button" class="btn stay btn-outline-secondary" id="toggle-login-password">
+                      <i class="mdi mdi-eye-off"></i>
+                    </button>
+                  </div>
+              </div>
+
+              <% if devise_mapping.rememberable? %>
+                <div class="mb-3 mb-3">
+                  <div class="form-check">
+                    <%= f.check_box :remember_me, class: 'form-check-input', checked: 'checked' %>
+                    <%= f.label :remember_me, class: "form-check-label" %>
+                  </div>
+                </div>
+              <% end %>
+
+              <div class="mb-3 mb-0 text-center">
+                <%= f.submit "Iniciar sesión", class: "btn btn-primary" %>
+              </div>
+            <% end %>
+          </div> <!-- end card-body -->
+        </div>
+        <!-- end card -->
+      </div> <!-- end col -->
+    </div>
+  </div>
+  <!-- end container -->
+</div>
+<!-- end page -->
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const togglePassword = document.getElementById('toggle-login-password');
+    const passwordField = document.getElementById('login_password');
+
+    if (togglePassword && passwordField) {
+      togglePassword.addEventListener('click', function () {
+        const type = passwordField.type === 'password' ? 'text' : 'password';
+        passwordField.type = type;
+
+        // Cambiar el icono del botón
+        this.innerHTML = type === 'password'
+          ? '<i class="mdi mdi-eye"></i>'
+          : '<i class="mdi mdi-eye-off"></i>';
+      });
+    }
+  });
+</script>

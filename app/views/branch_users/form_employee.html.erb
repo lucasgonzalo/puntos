@@ -1,0 +1,185 @@
+<h3>Agrega empleado a <%= @entity_current_branch.name %> del comercio <%= @entity_current_company.name %> </h3>
+
+<%= form_with(url: add_or_create_employee_path, html: {class: 'needs-validation' }, method: :post) do |form| %>
+  <%= form.hidden_field :branch_id, value: @entity_current_branch.id %>
+  <%= form.hidden_field :active, class: "form-check-input", checked: true %>
+  <%= form.hidden_field :create_user, value: "modify_existing", id: "hidden_create_user" %>
+
+  <div class="mb-3 col-md-6">
+    <label for="employee_action_type" class="form-label">Seleccione una acción:</label>
+    <select class="form-select" 
+            id="employee_action_type"
+            onchange="updateHiddenField(this.value), toggleFields()"
+            required>
+      <option value="modify_existing">Buscar empleado existente</option>
+      <option value="create_new">Crear nuevo empleado</option>
+    </select>
+    <div class="invalid-feedback">
+      Por favor seleccione una acción.
+    </div>
+  </div>
+
+  <div id="existing_employee_fields" >
+
+    <!-- Vista (formulario) -->
+    <div class="form-floating mb-3 col-md-6" data-controller="searchable-select">
+      <!-- Campo oculto para almacenar el valor seleccionado -->
+      <%= form.hidden_field :user_id, data: { "searchable-select-target" => "hiddenField" } %>
+      
+      <!-- Input de búsqueda visible -->
+      <input type="text" 
+            class="form-control" 
+            placeholder="Buscar usuario..."
+            data-searchable-select-target="searchInput"
+            data-action="input->searchable-select#search focus->searchable-select#showDropdown"
+            required>
+      
+      <%= form.label :user_id, 'Usuario', class: "form-label" %>
+      
+      <!-- Lista desplegable de opciones -->
+      <div class="dropdown-menu " data-searchable-select-target="dropdown" style="max-height: 200px; overflow-y: auto;">
+        <% @entity_current_company.active_group.branch_users_from_group.each do |user| %>
+          <button type="button" 
+                  class="dropdown-item" 
+                  data-searchable-select-target="option"
+                  data-value="<%= user.id %>"
+                  data-text="<%= user.email %>"
+                  data-action="click->searchable-select#selectOption">
+            <%= user.email %>
+          </button>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="new_employee_fields" style="display: none;">
+    <div class="row g-2">
+      <div class="mb-3 col-md-6">
+        <%= form.label :first_name, 'Nombre/s', class: "form-label" %>
+        <%= form.text_field :first_name, class: "form-control", placeholder:"Ingrese Nombre/s" %>
+      </div>
+      <div class="mb-3 col-md-6">
+        <%= form.label :last_name, 'Apellido/s', class: "form-label" %>
+        <%= form.text_field :last_name, class: "form-control", placeholder:"Ingrese Apellido/s" %>
+      </div>
+    </div>
+
+    <div class="row g-2">
+      <div class="mb-3 col-md-6">
+        <%= form.label :email, 'Email', class: "form-label" %>
+        <%= form.text_field :email, class: "form-control", placeholder:"Ingrese email", pattern:"^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}$" %>
+      </div>
+      <div class="mb-3 col-md-6">
+        <%= form.label :password, 'Contraseña', class: "form-label" %>
+        <% if @minimum_password_length %>
+          <em>(mínimo <%= @minimum_password_length %> caractéres)</em>
+        <% end %><br />
+        <div class="input-group input-group-merge">
+          <%= form.password_field :password, autocomplete: "new-password", class: "form-control", id: "password", placeholder: "Contraseña" %>
+          <button type="button" class="btn btn-outline-secondary" id="toggle-password">
+            <i class="mdi mdi-eye-off"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-check mb-3">
+  <%= form.radio_button :role, "manager", class: "form-check-input", required: true %>
+  <%= form.label :role_manager, 'Rol Gerente Sucursal', class: "form-check-label" %>
+</div>
+<div class="form-check mb-3">
+  <%= form.radio_button :role, "intermediate", class: "form-check-input", required: true %>
+  <%= form.label :role_intermediate, 'Rol Supervisor', class: "form-check-label" %>
+</div>
+<div class="form-check mb-3">
+  <%= form.radio_button :role, "basic", class: "form-check-input", required: true %>
+  <%= form.label :role_basic, 'Rol Básico', class: "form-check-label" %>
+</div>
+
+
+  <div class="justify-between items-center mt-4">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>
+  <div class="d-flex bd-highlight mt-4">
+    <div class="p-2 bd-highlight">
+      <%= link_to 'Volver', show_branch_users_path(branch_id: @entity_current_branch.id) , class: "btn btn-secondary" %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkboxes = document.querySelectorAll('.role-checkbox');
+
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        if (this.checked) {
+          checkboxes.forEach(cb => {
+            if (cb !== this) {
+              cb.checked = false;
+            }
+          });
+        }
+      });
+    });
+
+    // Call on initial load to set the correct state
+    toggleFields();
+  });
+
+  togglePassword = document.getElementById('toggle-password');
+
+  togglePassword.addEventListener('click', function () {
+    passwordField = document.getElementById('password');
+    // Cambiar el tipo de input entre 'password' y 'text'
+    const type = passwordField.type === 'password' ? 'text' : 'password';
+    passwordField.type = type;
+
+    // Cambiar el icono del botón
+    this.innerHTML = type === 'password' 
+      ? '<i class="mdi mdi-eye"></i>' 
+      : '<i class="mdi mdi-eye-off"></i>';
+  });
+
+  // Muestra u oculta seleccion/creacion de empleado
+  function toggleFields() {
+    const employeeActionType = document.getElementById('employee_action_type');
+    const newEmployeeFields = document.getElementById('new_employee_fields');
+    const existingEmployeeFields = document.getElementById('existing_employee_fields');
+    
+    
+    // Get all input fields in new_employee_fields
+    const newFieldInputs = newEmployeeFields.querySelectorAll('input[type="text"], input[type="password"]');
+    const existingEmployeeInputs = existingEmployeeFields.querySelectorAll('input[type="text"], input[type="password"]');
+    
+    if (employeeActionType.value === 'create_new') {
+      // Add required attribute to all inputs in new_employee_fields
+      newFieldInputs.forEach(input => {
+        input.setAttribute('required', '');
+      });
+      existingEmployeeInputs.forEach(input => {
+        input.removeAttribute('required', '');
+      });
+      newEmployeeFields.style.display = 'block';
+      existingEmployeeFields.style.display = 'none';
+    } else { // 'modify_existing'
+      // Remove required attribute from all inputs in new_employee_fields
+      newFieldInputs.forEach(input => {
+        input.removeAttribute('required');
+      });
+      existingEmployeeInputs.forEach(input => {
+        input.setAttribute('required', '');
+      });
+      newEmployeeFields.style.display = 'none';
+      existingEmployeeFields.style.display = 'block';
+    }
+  }
+
+  function updateHiddenField(value) {
+    console.log(value)
+    document.getElementById('hidden_create_user').value = value;
+  }
+
+</script>

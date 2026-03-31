@@ -1,0 +1,75 @@
+
+<% set_page_title(@current_company ? "DATOS DE INTERÉS" : "Administrador - REPORTES") %>
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+  <h4 class="header-title"><%= "Gráficos" %></h4>
+</div>
+
+<%# TURBO CLIENTES MASCULINOS ACTIVOS + CLIENTES FEMENINOS ACTIVOS + ESTADOS DE CLIENTES %>
+<%# Cargar al tope para evitar problemas de js, apexchart vs Chartkick conflicting%>
+<!--
+<% unless @current_branch%>
+  <div class="my-2 p-1">
+    <turbo-frame id="customers_graphs"><%# this way hides the button after the call. %>
+      <%# This loads partial: pages/dashboard_elements/customer_graphs %>
+      <%= link_to "Cargar Graficos de clientes ", load_customers_graphs_path,
+        data: { turbo_frame: "customers_graphs",
+        disable_with: '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Cargando gráficos de clientes...' },
+        class: "btn btn-primary " %>
+    </turbo-frame>
+  </div>
+<% end %>
+-->
+
+<%# CANTIDAD DE TRANSACCIONES + PUNTOS OTORGADOS Y CANJEADOS %>
+<%= render partial: 'pages/dashboard_elements/transactions_and_points' %>
+
+<!-- TOP 10 MEJORES CLIENTES -->
+<div class="row">
+  <% unless @current_branch %>
+    <div class="col-xl-6 col-lg-12 order-lg-2 order-xl-1">
+      <%= render partial: 'pages/dashboard_elements/customer_ranking' %>
+    </div>
+  <% end %>
+
+<!-- TOP 10 MEJORES SUCURSALES -->
+  <div class="col-xl-6 col-lg-12 order-lg-2 order-xl-1">
+    <%= render partial: 'pages/dashboard_elements/branches_ranking' %>
+  </div>
+</div>
+
+<%#  CLIENTES MASCULINOS ACTIVOS + CLIENTES FEMENINOS ACTIVOS + ESTADOS DE CLIENTES %>
+<div class="row">
+  <%= render partial: 'pages/dashboard_elements/customer_graphs' unless @current_branch %>
+</div>
+
+<%# Ejemplos de TurboFrame y Turbo Streams %>
+<% if false %>
+  <div class="my-2 p-1" style="border: 1px solid red;">
+    <h2>Turbo stream example</h2>
+    <p>Requires an extra file like: method_name.turbo_stream.rb (more flexible as it handles appends,etc.) </p>
+    <%= form_with url: update_stream_content_path, data: { turbo_stream: true } do %>
+      <%= submit_tag "Update Content", data: { disable_with: "Updating..." } %>
+    <% end %>
+    <div>Content to update with turbo_stream:</div>
+
+    
+    <div id="stream_content"><!--this id will be looked for update -->
+      <%=  @new_text || "some random text to be updated" %>
+    </div>
+  </div>
+
+  <div class="my-2 p1" style="border: 1px solid blue;">
+    <h2>Turbo frame example</h2>
+    <p>Requires an extra file like:  method_name.html.erb (ideal for on demand render like read heavy element) </p>
+    <%= link_to "Update Content",
+              update_frame_content_path,
+              data: { turbo_frame: "frame_content", disable_with: "updating.." },
+              class: "button" %>  <!-- Style as button via CSS -->
+
+    <div>Content to update with turbo_frame:</div>
+    <turbo-frame id="frame_content">
+      <%= @content || "some random text to be updated" %>
+    </turbo-frame>
+  </div>
+<% end %>

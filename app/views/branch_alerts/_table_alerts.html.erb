@@ -1,0 +1,33 @@
+
+<div class="table-responsive  rounded shadow p-2">
+  <table id="branchalerts-table" class="table table-striped dt-responsive nowrap ">
+    <thead>
+      <tr>
+        <th class="p-3 uppercase text-left text-xs text-gray-700"></th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Categoría</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Estado</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Contenido</th>
+        <th class="p-3 uppercase text-left text-xs text-gray-700">Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% alerts.each do |alert| %>
+        <tr>
+          <td class="p-3"><%= alert.id %></td>
+          <td class="p-3"><%= BranchAlert.categories[alert.category] %></td>
+          <td class="p-3"><%= get_status_alert(alert) %> </td>
+          <td class="p-3"><%= alert.content %></td>
+          <td class="p-3">
+          <%= link_to 'Ver', alert, class: "btn btn-outline-danger", data: {turbo: false} if can? :mark_as_read, Alert %>
+          <%#= link_to 'Descartar', mark_as_read_branch_alerts_path(id: alert), method: :post, class: "btn btn-info" if alert.status_not_read? && (can? :mark_as_read, alert) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%#= render partial: 'layouts/index_js' %>
+
+

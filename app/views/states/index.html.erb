@@ -1,0 +1,23 @@
+<!-- lib/templates/erb/scaffold/index.html.erb.tt -->
+
+<% set_page_title("Provincias") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <% if @states.exists? && (can? :create, State.new) %>
+              <%= link_to 'Nueva Provincia', new_state_path, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+          <%= render 'table_states', states: @states %>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

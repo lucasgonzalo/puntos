@@ -1,0 +1,47 @@
+<br/>
+<div class="row">
+  <div class="col-sm-6 col-md-3">
+    <h3>
+      <span class=" rounded-pill p-1 px-2 badge-secondary-lighten">En Base a Movimientos</span>
+    </h3>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <%= render 'branch_settings/edit_alert_quantity', branch: @branch, attribute: :alert_days do %>
+      CANTIDAD DE DÍAS: <b><%= @branch.alert_days.to_i %></b> 
+    <% end %>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <%= render 'branch_settings/edit_alert_quantity', branch: @branch, attribute: :alert_qty_movements do %>
+      CANTIDAD DE MOVIMIENTOS: <b><%= @branch.alert_qty_movements.to_i %></b> 
+    <% end %>
+  </div>
+</div>
+<br/>
+<div class="col-sm-6 col-md-5">
+  <div class="alert alert-primary" role="alert">
+    <p class="mb-0">
+    Estas alertas son para notificar sobre clientes que realizaron determinada 
+    cantidad de movimientos en un lapso de dias hasta la fecha actual. Se deben cumplir ambas condiciones.</p>
+  </div>
+</div>
+<br/>
+<div class="row">
+  <div class="col-sm-6 col-md-3">
+    <h3>
+      <span class=" rounded-pill p-1 px-2 badge-secondary-lighten">En Base al Monto</span>
+    </h3>              
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <%= render 'branch_settings/edit_alert_quantity', branch: @branch, attribute: :alert_amount do %>
+      MONTO: <b> $<%= @branch.alert_amount.to_f %></b>  
+    <% end %>
+  </div>
+</div>
+<br/>
+<div class="col-sm-6 col-md-5">
+  <div class="alert alert-primary" role="alert">
+    <p class="mb-0">
+    Estas alertas son para notificar sobre clientes que realizaron un movimiento con monto mayor al definido aquí.
+    </p>
+  </div>
+</div>

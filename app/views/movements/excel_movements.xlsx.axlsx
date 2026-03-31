@@ -1,0 +1,50 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  hig_cell = style.add_style(
+    bg_color: "EFC376",
+    border: Axlsx::STYLE_THIN_BORDER,
+    alignment: { horizontal: :center },
+    :format_code => '#.##'
+  )
+
+  wb.add_worksheet(name: "SaleOrders") do |sheet|
+    sheet.add_row
+
+    sheet.add_row ['EXCEL DE MOVIMIENTOS']
+
+    sheet.add_row ['Fecha de emision del reporte:', date_in_time_zone(Time.now)]
+    sheet.add_row ['Hora de emision del reporte:', time_in_time_zone(Time.now)]
+    sheet.add_row
+
+    sheet.add_row [
+      'Fecha', 
+      'Cliente',
+      'Persona',
+      'DNI',
+      'Comercio', 
+      'Sucursal', 
+      'Tipo', 
+      'Importe', 
+      'Puntos',
+      'Carga'
+    ],
+    style: [hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell]
+    
+    unless @movements.blank?
+      @movements.each do |movement|
+        sheet.add_row [
+          datetime_in_time_zone(movement.created_at),
+          movement.customer&.full_name,
+          movement.person&.full_name,
+          movement.person&.full_document,
+          movement.branch&.company&.name,
+          movement.branch&.name,
+          Movement.movement_types[movement.movement_type],
+          number_to_currency(movement.amount),
+          number_with_precision(movement.points, precision: 0),
+          movement.user&.full_name
+        ]             
+      end
+    end 
+  end
+end

@@ -1,0 +1,100 @@
+<% if !@logged_admin && !@current_company.blank? %>
+  <div class="card mb-3">
+      <div class="card-body">
+        <h4 class="header-title">TOP 10 MEJORES SUCURSALES</h4>
+        
+        <ul class="nav nav-tabs nav-bordered mb-3">
+          <li class="nav-item">
+            <a href="#monthly_view_branches" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                Vista Mensual
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#historical_view_branches" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
+                Vista Historica
+            </a>
+          </li>
+        </ul> <!-- end nav-->
+
+        <div class="tab-content">
+          <div class="tab-pane show active" id="monthly_view_branches">
+            <table class="table table-centered table-nowrap table-hover mb-0">
+              <tbody>
+                <% get_monthly_top_ten_branches(@company).each do |branch| %>
+                  <tr>
+                    <td><h5 class="font-14 my-1 fw-normal"><%= branch.company.name %></h5></td>
+                    <td><h5 class="font-14 my-1 fw-normal"><%= branch.name %></h5></td>
+                    <td><%= number_to_currency(branch.get_monthly_pesos_balance_amount) unless @current_branch && !current_user.company_owner_role?%></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div> <!-- end preview-->
+        
+          <div class="tab-pane" id="historical_view_branches">
+            <table class="table table-centered table-nowrap table-hover mb-0">
+              <tbody>
+                <% get_history_top_ten_branches(@company).each do |branch| %>
+                  <tr>
+                    <td><h5 class="font-14 my-1 fw-normal"><%= branch.company.name %></h5></td>
+                    <td><h5 class="font-14 my-1 fw-normal"><%= branch.name %></h5></td>
+                    <td><%= number_to_currency(branch.get_history_pesos_balance_amount) unless @current_branch && !current_user.company_owner_role? %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div> <!-- end preview code-->
+        </div> <!-- end tab-content-->
+      </div> <!-- end card body-->
+  </div>
+
+<%else %>
+
+<!-- TOP 10 MEJORES COMERCIOS  (ADMINISTRADOR) -->
+      
+    <div class="card mb-3">
+      <div class="card-body">
+        <h4 class="header-title">TOP 10 MEJORES COMERCIOS</h4>
+        <ul class="nav nav-tabs nav-bordered mb-3">
+          <li class="nav-item">
+            <a href="#monthly_view_branches" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                Vista Mensual
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#historical_view_branches" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
+                Vista Historica
+            </a>
+          </li>
+        </ul> <!-- end nav-->
+        <div class="tab-content">
+            <div class="tab-pane show active" id="monthly_view_branches">
+              <table class="table table-centered table-nowrap table-hover mb-0">
+                <tbody>
+                  <% get_monthly_top_ten_companies.each do |company| %>
+                    <tr>
+                      <td><h5 class="font-14 my-1 fw-normal"><%= company.name %></h5></td>
+                      <td><%= number_to_currency(company.get_monthly_company) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div> <!-- end preview-->
+        
+            <div class="tab-pane" id="historical_view_branches">
+              <table class="table table-centered table-nowrap table-hover mb-0">
+                <tbody>
+                  <% get_history_top_ten_companies.each do |company| %>
+                    <tr>
+                      <td><h5 class="font-14 my-1 fw-normal"><%= company.name %></h5></td>
+                      <td><%= number_to_currency(company.get_history_company) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div> <!-- end preview code-->
+        </div> <!-- end tab-content-->
+      </div> <!-- end card body-->
+    </div>
+      
+  <% end %>

@@ -1,0 +1,47 @@
+
+<!----------------------------Busqueda de Cliente------------------------------>
+<div class="container-fluid d-flex flex-column justify-content-center align-items-center" >
+  <div class="row my-2 py-2">
+      <h3>Buscar persona</h3>
+      <%= turbo_frame_tag "person_search_form", data: { turbo: true } do %>
+        <%= render partial: 'search_person/form_search', locals: { company: company, branch: branch }%>
+        <%# The form inside goes to cutomers_controller/search_person_customer %>
+        <%# according to controller and params it can go to 5 different turbo stream files %>
+      <% end %>
+  </div> 
+</div> 
+
+<!----------------------------Resultado de Busqueda------------------------------>
+<%= turbo_frame_tag "customer_new_link", data: { turbo: true } %>
+<br/>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  <div class="col">
+    <%= turbo_frame_tag "person_search_result", data: { turbo: true } %>
+  </div>
+  <div class="col">
+    <%= turbo_frame_tag "customer_search_result", data: { turbo: true } %>
+  </div>
+</div>
+
+
+<!----------------------------Formulario de Venta------------------------------>
+<div id="movement_id">
+  <%= turbo_frame_tag "nav_link_movement", data: { turbo: true } %>
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var searchForm = document.getElementById('search_people');
+    var linkMovement = document.getElementById('movement_id');
+  
+    searchForm.addEventListener('click', function(event) {
+      setTimeout(function() {
+        var middlePosition = window.innerHeight / 1.5; // Calcula la mitad de la altura de la ventana del navegador
+        window.scrollTo(0, middlePosition); // Desplázate hacia la posición media de la página
+        linkMovement.focus();
+      }, 100);
+    });
+  });
+</script>

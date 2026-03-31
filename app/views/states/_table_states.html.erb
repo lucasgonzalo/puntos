@@ -1,0 +1,33 @@
+<% if states.exists? %>
+    <table id="states-table" class="display nowrap" style="width:100%">
+      <thead>
+        <tr>
+          <th>País</th>
+          <th>Nombre</th>
+          <th>Acciones</th>
+          
+        </tr>
+      </thead>
+
+      <tbody>
+        <% states.each do |state| %>
+          <tr>
+            <td><%= state.country.name %></td>
+            <td><%= state.name %></td>
+            <td>
+              <%= link_to 'Ver', state, class: "btn btn-outline-danger" if can? :read, state %>
+              <%= link_to 'Editar', edit_state_path(state), class: "btn btn-outline-danger" if can? :update, state %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+<% else %>
+  <div class=" items-center">
+    <div class="flex-1 text-center">
+      <p class="text-xl font-semibold mb-4">No hay datos</p>
+      <%= link_to 'Nueva Provincia', new_state_path, class: "btn btn-primary mb-3" if can? :create, State.new %>
+    </div>
+  </div>
+<% end %>

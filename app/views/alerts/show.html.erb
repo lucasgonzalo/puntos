@@ -1,0 +1,55 @@
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+
+<% set_page_title("Alert") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="container mx-auto my-2 px-4">
+                          <div class="box p-1">
+                <div class="h4 m-2 text-lg font-semibold">Company:</div>
+                <span class="leading-normal"><%= @alert.company.name %></span>
+              </div>
+                          <div class="box p-1">
+                <div class="h4 m-2 text-lg font-semibold">Category:</div>
+                <span class="leading-normal"><%= Alert.categories[@alert.category] %></span>
+              </div>
+                          <div class="box p-1">
+                <div class="h4 m-2 text-lg font-semibold">Status:</div>
+                <span class="leading-normal"><%= Alert.statuses[@alert.status] %></span>
+              </div>
+                          <div class="box p-1">
+                <div class="h4 m-2 text-lg font-semibold">Content:</div>
+                <span class="leading-normal"><%= @alert.content %></span>
+              </div>
+                          <div class="box p-1">
+                <div class="h4 m-2 text-lg font-semibold">Link:</div>
+                <span class="leading-normal"><%= @alert.link %></span>
+              </div>
+            
+            <div class="mt-4justify-between items-center">
+              <%#= button_to "Eliminar alert", @alert, method: :delete, class: 'btn btn-danger' if can? :destroy, @alert %>
+            </div>
+          </div>
+
+          <div class="d-flex bd-highlight mb-3">
+            <div class="p-2 bd-highlight">
+              <%= link_to alerts_path, class: "btn btn-light" do %>
+                <i class="mdi mdi-arrow-left me-1"></i>
+                Volver
+              <% end %>
+            </div>
+
+            <div class="ms-auto p-2 bd-highlight">
+              <% if can? :destroy, @alert %>
+                <%= render 'shared/destroy', element: @alert %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<%= content_for :body_class, "loading authentication-bg" %>
+
+<div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
+  <div class="container">
+      <div class="row justify-content-center">
+          <div class="col-xxl-4 col-lg-5">
+              <div class="card">
+                  <!-- Logo-->
+                  <div class="card-header pt-4 pb-4 text-center bg-primary">
+                    <a href="<%= root_url %>">
+                        <span>
+                            <%= image_pack_tag 'media/images/logo.png', alt: '', height: '18'%>
+                        </span>
+                    </a>
+                  </div>
+
+                  <div class="card-body p-4">
+                      
+                    <div class="text-center  m-auto">
+                        <h4 class=" text-center mt-0 fw-bold">Registrate gratis</h4>
+                        <p class="text-muted mb-4">¿No tenés una cuenta? Creá una en menos de un minuto. </p>
+                    </div>
+
+                    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+                        <%= render "devise/shared/error_messages", resource: resource %>
+
+                        <div class="mb-3">
+                            <%= f.label :first_name,  class: "form-label" %>
+                            <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", class: "form-control", required: 'required', placeholder: "Nombre" %>
+                        </div>
+
+                        <div class="mb-3">
+                            <%= f.label :last_name,  class: "form-label" %>
+                            <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name", class: "form-control", required: 'required', placeholder: "Apellido" %>
+                        </div>
+
+                        <div class="mb-3">
+                            <%= f.label :email,  class: "form-label" %>
+                            <%= f.email_field :email, autocomplete: "email", class: "form-control", required: 'required', placeholder: "ejemplo@email.com" %>
+                        </div>
+
+                        <div class="mb-3">
+                            <%= f.label :password, class: "form-label" %>
+                            <% if @minimum_password_length %>
+                            <em>(mínimo <%= @minimum_password_length %> caractéres)</em>
+                            <% end %><br />
+                            <div class="input-group input-group-merge">
+                                <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "Contraseña" %>
+                                <div class="input-group-text" data-password="false">
+                                    <span class="password-eye"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <%= f.label :password_confirmation, class: "form-label" %>
+                            <div class="input-group input-group-merge">
+                                <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Volvé a escribir la contraseña" %>
+                                <div class="input-group-text" data-password="false">
+                                    <span class="password-eye"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checkbox-signup">
+                                <label class="form-check-label" for="checkbox-signup">Acepto los <a href="#" class="text-muted">términos y condiciones</a></label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 text-center">
+                            <%= f.submit "Registrarme", class: 'btn btn-primary' %>
+                        </div>
+                    <% end %>
+                  </div> <!-- end card-body -->
+              </div>
+              <!-- end card -->
+
+              <div class="row mt-3">
+                  <div class="col-12 text-center">
+                      <p class="text-muted">¿Ya tenés una cuenta? <a href="<%= new_user_session_path %>" class="text-muted ms-1"><b>Iniciar sesión</b></a></p>
+                  </div> <!-- end col-->
+              </div>
+              <!-- end row -->
+          </div> <!-- end col -->
+      </div>
+      <!-- end row -->
+  </div>
+  <!-- end container -->
+</div>
+<!-- end page -->

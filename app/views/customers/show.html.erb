@@ -1,0 +1,156 @@
+<!-- lib/templates/erb/scaffold/show.html.erb.tt -->
+
+<% set_page_title("Cliente") %>
+
+<div class="card">
+  <div class="card-body">
+    <div class="container">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row mb-2">
+              <div class="col-12 col-md-6 row">
+                <div class="col-12 col-md-4"><span class="fw-bold me-2">Persona:</span></div>
+                <div class="col-12 col-md-8"><%= @customer.person ? @customer.person.full_name : "unknown" %></div>
+              </div>
+              <div class="col-12 col-md-6 row">
+                <div class="col-12 col-md-4"><span class="fw-bold me-2">Comercio:</span></div>
+                <div class="col-12 col-md-8"><%= @customer.company.name %></div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-12 col-md-6 row">
+                <div class="col-12 col-md-4"><span class="fw-bold me-2">Tipo de Documento:</span></div>
+                <div class="col-12 col-md-8"><%= Person.document_types[@customer.person.document_type] %></div>
+              </div>
+              <div class="col-12 col-md-6 row">
+                <div class="col-12 col-md-4"><span class="fw-bold me-2">Número de Documento:</span></div>
+                <div class="col-12 col-md-8"><%= @customer.person.document_number %></div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-12 col-md-6 row">
+                <div class="col-12 col-md-4"><span class="fw-bold me-2">Fecha de Nacimiento:</span></div>
+                <div class="col-12 col-md-8"><%= @customer.person.formatted_date_birth %></div>
+              </div>
+              <div class="col-12 col-md-6 row">
+                <div class="col-12 col-md-4"><span class="fw-bold me-2">Género:</span></div>
+                <div class="col-12 col-md-8"><%= Person.genders[@customer.person.gender] %></div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-12 col-md-6 row">
+                <div class="col-12 col-md-4"><span class="fw-bold me-2">Estado:</span></div>
+                <div class="col-12 col-md-8"><%= get_badges_customer(@customer) %></div>
+              </div>
+              <div class="col-12 col-md-6 row">
+                <div class="col-12 col-md-4"><span class="fw-bold me-2">Fecha de Carga:</span></div>
+                <div class="col-12 col-md-8"><%= datetime_in_time_zone(@customer.created_at) %></div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <% last_movement = @customer.movements.last %>
+              <div class="col-12 col-md-6 row">
+                <div class="col-12 col-md-4"><span class="fw-bold me-2">Ultimo Movimiento:</span></div>
+                <div class="col-12 col-md-8"><%= "#{datetime_in_time_zone(last_movement&.created_at)} - Suc: #{last_movement&.branch&.name}" %></div>
+              </div>
+              <div class="col-12 col-md-6 row">
+                <div class="col-12 col-md-4"><span class="fw-bold me-2"></span></div>
+                <div class="col-12 col-md-8"><%=  %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <ul class="nav nav-tabs mt-4 mb-3">
+        <li class="nav-item">
+          <a href="#addresses" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+            <span class="d-none d-md-block">
+              Direcciones
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#emails" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
+            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+            <span class="d-none d-md-block">
+              E-mails
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#phones" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+            <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+            Teléfonos
+          </a>
+        </li>
+      </ul> 
+      
+      <div class="tab-content ">
+        <!-------------------------------------------DIRECCIÓN-------------------------------------------------------------->
+        <div class="tab-pane show active" id="addresses">
+          <%= link_to 'Agregar', 
+              new_person_address_url(person: @customer.person, customer: @customer), 
+              class: 'btn btn-primary' 
+          %>
+          <p><%= render partial: "people/list_addresses", locals: {
+              person: @customer.person, 
+              person_addresses: @customer.person.person_addresses,
+              customer: @customer
+            }%></p>
+        </div>
+        <!-------------------------------------------EMAILS-------------------------------------------------------------->
+        <div class="tab-pane" id="emails">
+          <%= link_to 'Agregar', 
+              new_person_email_url(person: @customer.person, customer: @customer), 
+              class: 'btn btn-primary' 
+          %>
+          <p><%= render partial:"people/list_emails", locals: {
+              person: @customer.person, 
+              person_emails: @customer.person.person_emails,
+              customer: @customer
+            }%></p>
+        </div>
+        <!-------------------------------------------TELÉFONO-------------------------------------------------------------->
+        <div class="tab-pane" id="phones">
+          <%= link_to 'Agregar', 
+              new_person_phone_url(person: @customer.person, customer: @customer), 
+              class: 'btn btn-primary' 
+          %>
+          <p><%= render partial: "people/list_phones", locals: {
+            person: @customer.person,
+            person_phones: @customer.person.person_phones,
+            customer: @customer
+          }%></p>
+        </div>
+      </div>
+
+      <div class="d-flex bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+          <%= link_to 'Volver', customers_path , class: "btn btn-secondary" %>
+        </div>
+        <div class="ms-auto p-2 bd-highlight">
+          <!---------------------------El cliente esta en cualquier estado menos activo y quiero ponerlo inactivo------------------------------------->
+          <% if (can? :enable_client, @customer) && !@customer.status_inactive? %>
+            <%= render 'shared/enable_client', element: @customer.id, activate: false %>
+          <!---------------------------El cliente esta en inactivo y quiero ponerlo activo------------------------------------->
+          <% elsif (can? :enable_client, @customer) && @customer.status_inactive? %>
+            <%= render 'shared/enable_client', element: @customer.id, activate: true %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

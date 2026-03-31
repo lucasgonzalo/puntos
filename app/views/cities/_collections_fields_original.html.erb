@@ -1,0 +1,48 @@
+<%
+  if form.object && form.object.persisted? 
+    city_id = form.object.city.id
+    state_id = form.object.city.state.id
+    country_id = form.object.city.state.country.id
+    states = form.object.city.state.country.states
+    cities = form.object.city.state.cities
+  else
+    city_id = nil
+    state_id = nil
+    country_id = nil
+    states = []
+    cities = []
+  end
+%>
+
+<div data-controller="select" data-select-url-value="<%= states_countries_path %>" data-select-param-value="country" data-select-url2-value="<%= cities_states_path %>" data-select-param2-value="state">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xl-4">
+      <div class="form-floating mb-3">
+
+        <%#= collection_select(:brand, :id, brands_by_condition(condition_brand), :id, :name, {prompt:'Seleccione Marca'}, {id: 'brand_id', class: 'form-select', onChange: 'changeSubBrand(this)', required: true}) %>
+        <%= collection_select(:country_id, :id, Country.list, :id, :name, 
+        {selected: country_id, prompt: "Seleccione País"}, 
+        {class: "form-select", data: { action: "change->select#changeCountry" }, required: true})  %>
+        <%#= form.label :country_id, for: "floatingInput" %>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-12 col-sm-12">
+      <div class="form-floating mb-3">
+        <%= collection_select(:state_id, :id, states, :id, :name, 
+        {selected: state_id, prompt: "Seleccione Provincia"}, 
+        {class: "form-select", data: { select_target: "selectState", action: "change->select#changeState"}, required: true} )%>
+        <%#= form.label :state_id, for: "floatingInput" %>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-12 col-sm-12">
+      <div class="form-floating mb-3">
+        <%= form.collection_select :city_id, cities, :id, :name, 
+        {selected: city_id, prompt: "Seleccione Ciudad"}, 
+        {class: "form-select", data: { select_target: "selectCity" }, required: true} %>
+        <%#= form.label :city_id, for: "floatingInput" %>
+      </div>
+    </div>
+  </div>
+</div>

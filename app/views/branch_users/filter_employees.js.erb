@@ -1,0 +1,6 @@
+
+$('#table-users').empty();
+$('#table-users').html("<%= j render partial: 'branch_users/table_branch_users', locals: { companies: @companies, condition_active: @condition_active, condition_role: @condition_role, condition_branch: @condition_branch}%>");
+
+// Para iniciar el datatable del filtro
+initializeTables();

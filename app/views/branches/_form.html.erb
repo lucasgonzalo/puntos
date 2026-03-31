@@ -1,0 +1,61 @@
+<%= form_with(model: branch) do |form| %>
+
+  <%= render "shared/error_messages", resource: form.object %>
+  <%= form.hidden_field :company_id, value: @company.id %>
+
+  <div class="form-floating mb-3">
+    <%= form.text_field :company_name, class: "form-control", value: @company.name, disabled: "disabled" if @company %>
+    <%= form.label :company_id, "Comercio", for: "floatingInput" %>
+  </div>
+
+
+  <div class="form-floating mb-3">
+    <%= form.text_field :name, class: "form-control", placeholder:"Ingrese nombre" %>
+    <%= form.label :name, "Nombre", for: "floatingInput" %>
+  </div>
+
+  <div class="form-floating mb-3">
+    <%= form.text_field :address, class: "form-control", placeholder:"Ingrese dirección" %>
+    <%= form.label :address, "Dirección", for: "floatingInput" %>
+  </div>
+
+  <%= render partial: 'cities/collections_fields', locals: { form: form } %>
+
+  <div class="form-floating mb-3">
+    <%= form.text_field :geolocation_link, class: "form-control", placeholder:"Ingrese link de mapa" %>
+    <%= form.label :geolocation_link, "Enlace de geolocalización", for: "floatingInput" %>
+  </div>
+
+  <div class="form-check form-switch mb-3">
+    <%= form.check_box :main, class: "form-check-input", checked: @main_value %>
+    <%= form.label :main, "Principal", for: "floatingInput" %>
+  </div>
+
+  <div class="form-check form-switch mb-3">
+    <%= form.check_box :active, class: "form-check-input", checked: default_checkbox(form) %>
+    <%= form.label :active, "Activo", for: "floatingInput" %>
+  </div>
+
+  <% if false %>
+
+    <div class="form-floating mb-3">
+      <%= form.number_field :conversion, class: "form-control", placeholder:"Ingrese conversión", step: :any%>
+      <%= form.label :conversion, "Conversión", for: "conversion" %>
+    </div>
+
+    <div class="form-floating mb-3">
+      <%= form.number_field :discount, class: "form-control", placeholder:"Ingrese decuento", step: :any%>
+      <%= form.label :discount, "Descuento", for: "conversion" %>
+    </div>
+
+    <div class="form-floating mb-3">
+      <%= form.number_field :days_sleep, class: "form-control", placeholder:"Cantidad de dias de clientes dormidos", min:1 %>
+      <%= form.label :days_sleep, "Días dormidos", for: "clientes dormidos" %>
+    </div>
+
+  <% end %>
+
+  <div class="justify-between items-center">
+    <%= form.button "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>

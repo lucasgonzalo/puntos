@@ -1,0 +1,22 @@
+trigger:
+  - main
+  - release/*
+
+variables:
+  imageName: "puntos"
+  imageTag: "v0.15.3-$(build.buildId)"
+
+pool:
+  vmImage: ubuntu-latest
+
+resources:
+  repositories:
+    - repository: Pipelines
+      type: git
+      name: Devops/Pipelines
+
+stages:
+  - template: rails.yaml@pipelines
+    parameters:
+      imageName: $(imageName)
+      imageTag: $(imageTag)

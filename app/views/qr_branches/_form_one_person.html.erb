@@ -1,0 +1,113 @@
+<div id="flash" class="flash">
+  <%= render partial: 'layouts/messages' %>
+</div>
+
+<%= form_with(url: create_customer_external_path, html: {class: 'needs-validation'}, method: :post, local: true) do |form| %>
+  
+  <%= form.hidden_field :token_company, value: token_company %>
+  <%= form.hidden_field :token_branch, value: token_branch %>
+  <%= form.hidden_field :first_person, value: first_person %>
+
+  <% unless first_person.blank? %>
+    <div class="row">
+      <h4 class="mt-0 mb-3">
+        <span class="fw-bold me-2">GRUPO FAMILIAR DE:</span>
+        <%= Person.find(first_person).full_name.upcase %>
+      </h4>
+    </div>
+    <div class="row g-2">
+      <div class="form-floating mb-3 col-md-6">
+        <%= form.collection_select :relationship, Relationship.all, :id, :name, {prompt: "Seleccione un parentezco"}, {class: "form-select", required: true} %>
+        <%= form.label :relationship, for: "floatingInput" %>
+      </div>
+    </div>
+    <br/><br/>
+  <% end %>
+
+
+  <!-------------------Datos Personales, Direccion, Email, Telefono --------------------------------->
+  
+  <h4 class=" text-center mt-0 fw-bold">Datos Personales</h4>
+  <div class="row g-2">
+    <div class="form-floating mb-3 col-md-6">
+      <%= form.text_field :first_name, class: "form-control", placeholder:"Ingrese first_name", required: true%>
+      <%= form.label :first_name, "Nombre/s", for: "floatingInput" %>
+      <div class="valid-feedback">Correcto!</div>
+      <div class="invalid-feedback">Ingrese una Dirección</div>
+    </div>
+    <div class="form-floating mb-3 col-md-6">
+      <%= form.text_field :last_name, class: "form-control", placeholder:"Ingrese last_name", required: true%>
+      <%= form.label :last_name, "Apellido/s", for: "floatingInput" %>
+      <div class="valid-feedback">Correcto!</div>
+      <div class="invalid-feedback">Ingrese una Dirección</div>
+    </div>
+  </div>
+
+  <div class="row g-2">
+    <div class="form-floating mb-3 col-md-6">
+      <%= form.collection_select :document_type, Person.document_types.map {|value| [value.first, value.second]}, :first, :second, {prompt: "Seleccione Tipo de Documento", selected: Person.document_types.first.first}, {class: "form-select", required: true} %>
+      <%#= form.label :document_type,"Apellido/s", for: "floatingInput" %>
+      <div class="valid-feedback">Correcto!</div>
+      <div class="invalid-feedback">Ingrese una Dirección</div>
+    </div>
+    <div class="form-floating mb-3 col-md-6">
+      <%= form.text_field :document_number, class: "form-control", placeholder:"Ingrese document_number", required: true %>
+      <%= form.label :document_number,"Número de Documento", for: "floatingInput" %>
+      <div class="valid-feedback">Correcto!</div>
+      <div class="invalid-feedback">Ingrese una Dirección</div>
+    </div>
+  </div>
+
+  <div class="row g-2">
+    <div class="form-floating mb-3 col-md-6">
+      <%= form.date_field :birth_date, class: "form-control", placeholder:"Ingrese birth_date", required: true %>
+      <%= form.label :birth_date, "Fecha de Nacimiento", for: "floatingInput" %>
+    </div>
+    <div class="form-floating mb-3 col-md-6">
+      <%= form.collection_select :gender, Person.genders.map {|value| [value.first, value.second]}, :first, :second, {prompt: "Seleccione Género"}, {class: "form-select", required: true} %>
+    </div>
+  </div>
+
+  <br/>
+
+
+
+  <!--------------------------------Email----------------------------------------->
+  <h4 class=" text-center mt-0 fw-bold">Email</h4>
+
+  <div class="row g-2">
+  <div class="form-floating mb-3 col-md-12">
+      <%= form.text_field :email, class: "form-control input-lg", placeholder: "Email"  %>
+      <%= form.label :email, for: "floatingInput"%>
+      <div class="valid-feedback">Correcto!</div>
+      <div class="invalid-feedback">Ingrese un Email</div>
+  </div>
+  </div>
+
+  <br/>
+
+  <!--------------------------------Telefono------------------------------------->
+  <h4 class=" text-center mt-0 fw-bold">Teléfono</h4>
+
+  <div class="row g-2">
+  <div class="form-floating mb-3 col-md-3"> 
+      <%= form.text_field :area_code, class: "form-control input-lg", placeholder: "Código de área" %>
+      <%= form.label :area_code, "Código de área" ,for: "floatingInput"%>
+      <div class="valid-feedback">Correcto!</div>
+      <div class="invalid-feedback">Ingrese un Código Área</div>
+  </div>
+  <div class="form-floating mb-3 col-md-9"> 
+      <%= form.text_field :phone_number, class: "form-control input-lg", placeholder: "Número de Teléfono" %>
+      <%= form.label :phone_number, "Número de Teléfono" , for: "floatingInput"%>
+      <div class="valid-feedback">Correcto!</div>
+      <div class="invalid-feedback">Ingrese un Número de Teléfono</div>
+  </div>
+  </div>
+
+
+  <div class="justify-between items-center">
+    <div class="float-end">
+      <%= form.button "Guardar", class: "btn btn-success" %>
+    </div>
+  </div>
+<% end %>

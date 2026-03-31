@@ -1,0 +1,51 @@
+<!-- lib/templates/erb/scaffold/index.html.erb.tt -->
+
+<% set_page_title("Personas") %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <% if (can? :create, Person.new) %>
+              <%= link_to 'Nueva Persona', new_person_path, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+
+          <div class="table-responsive  rounded shadow p-2">
+            <table id="people-table" class="table table-striped dt-responsive nowrap ">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Tipo y número de documento</th> 
+                  <th>Cta. Cte.</th> 
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @people.each do |person| %>
+                  <tr class="group border-t border-gray-400 hover:bg-gray-100">
+                    <td class="p-3"><%= person.first_name %></td>
+                    <td class="p-3"><%= person.last_name %></td>
+                    <td class="p-3"><%= "#{Person.document_types[person.document_type]} - #{person.document_number}" %></td>
+                    <td class="p-3"><%= @current_group && @current_group.account_type_group? ? person.points_balance_amount(@current_group) : "-" %></td>
+                    <td>
+                      <%= link_to 'Ver', person, class: "btn btn-outline-danger" if can? :read, person %>
+                      <%= link_to 'Editar', edit_person_path(person), class: "btn btn-outline-danger" if can? :update, person %>
+                      <%= link_to 'Cta. Cte.', person_balance_path(id: person), class: "btn btn-outline-danger" if (@current_group && @current_group.account_type_group?) && (can? :update, person) %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%#= render partial: 'layouts/index_js' %>

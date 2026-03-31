@@ -1,0 +1,15 @@
+<div class="card">
+  <div class="card-body">
+    <h4 class="header-title mb-3"><%= "#{person_address.address}" %></h4>
+    <p><%= get_badges_person_address(person_address) %></p>
+    <ul class="list-unstyled mb-0">
+      <li>
+        <p class="mb-2"><span class="fw-bold me-2">Link de Geo-localización:</span> <%= person_address.geolocation_link %></p>
+        <p class="mb-2"><span class="fw-bold me-2">Latitud:</span> <%= person_address.latitude %></p>
+        <p class="mb-2"><span class="fw-bold me-2">Longitud:</span> <%= person_address.longitude %></p>
+        <p class="mb-2"><span class="fw-bold me-2">Código Postal:</span> <%= person_address.postal_code %></p>
+        <p class="mb-2"><span class="fw-bold me-2">Ciudad:</span> <%= person_address.city.full_name %></p>
+      </li>
+    </ul>
+  </div>
+</div>

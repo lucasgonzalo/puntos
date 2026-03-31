@@ -1,0 +1,8 @@
+
+
+// Actualiza el contenido del contenedor
+$('#table-movements').empty();
+$('#table-movements').html("<%= j render 'table_movements', movements: @movements %> ")
+
+// Para iniciar el datatable del filtro
+initializeTables();
