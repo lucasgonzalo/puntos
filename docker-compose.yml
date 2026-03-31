@@ -49,9 +49,9 @@ services:
     networks:
       - dokploy-network
 
-  networks:
-    dokploy-network:
-      external: true
+networks:
+  dokploy-network:
+    external: true
 
 volumes:
   db_data:
