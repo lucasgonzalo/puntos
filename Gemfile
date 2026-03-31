@@ -40,7 +40,7 @@ gem "bootstrap"
 gem "sassc-rails"
 
 # https://github.com/heartcombo/devise
-gem "devise",  "~> 4.9.2"
+gem "devise",  "~> 5.0.3"
 gem "pg"
 
 # Para todo el tema de css [https://github.com/rails/cssbundling-rails]
