@@ -13,6 +13,8 @@ services:
     #ports:
     #  - 3000:3000
     tty: true
+    networks:
+      - app-network
 
   redis:
     image: redis
@@ -20,6 +22,8 @@ services:
     #  - 6378:6379
     volumes:
       - redis_data:/data
+    networks:
+      - app-network
 
   database:
     image: postgres:16.1
@@ -29,7 +33,8 @@ services:
     #  - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
-    
+    networks:
+      - app-network
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -41,7 +46,12 @@ services:
     #  - 7000:80
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - app-network
 
+  networks:
+  app-network:
+    driver: bridge
 
 volumes:
   db_data:
