@@ -43,3 +43,4 @@ tmp/*_task.lock
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 .vscode
+docker-compose.override.yml

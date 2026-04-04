@@ -25,6 +25,8 @@ services:
       SMTP_USER_NAME: ${SMTP_USER_NAME:-changeme}
       IS_LOCALHOST: ${IS_LOCALHOST:-true}
     tty: true
+    volumes:
+      - storage_data:/app/storage
     networks:
       - dokploy-network
       - puntos-internal
