@@ -5,6 +5,12 @@ Todos los cambios importantes iran en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0.html).
 
+
+## [0.16.0] 2026-4-5
+### Added
+- Se agrega Rama Develop
+
+
 ## [0.15.3] 2026-3-28
 ### Changed
 - Se modifica root page e index de usuarios sucursales
