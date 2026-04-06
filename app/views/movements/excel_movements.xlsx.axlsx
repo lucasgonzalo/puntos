@@ -18,7 +18,7 @@ wb.styles do |style|
 
     sheet.add_row [
       'Fecha', 
-      'Cliente',
+      'Beneficiario',
       'Persona',
       'DNI',
       'Comercio', 

@@ -1,4 +1,4 @@
-<% set_page_title("Clientes") %>
+<% set_page_title("Beneficiarios") %>
 
 <div class="row">
   <div class="col-12">
@@ -8,7 +8,7 @@
           <div class="flexitems-center mb-4">
             <% if (can? :create, Customer.new) && !@current_group&.account_type_group? %>
               <%#= link_to 'Nuevo Cliente', new_customer_wizard_path(step: 1), class: "btn btn-primary" %>
-              <%= link_to 'Nuevo Cliente', new_client_qr_url, 
+              <%= link_to 'Nuevo Beneficiario', new_client_qr_url, 
                   class: "btn btn-primary", 
                   target: "_blank"
                   %>
@@ -20,7 +20,7 @@
             <div class="row g-2 "> 
               <div class="col 12 col-md-3">
                 <%= form.label 'Estado' %>
-                <%= form.collection_select :customer_status, Customer.statuses.map {|value| [value.first, value.second]}, :first, :second, {prompt: "Todos los clientes"}, {class: "form-select"} %>
+                <%= form.collection_select :customer_status, Customer.statuses.map {|value| [value.first, value.second]}, :first, :second, {prompt: "Todos los Estados"}, {class: "form-select"} %>
               </div>
             </div>
             <div class="row g-2 align-items-center mt-2"> 
@@ -30,7 +30,7 @@
               </div>
               <div class="col 12 col-md-3">
                 <%= form.label 'Fecha Hasta' %>
-                 <span class="ms-1 text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Seleccione fechas para filtrar los clientes por Fecha de Carga">
+                 <span class="ms-1 text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Seleccione fechas para filtrar los Beneficiarios por Fecha de Carga">
                   <i class="mdi mdi-information-outline"></i>
                 </span>
                 <% to_date = Date.today %>

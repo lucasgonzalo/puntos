@@ -3,7 +3,7 @@
     <div class="m-2 col-12">
       <div class="flexitems-center mb-4">
         <h3 class="page-title text-center">CUENTA CORRIENTE</h3>
-        <h4 class="page-title mb-2">CLIENTE: <%=  customer.full_name.upcase %> - <%=  customer.person.document_number %></h4>
+        <h4 class="page-title mb-2">BENEFICIARIO: <%=  customer.full_name.upcase %> - <%=  customer.person.document_number %></h4>
         <% unless customer.company.groups&.first.account_type_group? %>
           <h4 class="page-title mb-2">COMERCIO: <%= customer.company.name.upcase %></h4>
           <% catalog = Catalog.where(group: customer.company.groups.first, company: customer.company).last %>

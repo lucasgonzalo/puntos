@@ -1,9 +1,9 @@
-<!-- CLIENTES MASCULINOS ACTIVOS -->
+<!-- BENEFICIARIOS MASCULINOS ACTIVOS -->
 <div class="row">
   <div class="col-xl-6">
     <div class="card mb-3">
       <div class="card-body">
-      <h4 class="header-title">CLIENTES MASCULINOS ACTIVOS</h4>
+      <h4 class="header-title">BENEFICIARIOS MASCULINOS ACTIVOS</h4>
         <%= pie_chart([
           {name: "Niños", data: get_count_type_customers(@customers, :masculine, "ninio") },
           {name: "Adolescentes", data: get_count_type_customers(@customers, :masculine, "adolescente")},
@@ -14,11 +14,11 @@
     </div>
   </div>
 
-<!-- CLIENTES FEMENINOS ACTIVOS -->
+<!-- BENEFICIARIOS FEMENINOS ACTIVOS -->
   <div class="col-xl-6">
     <div class="card mb-3">
       <div class="card-body">
-      <h4 class="header-title">CLIENTES FEMENINAS ACTIVAS</h4>
+      <h4 class="header-title">BENEFICIARIAS FEMENINAS ACTIVAS</h4>
         <%= pie_chart([
           {name: "Niños", data: get_count_type_customers(@customers, :feminine, "ninio") },
           {name: "Adolescentes", data: get_count_type_customers(@customers, :feminine, "adolescente")},
@@ -31,12 +31,12 @@
   </div>
 
 
-<!-- ESTADOS DE CLIENTES -->
+<!-- ESTADOS DE BENEFICIARIOS -->
 
   <div class="col-xl-6">
     <div class="card mb-3">
       <div class="card-body">
-      <h4 class="header-title">ESTADOS DE CLIENTES</h4>
+      <h4 class="header-title">ESTADOS DE BENEFICIARIOS</h4>
         <%= pie_chart([
           {name: "Activo", data: get_count_status_customers(@company, :active).to_i},
           {name: "Inactivo", data: get_count_status_customers(@company, :inactive).to_i},

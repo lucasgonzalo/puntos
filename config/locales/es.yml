@@ -47,12 +47,12 @@ es:
     country_id: País
     countries: Países
     created_at: Creado el
-    customer: Cliente
-    customer_id: Cliente
-    customers: Clientes
+    customer: Beneficiario
+    customer_id: Beneficiario
+    customers: Beneficiarios
     document_type: Tipo de documento
     document_number: Número de documento
-    days_sleep: Días para Cliente Dormido
+    days_sleep: Días para Beneficiario Dormido
     first_name: Nombre
     geolocation_link: Link geolocalización
     gender: Sexo
@@ -115,7 +115,7 @@ es:
         phone_number: Número de Teléfono 
         phone_type: Tipo de Teléfono
       movement:
-        customer: Cliente
+        customer: Beneficiario
         movement_type: Tipo de Movimiento 
         points: Puntos 
 
@@ -161,8 +161,8 @@ es:
         other: Configuracion de Comercios
       
       customer:
-        one: Cliente
-        other: Clientes
+        one: Beneficiario
+        other: Beneficiarios
 
       branch:
         one: Sucursal

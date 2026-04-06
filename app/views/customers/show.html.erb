@@ -1,6 +1,6 @@
 <!-- lib/templates/erb/scaffold/show.html.erb.tt -->
 
-<% set_page_title("Cliente") %>
+<% set_page_title("Beneficiario") %>
 
 <div class="card">
   <div class="card-body">
@@ -59,8 +59,8 @@
                 <div class="col-12 col-md-8"><%= "#{datetime_in_time_zone(last_movement&.created_at)} - Suc: #{last_movement&.branch&.name}" %></div>
               </div>
               <div class="col-12 col-md-6 row">
-                <div class="col-12 col-md-4"><span class="fw-bold me-2"></span></div>
-                <div class="col-12 col-md-8"><%=  %></div>
+                <div class="col-12 col-md-4"><span class="fw-bold me-2">Tipo de Beneficiario:</span></div>
+                <div class="col-12 col-md-8"><%= @customer.category&.upcase %></div>
               </div>
             </div>
           </div>

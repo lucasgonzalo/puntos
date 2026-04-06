@@ -22,7 +22,8 @@
     <thead>
       <tr>
         <th>Comercio</th>
-        <th>Cliente</th>
+        <th>Beneficiario</th>
+        <th>Tipo</th>
         <th>Estado</th>
         <th>Acciones</th>
         <!--<th>Fecha carga</th>-->
@@ -34,6 +35,7 @@
         <tr class="group border-t border-gray-400 hover:bg-gray-100">
           <td><%= customer.company.name %></td>
           <td><%= customer.person.full_name %> (<%= customer.person.full_document %>)</td>
+          <td><%= customer.category.upcase %></td>
           <td><%= get_badges_customer(customer) %></td>
           <td>
             <%= link_to 'Ver', customer, class: "btn btn-outline-danger" if can? :read, customer %>

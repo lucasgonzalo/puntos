@@ -10,7 +10,7 @@ wb.styles do |style|
   wb.add_worksheet(name: "SaleOrders") do |sheet|
     sheet.add_row
 
-    sheet.add_row ['EXCEL DE CLIENTES']
+    sheet.add_row ['EXCEL DE BENEFICIARIOS']
 
     sheet.add_row ['Fecha de emision del reporte:', date_in_time_zone(Time.now)]
     sheet.add_row ['Hora de emision del reporte:', time_in_time_zone(Time.now)]
@@ -18,18 +18,18 @@ wb.styles do |style|
 
     sheet.add_row [
       'Comercio',
-      'Cliente',
+      'Beneficiario',
       'Documento',
       'Email',
-      'Tel',
+      'Teléfono',
       'Dirección',
       'Sexo',
       'Edad',
       'Estado',
-      'Fecha de Carga'
-      
+      'Fecha de Carga',
+      'Tipo de beneficiario'
     ],
-    style: [hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell]
+    style: [hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell, hig_cell]
     
     unless @customers.blank?
       @customers.each do |customer|
@@ -43,7 +43,8 @@ wb.styles do |style|
           customer.person.formated_gender,
           customer.person.get_years_person,
           Customer.statuses[customer.status],
-          customer.created_at
+          customer.created_at,
+          customer.category.upcase
         ]
       end
     end 

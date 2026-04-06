@@ -7,7 +7,7 @@
 
 <%#= turbo_stream.replace("customer_new_link", partial: 'movements/link_add_customer',  locals: {customer: @customer}) %>
 <%# Se comenta y se agrega link externo ya que no funciona actualmente movements/link_add_customer %>
-<%= turbo_stream.replace("customer_new_link", (link_to 'Agregar cliente', new_client_qr_url, class: 'btn btn-primary m-3') )%>
+<%= turbo_stream.replace("customer_new_link", (link_to 'Agregar beneficiario', new_client_qr_url, class: 'btn btn-primary m-3') )%>
 
 <%= turbo_stream.replace("nav_link_movement", partial: 'movements/nav_link_movement',  locals: {movement: Movement.new, type: :sale, customer: @customer}) %>
 <%= turbo_stream.replace("nav_link_movement_group", partial: 'groups/nav_link_movement_group',  locals: {movement: Movement.new, type: :sale, person: @person}) if @person%>

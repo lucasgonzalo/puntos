@@ -8,12 +8,12 @@
     <div class="row justify-content-center">
       <div class="col-xxl-8 col-lg-12">
 
-        <!--------------------------- Link para Registrar nuevos clientes ----------------------------->
+        <!--------------------------- Link para Registrar nuevos beneficiarios ----------------------------->
         <div class="card mb-3">
           <div class="card-body ">
             <div class="row justify-content-between">
               <div class="col text-left">
-                <h4 class="page-title">Link para Registrar Clientes </h4>
+                <h4 class="page-title">Link para Registrar Beneficiarios </h4>
               </div>
               <!------------------------- Botón de Descarga de PDF ----------------------------->
               <div class="col-auto text-end">
@@ -21,7 +21,7 @@
                   format: 'pdf', 
                   url: @url_qr_company.to_s, 
                   company_id: @company.id,
-                  name: "Registracion_Clientes_#{Time.current.in_time_zone(-4).strftime("%d-%m-%Y_%H-%M")}"
+                  name: "Registracion_Beneficiarios_#{Time.current.in_time_zone(-4).strftime("%d-%m-%Y_%H-%M")}"
                 ), class: "btn btn-primary mb-2 me-1" do %>
                   Descargar <i class="mdi mdi-file-pdf ms-1"></i> 
                 <% end %>

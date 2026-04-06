@@ -5,14 +5,14 @@
       <div class="col-xxl-8 col-lg-12">
 
         <% is_group = @company.groups&.first.account_type_group? %>
-        <!--------------------------- Link para Registrar nuevos clientes ----------------------------->
+        <!--------------------------- Link para Registrar nuevos beneficiarios ----------------------------->
 
         <% unless is_group %>
           <div class="card mb-3">
             <div class="card-body ">
               <div class="row justify-content-between">
                 <div class="col text-left">
-                  <h4 class="page-title">Link para Registrar Clientes</h4>
+                  <h4 class="page-title">Link para Registrar Beneficiarios</h4>
                 </div>
                 <!------------------------- Botón de Descarga de PDF ----------------------------->
                 <div class="col-auto text-end">
@@ -20,7 +20,7 @@
                     format: 'pdf', 
                     url: @url_qr_branch.to_s, 
                     company_id: @branch.company.id,
-                    name: "Registracion_Clientes_#{Time.current.in_time_zone(-4).strftime("%d-%m-%Y_%H-%M")}"
+                    name: "Registro_de_Beneficiarios_#{Time.current.in_time_zone(-4).strftime("%d-%m-%Y_%H-%M")}"
                   ), class: "btn btn-primary mb-2 me-1" do %>
                     Descargar <i class="mdi mdi-file-pdf ms-1"></i> 
                 <% end %>
@@ -44,7 +44,7 @@
               <br/>
               <br/>
               <div class="text-center  m-auto">
-                <a href="<%= @url_qr_branch.to_s %>" target="_blank" class="side-nav-link"><%= "Ingresa a éste link para registrar cientes" || @url_qr_branch.to_s %></a>
+                <a href="<%= @url_qr_branch.to_s %>" target="_blank" class="side-nav-link"><%= "Ingresa a éste link para registrar beneficiarios" || @url_qr_branch.to_s %></a>
               </div>
               
             </div>

@@ -5,16 +5,16 @@
   <h4 class="header-title"><%= "Gráficos" %></h4>
 </div>
 
-<%# TURBO CLIENTES MASCULINOS ACTIVOS + CLIENTES FEMENINOS ACTIVOS + ESTADOS DE CLIENTES %>
+<%# TURBO BENEFICIARIOS MASCULINOS ACTIVOS + BENEFICIARIOS FEMENINOS ACTIVOS + ESTADOS DE BENEFICIARIOS %>
 <%# Cargar al tope para evitar problemas de js, apexchart vs Chartkick conflicting%>
 <!--
 <% unless @current_branch%>
   <div class="my-2 p-1">
     <turbo-frame id="customers_graphs"><%# this way hides the button after the call. %>
       <%# This loads partial: pages/dashboard_elements/customer_graphs %>
-      <%= link_to "Cargar Graficos de clientes ", load_customers_graphs_path,
+      <%= link_to "Cargar Graficos de beneficiarios ", load_customers_graphs_path,
         data: { turbo_frame: "customers_graphs",
-        disable_with: '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Cargando gráficos de clientes...' },
+        disable_with: '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Cargando gráficos de beneficiarios...' },
         class: "btn btn-primary " %>
     </turbo-frame>
   </div>
@@ -24,7 +24,7 @@
 <%# CANTIDAD DE TRANSACCIONES + PUNTOS OTORGADOS Y CANJEADOS %>
 <%= render partial: 'pages/dashboard_elements/transactions_and_points' %>
 
-<!-- TOP 10 MEJORES CLIENTES -->
+<!-- TOP 10 MEJORES BENEFICIARIOS -->
 <div class="row">
   <% unless @current_branch %>
     <div class="col-xl-6 col-lg-12 order-lg-2 order-xl-1">
@@ -38,7 +38,7 @@
   </div>
 </div>
 
-<%#  CLIENTES MASCULINOS ACTIVOS + CLIENTES FEMENINOS ACTIVOS + ESTADOS DE CLIENTES %>
+<%#  BENEFICIARIOS MASCULINOS ACTIVOS + BENEFICIARIOS FEMENINOS ACTIVOS + ESTADOS DE BENEFICIARIOS %>
 <div class="row">
   <%= render partial: 'pages/dashboard_elements/customer_graphs' unless @current_branch %>
 </div>
