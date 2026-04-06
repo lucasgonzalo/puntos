@@ -159,6 +159,7 @@
                   <tr>
                     <th scope="col">Día</th>
                     <th scope="col">Puntos <i>([Importe] x [Este valor] = [Puntos])</i></th>
+                    <th scope="col">Puntos AGENTE <i>([Importe] x [Este valor] = [Puntos])</i></th>
                     <th scope="col">Descuento</th>
                   </tr>
                 </thead>
@@ -173,6 +174,13 @@
                             <span class="leading-normal"><%= number_with_precision(branch_setting.conversion) %></span>
                           <%end%>
                         </td>
+
+                        <td>
+                          <%= render 'inline_edit', model: branch_setting, attribute: :conversion_agent do %>
+                            <span class="leading-normal"><%= number_with_precision(branch_setting.conversion_agent) %></span>
+                          <%end%>
+                        </td>
+
                         <td>
                           <%= render 'inline_edit', model: branch_setting, attribute: :discount do %>
                             <span class="leading-normal"><%= number_to_percentage(branch_setting.discount, precision: 2) %></span>
@@ -181,7 +189,7 @@
                       </tr>
                     <% end %>
                   <% else %>
-                    <td colspan="3">No se encontraron datos</td>
+                    <td colspan="4">No se encontraron datos</td>
                   <% end %>
                 </tbody>
               </table>

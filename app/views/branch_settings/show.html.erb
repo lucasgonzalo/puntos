@@ -9,6 +9,10 @@
   <span class="leading-normal"><%= number_with_precision(@branch_setting.conversion, precision: 2, separator: ',', delimiter: '.') %></span>
 <%end%>
 
+<%= render 'inline_edit', model: @branch_setting, attribute: :conversion_agent do %>
+  <span class="leading-normal"><%= number_with_precision(@branch_setting.conversion_agent, precision: 2, separator: ',', delimiter: '.') %></span>
+<%end%>
+
 <%= render 'inline_edit', model: @branch_setting, attribute: :discount do %>
   <span class="leading-normal"><%= number_to_percentage(@branch_setting.discount, precision: 2, separator: ',') %></span>
 <%end%>

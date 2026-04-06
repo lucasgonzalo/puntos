@@ -31,10 +31,10 @@ Archivos:
 - `app/controllers/branches_controller.rb` — Verificar creación (ya hecho)
 
 Tareas:
-- [ ] 1.1 Agregar columna "Puntos AGENTE" en tabla Puntos/Descuento de branch_settings/index.html.erb
-- [ ] 1.2 Verificar que branch_settings_controller ya tiene conversion_agent en params (ya hecho en Fase 1)
-- [ ] 1.3 Verificar que branches_controller ya inicializa conversion_agent al crear sucursal (ya hecho en Fase 1)
-- [ ] 1.4 Testear edición inline de conversion_agent en browser
+- [x] 1.1 Agregar columna "Puntos AGENTE" en tabla Puntos/Descuento de branch_settings/index.html.erb
+- [x] 1.2 Verificar que branch_settings_controller ya tiene conversion_agent en params (ya hecho en Fase 1)
+- [x] 1.3 Verificar que branches_controller ya inicializa conversion_agent al crear sucursal (ya hecho en Fase 1)
+- [x] 1.4 Testear edición inline de conversion_agent en browser
 
 ---
 

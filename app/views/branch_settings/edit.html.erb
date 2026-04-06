@@ -11,6 +11,10 @@
         <%= form.text_field :conversion, class: "form-control", placeholder:"Ingrese Conversión" %>
     <%end%>
 
+    <%= render 'inline_field', form: form, attribute: :conversion_agent do %>
+        <%= form.text_field :conversion_agent, class: "form-control", placeholder:"Ingrese Conversión Agente" %>
+    <%end%>
+
     <%= render 'inline_field', form: form, attribute: :discount do %>
         <%= form.text_field :discount, class: "form-control", placeholder:"Ingrese Descuento" %>
     <%end%>
