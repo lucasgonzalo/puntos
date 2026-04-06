@@ -263,4 +263,15 @@ end
   get 'update_frame_content', to: 'pages#update_frame_content'
   post 'update_stream_content', to: 'pages#update_stream_content'
   get 'load_customers_graphs', to: 'pages#load_customers_graphs'
+
+  resources :agent_requests do
+    member do
+      post 'cancel'
+      post 'approve'
+    end
+    collection do
+      post :filter_agent_requests
+    end
+  end
+  
 end

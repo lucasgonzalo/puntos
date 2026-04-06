@@ -60,6 +60,7 @@ class Ability
       can %i[access create read edit enable_employee], BranchUser # Empleados de un comercio&sucursal
       can :manage, Catalog
       can :manage, Product
+      can %i[create access index approve], AgentRequest
     end
 
     #---------------------------EN USUARIOS/SUCURSAL - ROL GERENTE DEL COMERCIO (Es la mano derecha, creo que son los mismo que propietario de comercio)---------------------------
@@ -79,6 +80,7 @@ class Ability
       can %i[access create read edit enable_employee], BranchUser # Empleados de un comercio&sucursal
       can :manage, Catalog
       can :manage, Product
+      can %i[create access index approve], AgentRequest
     end
 
     #---------------------------EN USUARIOS/SUCURSAL - ROL INTERMEDIO DEL COMERCIO (Contador, gente de marketing, administradores)---------------------------
@@ -94,6 +96,7 @@ class Ability
       can %i[create read edit], PersonPhone
       can :manage, Catalog
       can :manage, Product
+      can %i[create access index approve], AgentRequest
     end
 
 
@@ -107,6 +110,7 @@ class Ability
       can %i[create read edit], PersonAddress
       can %i[create read edit], PersonEmail
       can %i[create read edit], PersonPhone
+      can %i[create cancel], AgentRequest
 
     end
 

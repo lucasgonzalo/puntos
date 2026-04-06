@@ -53,6 +53,6 @@ class BranchSettingsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def branch_setting_params
-    params.require(:branch_setting).permit(:day, :branch_id, :conversion, :discount, :admits_exchange)
+    params.require(:branch_setting).permit(:day, :branch_id, :conversion, :discount, :admits_exchange, :conversion_agent)
   end
 end

@@ -50,7 +50,8 @@ class BranchesController < ApplicationController
         branch_setting = @branch.branch_settings.new(
           day: day,
           conversion: !params[:branch][:conversion].blank? ? params[:branch][:conversion] : 0,
-          discount: !params[:branch][:discount].blank? ? params[:branch][:discount] : 0
+          discount: !params[:branch][:discount].blank? ? params[:branch][:discount] : 0,
+          conversion_agent: !params[:branch][:conversion].blank? ? params[:branch][:conversion] : 0
         )
         unless branch_setting.save
           @branch.errors[:base] << branch_setting.errors
