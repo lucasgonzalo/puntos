@@ -17,6 +17,7 @@ class Branch < ApplicationRecord
 
   has_many :branch_settings, dependent: :destroy
   has_many :branch_alerts, dependent: :destroy
+  has_many :agent_requests, dependent: :destroy
 
   validates :name, presence: true, length: { minimum: 3 }
   validates :name, uniqueness: { scope: :company, case_sensitive: false }
@@ -85,6 +86,11 @@ class Branch < ApplicationRecord
   def today_conversion
     branch_setting = branch_settings.find_by(day: Time.now.strftime('%u'))
     branch_setting ? branch_setting.conversion : 0
+  end
+
+   def today_conversion_agent
+    branch_setting = branch_settings.find_by(day: Time.now.strftime('%u'))
+    branch_setting ? branch_setting.conversion_agent : 0
   end
 
 

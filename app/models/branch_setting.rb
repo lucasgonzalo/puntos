@@ -12,6 +12,7 @@ class BranchSetting < ApplicationRecord
 
   def default_value_conversion
     conversion = 0 if conversion.blank?
+    self.conversion_agent = 0 if conversion_agent.blank?
   end
 
 end
