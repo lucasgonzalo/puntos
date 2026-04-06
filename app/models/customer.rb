@@ -5,13 +5,19 @@ class Customer < ApplicationRecord
   belongs_to :person
   belongs_to :company
   has_many :movements, dependent: :destroy
+  has_many :agent_requests, dependent: :destroy
 
   enum status: { active: 'Activo', inactive: 'Inactivo', pending: 'Pendiente', asleep: 'Dormido' }, _prefix: true
   # enum :status, {:active=>"Activo", :inactive=>"Inactivo", :pending=>"Pendiente", :asleep=>"Dormido"}
+  enum category: { cliente: 'CLIENTE', agente: 'AGENTE' }, _prefix: :category_is
 
   # ------------------------------Métodos---------------------------------------------
   def full_name
     person.full_name
+  end
+
+  def agente?
+    category_agente?
   end
 
   def html_card
