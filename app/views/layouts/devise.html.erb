@@ -4,10 +4,7 @@
     <%= render 'layouts/header' %>
   </head>
   <body data-turbo="<%= @turbo.present? %>" class="gradient-background <%= yield(:body_class).empty? ? "loading" : yield(:body_class) %>" data-layout="detached" data-layout-config='{"leftSidebarCondensed":false,"darkMode":false, "showRightSidebarOnStart": true}' data-controller="theme">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K7B2H38L"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    
     <%= render 'shared/theme_toggle_button' %>
     
     <%= yield %>

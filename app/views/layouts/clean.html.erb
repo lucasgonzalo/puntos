@@ -4,11 +4,7 @@
     <%= render 'layouts/header' %>
   </head>
   
-    <body data-turbo="<%= @turbo.present? %>" class="gradient-background <%= yield(:body_class).empty? ? "loading" : yield(:body_class) %>" data-layout="detached" data-layout-config='{"leftSidebarCondensed":false,"darkMode":false, "showRightSidebarOnStart": true}' data-controller="theme" data-theme-force-theme="<%= @force_theme  %>">
-      <!-- Google Tag Manager (noscript) -->
-      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K7B2H38L"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-      <!-- End Google Tag Manager (noscript) -->
+  <body data-turbo="<%= @turbo.present? %>" class="gradient-background <%= yield(:body_class).empty? ? "loading" : yield(:body_class) %>" data-layout="detached" data-layout-config='{"leftSidebarCondensed":false,"darkMode":false, "showRightSidebarOnStart": true}' data-controller="theme" data-theme-force-theme="<%= @force_theme  %>">
       
     <% if Rails.env.development? && request.host == 'localhost' %>
        <%#= render 'shared/debug_data' %>
