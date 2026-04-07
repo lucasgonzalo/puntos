@@ -1,0 +1,7 @@
+<% if customer.category_is_agente? %>
+  <span class="badge bg-warning text-dark"><i class="mdi mdi-account-star me-1"></i>BENEFICIARIO AGENTE</span>
+<% elsif agent_request %>
+  <%= button_to 'Cancelar Solicitud AGENTE', cancel_agent_request_path(agent_request), method: :post, class: "btn btn-outline-danger btn-sm", data: { turbo: false } %>
+<% else %>
+  <%= button_to 'Solicitud AGENTE', agent_requests_path, method: :post, params: { customer_id: customer.id }, class: "btn btn-outline-warning btn-sm", data: { turbo: false, confirm: "¿Crear solicitud de AGENTE para #{customer.full_name}?" } %>
+<% end %>

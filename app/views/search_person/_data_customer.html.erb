@@ -39,6 +39,12 @@
             </p>
           </div>
 
+          <div class="col-12 col-lg-6 mt-2">
+            <% if can?(:create, AgentRequest) %>
+              <%= render 'agent_requests/agent_button', customer: customer, agent_request: AgentRequest.find_by(customer: customer, status: :pending) %>
+            <% end %>
+          </div>
+
         </div>
       </div>
     </div>

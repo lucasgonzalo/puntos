@@ -54,7 +54,7 @@ class AgentRequestsController < ApplicationController
     end
   end
 
-  def filter_agent_requests
+  def filter
     @agent_requests = fetch_agent_requests
     respond_to do |format|
       format.js
@@ -81,7 +81,7 @@ class AgentRequestsController < ApplicationController
     scope = scope.where(branch_id: params[:branch_id]) if params[:branch_id].present?
     scope = scope.where('created_at >= ?', Date.parse(params[:date_start]).beginning_of_day) if params[:date_start].present?
     scope = scope.where('created_at <= ?', Date.parse(params[:date_end]).end_of_day) if params[:date_end].present?
-    scope.pending_first.includes(:customer, :branch, :user, user: :person, customer: :person)
+    scope.pending_first.includes(:customer, :branch, :user, customer: :person)
   end
   
 end
