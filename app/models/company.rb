@@ -14,6 +14,7 @@ class Company < ApplicationRecord
   has_many :movements, through: :branches
   has_many :company_settings, dependent: :destroy
   has_many :alerts, dependent: :destroy
+  has_many :agent_requests, dependent: :destroy
   has_many :company_groups, dependent: :destroy
   has_many :groups, through: :company_groups
 

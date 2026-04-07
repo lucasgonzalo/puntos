@@ -43,45 +43,45 @@ Tareas:
 **Principio**: Solo vistas y locales. No se tocan modelos, rutas, ni controladores.
 
 Tareas:
-- [ ] 2.1 Modificar `config/locales/es.yml` (7 refs: customer→Beneficiario, customers→Beneficiarios, etc.)
-- [ ] 2.2 Modificar `app/views/customers/index.html.erb` — "Clientes"→"Beneficiarios", "Nuevo Cliente"→"Nuevo Beneficiario", "Todos los clientes"→"Todos los Beneficiarios"
-- [ ] 2.3 Modificar `app/views/customers/show.html.erb` — "Cliente"→"Beneficiario"
-- [ ] 2.4 Modificar `app/views/customers/edit.html.erb` — "Editar Cliente"→"Editar Beneficiario"
-- [ ] 2.5 Modificar `app/views/customers/new.html.erb` — "Nuevo Cliente"→"Nuevo Beneficiario"
-- [ ] 2.6 Modificar `app/views/customers/new_customer_wizard.html.erb` — "Nuevo Cliente"→"Nuevo Beneficiario"
-- [ ] 2.7 Modificar `app/views/customers/_wizard_step_3.html.erb` — "Alta de cliente"→"Alta de beneficiario"
-- [ ] 2.8 Modificar `app/views/customers/_table_customers.html.erb` — th "Cliente"→"Beneficiario"
-- [ ] 2.9 Modificar `app/views/customers/_customer.html.erb` — "CLIENTE DE"→"BENEFICIARIO DE", "NO ES CLIENTE AUN"→"NO ES BENEFICIARIO AUN"
-- [ ] 2.10 Modificar `app/views/customers/_form_current_account.html.erb` — "CLIENTE:"→"BENEFICIARIO:"
-- [ ] 2.11 Modificar `app/views/customers/search_person_customer.turbo_stream.erb` — "Agregar cliente"→"Agregar beneficiario"
-- [ ] 2.12 Modificar `app/views/shared/left_sidebar/_customers_section.html.erb` — "Clientes"→"Beneficiarios", "Alta de Clientes"→"Alta de Beneficiarios"
-- [ ] 2.13 Modificar `app/views/shared/_enable_client.html.erb` — "Desactivar Cliente"→"Desactivar Beneficiario", "Activar Cliente"→"Activar Beneficiario"
-- [ ] 2.14 Modificar `app/views/search_person/_data_customer.html.erb` — "CLIENTE DE"→"BENEFICIARIO DE", "NO ES CLIENTE AUN"→"NO ES BENEFICIARIO AUN"
-- [ ] 2.15 Modificar `app/views/search_person/_customer.html.erb` — "YA ES CLIENTE"→"YA ES BENEFICIARIO", "NO ES CLIENTE AUN"→"NO ES BENEFICIARIO AUN"
-- [ ] 2.16 Modificar `app/views/search_person/_link_add_customer.html.erb` — "Agregar Cliente"→"Agregar Beneficiario"
-- [ ] 2.17 Modificar `app/views/movements/_link_add_customer.html.erb` — "Agregar Cliente"→"Agregar Beneficiario"
-- [ ] 2.18 Modificar `app/views/movements/_filter_movements.html.erb` — "Nombre de Cliente"→"Nombre de Beneficiario"
-- [ ] 2.19 Modificar `app/views/movements/_table_movements.html.erb` — th "Cliente"→"Beneficiario"
-- [ ] 2.20 Modificar `app/views/movements/show.html.erb` — "CLIENTE:"→"BENEFICIARIO:"
-- [ ] 2.21 Modificar `app/views/movements/_product_exchange_form.html.erb` — "puntos del cliente"→"puntos del beneficiario"
-- [ ] 2.22 Modificar `app/views/qr_code/_customer.html.erb` — "YA ES CLIENTE"→"YA ES BENEFICIARIO", "NO ES CLIENTE AUN"→"NO ES BENEFICIARIO AUN"
-- [ ] 2.23 Modificar `app/views/qr_branches/_customer.html.erb` — igual
-- [ ] 2.24 Modificar `app/views/qr_branches/_customer_result.html.erb` — "CLIENTE DE"→"BENEFICIARIO DE", "NO ES CLIENTE AUN"→"NO ES BENEFICIARIO AUN"
-- [ ] 2.25 Modificar `app/views/qr_branches/all_qr_branch.html.erb` — "Registrar Clientes"→"Registrar Beneficiarios", nombre archivo descarga
-- [ ] 2.26 Modificar `app/views/companies/show.html.erb` — "Clientes"→"Beneficiarios"
-- [ ] 2.27 Modificar `app/views/companies/all_qr_company.html.erb` — "Registrar Clientes"→"Registrar Beneficiarios", nombre archivo
-- [ ] 2.28 Modificar `app/views/companies/_list_movements.html.erb` — "Cliente"→"Beneficiario"
-- [ ] 2.29 Modificar `app/views/pages/general_data.html.erb` — "Cantidad Total de Clientes Activos"→"Beneficiarios Activos", "Clientes Dormidos"→"Beneficiarios Dormidos"
-- [ ] 2.30 Modificar `app/views/pages/dashboard.html.erb` — comentarios y headings
-- [ ] 2.31 Modificar `app/views/pages/dashboard_elements/_customer_graphs.html.erb` — "CLIENTES MASCULINOS"→"BENEFICIARIOS MASCULINOS", etc.
-- [ ] 2.32 Modificar `app/views/pages/dashboard_elements/_customer_ranking.html.erb` — "TOP 10 MEJORES CLIENTES"→"TOP 10 MEJORES BENEFICIARIOS"
-- [ ] 2.33 Modificar `app/views/people/_form_balance.html.erb` — "CLIENTE:"→"BENEFICIARIO:"
-- [ ] 2.34 Modificar `app/views/branch_settings/_alert_settings.html.erb` — "clientes que realizaron"→"beneficiarios que realizaron"
-- [ ] 2.35 Modificar `app/views/company_settings/index.html.erb` — "clientes que realizaron"→"beneficiarios que realizaron", "Clientes dormidos"→"Beneficiarios dormidos"
-- [ ] 2.36 Modificar `app/views/companies/show_days_sleep.html.erb` — "dormir clientes"→"dormir beneficiarios"
-- [ ] 2.37 Modificar `app/views/branches/_form.html.erb` — "clientes dormidos"→"beneficiarios dormidos"
-- [ ] 2.38 Modificar comentarios HTML en: `_wizard_step_1`, `query_customer`, `new_customer_external` (qr_branches y qr_code), `_form` (movements), `_form_movement` (groups), `search_person_customer.turbo_stream.erb` (qr_branches), `_items_left_side.html.erb`
-- [ ] 2.39 Verificar visualmente que todos los textos dicen "Beneficiario/Beneficiarios"
+- [x] 2.1 Modificar `config/locales/es.yml` (7 refs: customer→Beneficiario, customers→Beneficiarios, etc.)
+- [x] 2.2 Modificar `app/views/customers/index.html.erb` — "Clientes"→"Beneficiarios", "Nuevo Cliente"→"Nuevo Beneficiario", "Todos los clientes"→"Todos los Beneficiarios"
+- [x] 2.3 Modificar `app/views/customers/show.html.erb` — "Cliente"→"Beneficiario"
+- [x] 2.4 Modificar `app/views/customers/edit.html.erb` — "Editar Cliente"→"Editar Beneficiario"
+- [x] 2.5 Modificar `app/views/customers/new.html.erb` — "Nuevo Cliente"→"Nuevo Beneficiario"
+- [x] 2.6 Modificar `app/views/customers/new_customer_wizard.html.erb` — "Nuevo Cliente"→"Nuevo Beneficiario"
+- [x] 2.7 Modificar `app/views/customers/_wizard_step_3.html.erb` — "Alta de cliente"→"Alta de beneficiario"
+- [x] 2.8 Modificar `app/views/customers/_table_customers.html.erb` — th "Cliente"→"Beneficiario"
+- [x] 2.9 Modificar `app/views/customers/_customer.html.erb` — "CLIENTE DE"→"BENEFICIARIO DE", "NO ES CLIENTE AUN"→"NO ES BENEFICIARIO AUN"
+- [x] 2.10 Modificar `app/views/customers/_form_current_account.html.erb` — "CLIENTE:"→"BENEFICIARIO:"
+- [x] 2.11 Modificar `app/views/customers/search_person_customer.turbo_stream.erb` — "Agregar cliente"→"Agregar beneficiario"
+- [x] 2.12 Modificar `app/views/shared/left_sidebar/_customers_section.html.erb` — "Clientes"→"Beneficiarios", "Alta de Clientes"→"Alta de Beneficiarios"
+- [x] 2.13 Modificar `app/views/shared/_enable_client.html.erb` — "Desactivar Cliente"→"Desactivar Beneficiario", "Activar Cliente"→"Activar Beneficiario"
+- [x] 2.14 Modificar `app/views/search_person/_data_customer.html.erb` — "CLIENTE DE"→"BENEFICIARIO DE", "NO ES CLIENTE AUN"→"NO ES BENEFICIARIO AUN"
+- [x] 2.15 Modificar `app/views/search_person/_customer.html.erb` — "YA ES CLIENTE"→"YA ES BENEFICIARIO", "NO ES CLIENTE AUN"→"NO ES BENEFICIARIO AUN"
+- [x] 2.16 Modificar `app/views/search_person/_link_add_customer.html.erb` — "Agregar Cliente"→"Agregar Beneficiario"
+- [x] 2.17 Modificar `app/views/movements/_link_add_customer.html.erb` — "Agregar Cliente"→"Agregar Beneficiario"
+- [x] 2.18 Modificar `app/views/movements/_filter_movements.html.erb` — "Nombre de Cliente"→"Nombre de Beneficiario"
+- [x] 2.19 Modificar `app/views/movements/_table_movements.html.erb` — th "Cliente"→"Beneficiario"
+- [x] 2.20 Modificar `app/views/movements/show.html.erb` — "CLIENTE:"→"BENEFICIARIO:"
+- [x] 2.21 Modificar `app/views/movements/_product_exchange_form.html.erb` — "puntos del cliente"→"puntos del beneficiario"
+- [x] 2.22 Modificar `app/views/qr_code/_customer.html.erb` — "YA ES CLIENTE"→"YA ES BENEFICIARIO", "NO ES CLIENTE AUN"→"NO ES BENEFICIARIO AUN"
+- [x] 2.23 Modificar `app/views/qr_branches/_customer.html.erb` — igual
+- [x] 2.24 Modificar `app/views/qr_branches/_customer_result.html.erb` — "CLIENTE DE"→"BENEFICIARIO DE", "NO ES CLIENTE AUN"→"NO ES BENEFICIARIO AUN"
+- [x] 2.25 Modificar `app/views/qr_branches/all_qr_branch.html.erb` — "Registrar Clientes"→"Registrar Beneficiarios", nombre archivo descarga
+- [x] 2.26 Modificar `app/views/companies/show.html.erb` — "Clientes"→"Beneficiarios"
+- [x] 2.27 Modificar `app/views/companies/all_qr_company.html.erb` — "Registrar Clientes"→"Registrar Beneficiarios", nombre archivo
+- [x] 2.28 Modificar `app/views/companies/_list_movements.html.erb` — "Cliente"→"Beneficiario"
+- [x] 2.29 Modificar `app/views/pages/general_data.html.erb` — "Cantidad Total de Clientes Activos"→"Beneficiarios Activos", "Clientes Dormidos"→"Beneficiarios Dormidos"
+- [x] 2.30 Modificar `app/views/pages/dashboard.html.erb` — comentarios y headings
+- [x] 2.31 Modificar `app/views/pages/dashboard_elements/_customer_graphs.html.erb` — "CLIENTES MASCULINOS"→"BENEFICIARIOS MASCULINOS", etc.
+- [x] 2.32 Modificar `app/views/pages/dashboard_elements/_customer_ranking.html.erb` — "TOP 10 MEJORES CLIENTES"→"TOP 10 MEJORES BENEFICIARIOS"
+- [x] 2.33 Modificar `app/views/people/_form_balance.html.erb` — "CLIENTE:"→"BENEFICIARIO:"
+- [x] 2.34 Modificar `app/views/branch_settings/_alert_settings.html.erb` — "clientes que realizaron"→"beneficiarios que realizaron"
+- [x] 2.35 Modificar `app/views/company_settings/index.html.erb` — "clientes que realizaron"→"beneficiarios que realizaron", "Clientes dormidos"→"Beneficiarios dormidos"
+- [x] 2.36 Modificar `app/views/companies/show_days_sleep.html.erb` — "dormir clientes"→"dormir beneficiarios"
+- [x] 2.37 Modificar `app/views/branches/_form.html.erb` — "clientes dormidos"→"beneficiarios dormidos"
+- [x] 2.38 Modificar comentarios HTML en: `_wizard_step_1`, `query_customer`, `new_customer_external` (qr_branches y qr_code), `_form` (movements), `_form_movement` (groups), `search_person_customer.turbo_stream.erb` (qr_branches), `_items_left_side.html.erb`
+- [x] 2.39 Verificar visualmente que todos los textos dicen "Beneficiario/Beneficiarios"
 
 ---
 
@@ -98,22 +98,22 @@ Archivos modificados:
 - `app/javascript/modules/datatables.js` — Agregar `agent-requests-table`
 
 Tareas:
-- [ ] 3.1 Crear `app/controllers/agent_requests_controller.rb`
+- [x] 3.1 Crear `app/controllers/agent_requests_controller.rb`
   - `index`: lista solicitudes del company/branch actual, ordenadas pending_first
   - `create`: crea AgentRequest (customer_id, branch_id=current_branch, user_id=current_user)
   - `cancel`: member action, verifica status_pending?, actualiza a cancelled
   - `approve`: member action, verifica status_pending?, cambia customer.category a :agente, actualiza request a approved
-  - `filter_agent_requests`: filtra por status, branch, fecha. Responde JS
-- [ ] 3.2 Crear `app/helpers/agent_requests_helper.rb`
+  - `filter`: filtra por status, branch, fecha. Responde JS
+- [x] 3.2 Crear `app/helpers/agent_requests_helper.rb`
   - `get_badges_agent_request_status(request)` — badge Bootstrap según status (pending=warning, approved=success, cancelled=secondary)
-- [ ] 3.3 Crear `app/views/agent_requests/index.html.erb`
+- [x] 3.3 Crear `app/views/agent_requests/index.html.erb`
   - Card + filter form (status select, fecha desde/hasta) + tabla con columnas: Cajero, Beneficiario, Documento, Sucursal, Fecha, Estado, Acciones
   - Botón "Convertir en AGENTE" por fila (solo si pending y can?(:approve, request))
-- [ ] 3.4 Crear `app/views/agent_requests/_table_agent_requests.html.erb`
-- [ ] 3.5 Crear `app/views/agent_requests/filter_agent_requests.js.erb`
+- [x] 3.4 Crear `app/views/agent_requests/_table_agent_requests.html.erb`
+- [x] 3.5 Crear `app/views/agent_requests/filter_agent_requests.js.erb`
   - Reemplaza `#table-agent-requests` y llama `initializeTables()`
-- [ ] 3.6 Agregar entrada `agent-requests-table` en `app/javascript/modules/datatables.js`
-- [ ] 3.7 Testear: ver listado, filtrar, aprobar solicitud, cancelar solicitud
+- [x] 3.6 Agregar entrada `agent-requests-table` en `app/javascript/modules/datatables.js`
+- [x] 3.7 Testear: ver listado, filtrar, aprobar solicitud, cancelar solicitud
 
 ---
 

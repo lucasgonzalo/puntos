@@ -12,6 +12,9 @@
 <!--- INDICADORES -->
 <%= render 'shared/left_sidebar/indicators' if show_indicators? %>
 
+<!-- ALTA DE AGENTE -->
+<%= render 'shared/left_sidebar/agent_requests_section' if show_agent_requests? %>
+
 <!--- ALERTAS -->
 <%= render 'shared/left_sidebar/alerts_branch_section' if can?(:access, Alert) && @current_branch %>
 <%= render 'shared/left_sidebar/alerts_company_section' if can?(:access, Alert) %>

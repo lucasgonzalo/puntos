@@ -270,7 +270,7 @@ end
       post 'approve'
     end
     collection do
-      post :filter_agent_requests
+      post :filter
     end
   end
   

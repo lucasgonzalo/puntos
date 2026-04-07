@@ -1,0 +1,38 @@
+<div class="table-responsive rounded shadow p-2">
+  <table id="agent-requests-table" class="table table-striped dt-responsive nowrap">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Solicitante</th>
+        <th>Beneficiario</th>
+        <th>Documento</th>
+        <th>Sucursal</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% agent_requests.each do |request| %>
+        <tr>
+          <td><%= request.id %></td>
+          <td><%= request.user.full_name %></td>
+          <td><%= request.customer.full_name %></td>
+          <td><%= request.customer.person.full_document %></td>
+          <td><%= request.branch.name %></td>
+          <td><%= request.created_at.in_time_zone('America/Argentina/Buenos_Aires')&.strftime("%d/%m/%Y %H:%M") %></td>
+          <td><%= get_badges_agent_request_status(request) %></td>
+          <td>
+            <% if request.status_pending? && can?(:approve, AgentRequest) %>
+              <%= button_to 'Convertir en AGENTE', approve_agent_request_path(request), method: :post, class: "btn btn-warning btn-sm", data: { confirm: "¿Confirma convertir a #{request.customer.full_name} en AGENTE?" }, data: { turbo: false } %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%# Nota: El botón "Convertir en AGENTE" solo aparece si status_pending? 
+Y el usuario tiene permiso :approve (manager/owner/intermediate/admin).
+ El data: { confirm: ... } muestra un diálogo de confirmación. %>

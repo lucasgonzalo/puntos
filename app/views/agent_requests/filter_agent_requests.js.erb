@@ -1,0 +1,3 @@
+$('#table-agent-requests').empty();
+$('#table-agent-requests').html("<%= j render partial: 'agent_requests/table_agent_requests', locals: { agent_requests: @agent_requests } %>");
+initializeTables();

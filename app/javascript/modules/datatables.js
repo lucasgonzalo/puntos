@@ -73,7 +73,7 @@ export function initializeTables() {
     });
   }
 
-    // ----------- Tabla de Catalogos ------------
+  // ----------- Tabla de Catalogos ------------
   const catalogsTable = document.getElementById("catalogs-table");
   if (catalogsTable) {
     document.addEventListener("turbo:before-cache", () => {
@@ -209,7 +209,7 @@ export function initializeTables() {
       }
     });
   }
-  
+
   // ----------- Tabla de Parentezco------------
   const relationshipsTable = document.getElementById("relationships-table");
   if (relationshipsTable) {
@@ -227,7 +227,7 @@ export function initializeTables() {
   }
 
   // ----------- Tabla de Cuenta Corriente------------
-  const currentaccountsTable= document.getElementById("currentaccounts-table");
+  const currentaccountsTable = document.getElementById("currentaccounts-table");
   if (currentaccountsTable) {
     document.addEventListener("turbo:before-cache", () => {
       if (currentaccountsTable && $.fn.DataTable.isDataTable(currentaccountsTable)) {
@@ -260,7 +260,7 @@ export function initializeTables() {
     });
   }
 
-   // ----------- Tabla de Products------------
+  // ----------- Tabla de Products------------
   const productsTable = document.getElementById("products-table");
   if (productsTable) {
     document.addEventListener("turbo:before-cache", () => {
@@ -275,7 +275,25 @@ export function initializeTables() {
       }
     });
   }
-  
+
+  // ----------- Tabla de Solicitudes de Agente ------------
+  const agentrequestsTable = document.getElementById("agent-requests-table");
+  if (agentrequestsTable) {
+    document.addEventListener("turbo:before-cache", () => {
+      if (agentrequestsTable && $.fn.DataTable.isDataTable(agentrequestsTable)) {
+        $(agentrequestsTable).DataTable().destroy();
+      }
+    });
+    new DataTable(agentrequestsTable, {
+      responsive: true,
+      order: [[0, "desc"]],
+      language: {
+        url: "/datatables/i18n/es-MX.json"
+      },
+      columnDefs: [{ targets: 0, visible: false, searchable: false }]
+    });
+  }
+
 
 }
 

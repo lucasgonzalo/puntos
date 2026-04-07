@@ -223,6 +223,17 @@ end
   def show_branch_alerts_badge?
     branch_selected? && branch_alerts_count.positive?
   end
+
+  # ==================== ALTA DE AGENTE ====================
+
+  def show_agent_requests?
+    can?(:index, AgentRequest) && (@current_company.present? || @logged_admin)
+  end
+  
+  def agent_requests_pending_count
+    return 0 unless @current_company
+    AgentRequest.where(branch_id: @current_company.branches.select(:id), status: :pending).count
+  end
   
   # ==================== LOCALIZACIONES ====================
   

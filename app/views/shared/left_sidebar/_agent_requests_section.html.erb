@@ -1,0 +1,11 @@
+<li class="side-nav-item">
+  <a href="<%= agent_requests_path %>" 
+     class="nav-link sidebar-nav-item" 
+     data-sidebar-navigation-target="navItem">
+    <i class="mdi mdi-alert-circle mx-1" title="Alta de Agente"></i>
+    <span> Alta de Agente </span>
+    <% if agent_requests_pending_count > 0 %>
+      <span class="mx-3 badge bg-danger float-end rounded-pill"><%= agent_requests_pending_count %></span>
+    <% end %>
+  </a>
+</li>

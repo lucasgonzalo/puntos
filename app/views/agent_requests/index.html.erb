@@ -1,0 +1,46 @@
+<% set_page_title("Alta de Agente") %>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="m-2 col-12">
+          <div class="flexitems-center mb-4">
+            <h4 class="page-title">Solicitudes de Alta de Agente</h4>
+          </div>
+          <!----------------------------- Filtro --------------------------------------------->
+          <%= form_with(url: filter_agent_requests_path, method: :post, local: false, html: {class: 'needs-validation', novalidate: '' }) do |form| %>
+            <div class="row g-2">
+              <div class="col-md-3">
+                <%= form.label 'Estado' %>
+                <%= form.collection_select :status, AgentRequest.statuses.map {|k,v| [k.humanize, v]}, :first, :second, {prompt: "Todos los estados"}, {class: "form-select"} %>
+              </div>
+              <% if @current_company && !@current_branch %>
+                <div class="col-md-3">
+                  <%= form.label 'Sucursal' %>
+                  <%= form.collection_select :branch_id, @current_company.branches, :id, :name, {prompt: "Todas las sucursales"}, {class: "form-select"} %>
+                </div>
+              <% end %>
+              <div class="col-md-2">
+                <%= form.label 'Fecha desde' %>
+                <%= form.date_field :date_start, class: "form-control" %>
+              </div>
+              <div class="col-md-2">
+                <%= form.label 'Fecha Hasta' %>
+                <%= form.date_field :date_end, class: "form-control", value: Date.today %>
+              </div>
+              <div class="col-md-2">
+                <br>
+                <%= form.submit "Filtrar", class: "btn btn-primary" %>
+              </div>
+            </div>
+          <% end %>
+          <br/>
+          <!----------------------------- Tabla --------------------------------------------->
+          <div id="table-agent-requests">
+            <%= render 'table_agent_requests', agent_requests: @agent_requests %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
