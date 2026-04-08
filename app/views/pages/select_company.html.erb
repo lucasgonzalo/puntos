@@ -6,16 +6,10 @@
       <% if current_user.admin_role? %>
 
         <% if !current_user.group_owner_role? %>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="text-center">
-                <h3 class="">Ingrese como Administrador</h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-xxl-4 col-lg-5 mb-4">
+          
+          <div class="d-block col-xxl-4 col-lg-5 mb-4 text-bold">
             <div class="list-group">
-              <%= link_to 'Ingresar', enter_as_admin_path, method: :post, class: 'btn btn-primary col-6 offset-3' %>
+              <%= link_to 'Ingrese como Administrador', enter_as_admin_path, method: :post, class: 'btn btn-primary ' %>
             </div>
           </div>
       <% end %>
@@ -60,7 +54,7 @@
 
         <div class="col-xxl-4 col-lg-5">
           <div class="list-group" style="overflow-y: scroll; max-height:40vh;">
-            <%@companies.each do |company| %>
+            <%@companies.order(:name).each do |company| %>
               <a href="<%= set_company_url(company_id: company, redirect_url: @redirect_url) %>" 
            class="list-group-item list-group-item-action text-center company-item" 
            data-company-name="<%= "#{company.name} #{company.active_group.name}" %>">

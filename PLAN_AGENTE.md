@@ -136,12 +136,12 @@ Archivos modificados:
 - `app/views/search_person/return_person_movement.turbo_stream.erb` — Pasar agent_request al partial
 
 Tareas:
-- [ ] 4.1 Crear `app/views/agent_requests/_agent_button.html.erb` con 3 estados
-- [ ] 4.2 Modificar `app/views/search_person/_data_customer.html.erb` — Agregar render del partial
-- [ ] 4.3 Modificar `app/views/search_person/return_person_movement.turbo_stream.erb` — Pasar datos de agent_request
-- [ ] 4.4 Crear `app/views/agent_requests/create.turbo_stream.erb`
-- [ ] 4.5 Crear `app/views/agent_requests/cancel.turbo_stream.erb`
-- [ ] 4.6 Testear flujo: botón solicitud → crear → cancelar → insignia agente
+- [x] 4.1 Crear `app/views/agent_requests/_agent_button.html.erb` con 3 estados
+- [x] 4.2 Modificar `app/views/search_person/_data_customer.html.erb` — Agregar render del partial
+- [x] 4.3 Modificar `app/views/search_person/return_person_movement.turbo_stream.erb` — Pasar datos de agent_request
+- [x] 4.4 Crear `app/views/agent_requests/create.turbo_stream.erb`
+- [x] 4.5 Crear `app/views/agent_requests/cancel.turbo_stream.erb`
+- [x] 4.6 Testear flujo: botón solicitud → crear → cancelar → insignia agente
 
 ---
 

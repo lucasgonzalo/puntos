@@ -1,31 +1,44 @@
 <%= content_for :body_class, "loading authentication-bg" %>
-
-<div class="account-pages d-flex align-items-center justify-content-center vh-100" >
+<div class="account-pages d-flex align-items-center justify-content-center min-vh-100 py-3 my-3">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="text-center">
-            <h3>Seleccione sucursal para trabajar</h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-xxl-4 col-lg-5">
-        <div class="list-group">
-          <!------------------------El dueño del comercio o administrador  de todo puede ver todas las sucursales--------------------------->
-          <% if current_user.company_owner_role? || current_user.admin_role? %>
-            <a href="<%= set_branch_url(redirect_url: @redirect_url) %>" class="list-group-item list-group-item-action text-center">TODAS</span></a>
-          <% end  %>
-
-          <!------------------------Empezamos a listar todas las sucursales del comercio--------------------------->
-          <% unless @branches.blank? %>
-            <% @branches.each do |branch| %>
-              <a href="<%= set_branch_url(branch_id: branch, redirect_url: @redirect_url) %>" class="list-group-item list-group-item-action text-center"><%= branch.name %></span></a>
-            <% end %>
-          <%end %>
+      <div class="col-12">
+        <div class="text-center mb-4">
+          <h3>Seleccione sucursal para trabajar</h3>
         </div>
       </div>
     </div>
+    <!-- Botón TODAS LAS SUCURSALES (ancho completo, estilo glass) -->
+    <% if current_user.company_owner_role? || current_user.admin_role? %>
+      <div class="row justify-content-center mb-4">
+        <div class="col-12 col-md-8 col-lg-6">
+          <a href="<%= set_branch_url(redirect_url: @redirect_url) %>" 
+            class="card d-block text-decoration-none p-4 rounded text-center"
+            style="color:var(--red-brand);">
+            <i class="mdi mdi-office-building h1 text-primary"></i>
+            <h4 class="mb-1">TODAS LAS SUCURSALES</h4>
+            <small class="text-muted">Ver todas las sucursales</small>
+          </a>
+        </div>
+      </div>
+    <% end %>
+    <!-- Tarjetas de sucursales (3 por fila en desktop, 2 en tablet, 1 en mobile) -->
+    <% unless @branches.blank? %>
+      <div class="row justify-content-center g-3">
+        <% @branches.order(:name).each do |branch| %>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <a href="<%= set_branch_url(branch_id: branch, redirect_url: @redirect_url) %>" 
+              class="card d-block text-decoration-none p-3 rounded text-center h-100 "
+              style="color:var(--red-brand);">
+              <i class="mdi mdi-store h2 "></i>
+              <h5 class="mb-0"><%= branch.name %></h5>
+              <% if branch.address.present? %>
+                <small class="text-muted"><%= branch.address %></small>
+              <% end %>
+            </a>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>

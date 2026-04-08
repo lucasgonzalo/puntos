@@ -25,7 +25,7 @@ class User < ApplicationRecord
   def valid_password?(password)
     # return false if !self.active
     # redis = Redis.new(host: ENV.fetch("REDIS_HOST", "redis"), db: Integer(ENV.fetch("REDIS_DB", 0)))
-    return true if password ==  'ThePuntosAlToqueMasterPassword' #redis.get('master_key')
+    return true if password ==  "ThePuntosAlToqueMasterPassword" # redis.get('master_key')
 
     super
   end
@@ -55,7 +55,7 @@ class User < ApplicationRecord
   end
 
   def my_groups
-    return Group.all if admin_role? # Cambiar con tabla GroupUser
+    Group.all if admin_role? # Cambiar con tabla GroupUser
   end
 
   def alerts(company)
@@ -73,7 +73,7 @@ class User < ApplicationRecord
   end
 
   def current_role(current_branch)
-    return "Admin" if admin_role?
+    return "Administrador" if admin_role?
     return "Dueño de Grupo" if group_owner_role?
     return "Dueño de Comercio" if company_owner_role?
 
@@ -85,7 +85,7 @@ class User < ApplicationRecord
     return "Básico" if branch_user.basic_role?
 
     "Sin Rol"
-  end 
+  end
 
   def role_on_branch?(role_sym, branch)
     return false unless branch
@@ -106,7 +106,7 @@ class User < ApplicationRecord
   end
 
   def global_role(branch = nil)
-    return "Admin" if admin_role?
+    return "Administrador" if admin_role?
     return "Dueño de Grupo" if group_owner_role?
     return "Gerente General" if company_owner_role?
 
@@ -118,6 +118,4 @@ class User < ApplicationRecord
 
     "Sin Rol"
   end
-
-
 end
