@@ -63,9 +63,11 @@
                 <div class="col-12 col-md-8"> 
                 <span><%= @customer.category&.upcase %> <% if can?(:enable_client, @customer) %>
                     <% if @customer.category_is_agente? %>
-                      <%= button_to 'Cambiar a CLIENTE', change_category_path(id: @customer.id), method: :post, class: "btn btn-outline-primary btn-sm", data: { turbo: false, confirm: "¿Cambiar categoría de #{@customer.full_name} a CLIENTE?" } %>
+                      <%#= button_to 'Cambiar a CLIENTE', change_category_path(id: @customer.id), method: :post, class: "btn btn-outline-primary btn-sm", data: { turbo: false, confirm: "¿Cambiar categoría de #{@customer.full_name} a CLIENTE?" } %>
+                       <%= render 'shared/modal_confirm', url: change_category_path(id: @customer.id), method: :post, button_title: 'Cambiar a CLIENTE', description: "¿Está Seguro que desea cambiar la categoría de #{@customer.full_name} a CLIENTE?", color: 'primary' %>
                     <% else %>
-                      <%= button_to 'Cambiar a AGENTE', change_category_path(id: @customer.id), method: :post, class: "btn btn-outline-warning btn-sm", data: { turbo: false, confirm: "¿Cambiar categoría de #{@customer.full_name} a AGENTE?" } %>
+                      <%#= button_to 'Cambiar a AGENTE', change_category_path(id: @customer.id), method: :post, class: "btn btn-outline-warning btn-sm", data: { turbo: false, confirm: "¿Cambiar categoría de #{@customer.full_name} a AGENTE?" } %>
+                       <%= render 'shared/modal_confirm', url: change_category_path(id: @customer.id), method: :post, button_title: 'Cambiar a AGENTE', description: "¿Está Seguro que desea cambiar la categoría de #{@customer.full_name} a AGENTE?", color: 'warning' %>
                     <% end %>
                   <% end %></span>
                 </div>

@@ -12,7 +12,7 @@
                 <div class="mb-3 row">
                   <p class="mb-2"><span class="fw-bold me-2">COMERCIO:</span> <%= @movement.branch&.company&.name %></p>
                   <p class="mb-2"><span class="fw-bold me-2">SUCURSAL:</span> <%= @movement.branch&.name %></p>
-                  <p class="mb-2"><span class="fw-bold me-2">BENEFICIARIO:</span> <%= @movement.customer&.full_name%> - Documento N°: <%= @movement.customer&.person&.document_number %></p>
+                  <p class="mb-2"><span class="fw-bold me-2">BENEFICIARIO:</span> <%= @movement.customer&.full_name%> - Documento N°: <%= @movement.customer&.person&.document_number %> -  <%= link_to 'Cta. Cte.', current_account_exteneral_path( @movement.customer), class: "btn btn-secondary btn-sm ", target: '_blank'  %></p>
                   <p class="mb-2"><span class="fw-bold me-2">TIPO DE MOVIMIENTO:</span> <%= get_badges_movement_type @movement %></p>
                   <% if @movement.annulled  %>
                     <div class="badge text-bg-danger " style="display:inline-block;">MOVIMIENTO ANULADO</div> 

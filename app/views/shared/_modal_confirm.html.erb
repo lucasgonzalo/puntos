@@ -1,0 +1,40 @@
+
+<% color = local_assigns[:color] ||  'success' %>
+<% button_title = local_assigns[:button_title] || 'Confirmar' %>
+<% description = local_assigns[:description] || '¿Está Seguro que desea realizar esta acción?' %>
+<% method = local_assigns[:method] || :get %>
+<%# url : siempre debe estar definida! %>
+
+<%# ejemplo: %>
+<%#= render 'shared/modal_confirm',
+    url: change_category_path(id: @customer.id),
+    method: :post,
+    button_title: 'Cambiar a AGENTE',
+    description: "¿Está Seguro que desea cambiar la categoría de #{@customer.full_name} a AGENTE?",
+    color: 'warning' 
+%>
+
+<button  type="button" class="btn btn-<%= color %>" data-bs-toggle="modal" data-bs-target="#single-modal">
+    <%= button_title  %>
+</button>
+
+<div id="single-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="single-modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header modal-colored-header bg-<%= color %>">
+        <h4 class="modal-title" id="single-modalLabel">
+          Confirme esta acción 
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+      </div>
+      <div class="modal-body">
+           <%= description %> 
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+          <%= link_to button_title, url, class: "btn btn-#{color}", method: method %>
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

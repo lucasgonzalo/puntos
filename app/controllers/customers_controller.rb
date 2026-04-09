@@ -4,7 +4,7 @@ class CustomersController < ApplicationController
     new_customer_external query_customer search_person_customer form_new_person current_account_exteneral associate_company
   ]
   before_action :set_customer, only: %i[
-    show edit update destroy current_account activate_customer current_account_exteneral
+    show edit update destroy current_account activate_customer current_account_exteneral change_category
   ]
   before_action :check_company, except: %i[
     index new edit new_customer_external query_customer search_person_customer form_new_person current_account_exteneral associate_company
