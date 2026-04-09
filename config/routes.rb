@@ -123,6 +123,7 @@ end
   post 'search_person_by_document', to: 'people#search_by_document'
 
   post 'activate_customer', to: 'customers#activate_customer'
+  post 'change_category', to: 'customers#change_category'
 
   get '/people_pending', to: 'people#people_pending'
 

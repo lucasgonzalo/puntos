@@ -19,6 +19,7 @@ class CustomersController < ApplicationController
 
   # GET /customers or /customers.json
   def index
+    authorize! :read, Customer
     companies = if @logged_admin
                   if @current_group
                     Company.joins(:groups).where(groups: { id: @current_group.id })
@@ -295,6 +296,21 @@ class CustomersController < ApplicationController
     respond_to do |format|
       if @customer.update(status: value_status)
         format.html { redirect_to customer_url(@customer), notice:  msg}
+        format.json { render :show, status: :ok, location: @customer }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @customer.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def change_category
+    new_category = @customer.category_is_agente? ? :cliente : :agente
+    msg = @customer.category_is_agente? ? 'Categoría cambiada a CLIENTE.' : 'Categoría cambiada a AGENTE.'
+
+    respond_to do |format|
+      if @customer.update(category: new_category)
+        format.html { redirect_to customer_url(@customer), notice: msg }
         format.json { render :show, status: :ok, location: @customer }
       else
         format.html { render :edit, status: :unprocessable_entity }

@@ -86,7 +86,7 @@ class Ability
     #---------------------------EN USUARIOS/SUCURSAL - ROL INTERMEDIO DEL COMERCIO (Contador, gente de marketing, administradores)---------------------------
     if !user.branch_users.where(intermediate_role: true).blank?
       can :access, Customer, company: { user: user }
-      can %i[create read], Customer
+      can %i[create read enable_client], Customer
       can :access, Movement, branch: { company: { user: user } }
       can %i[access read mark_as_read], Alert
       can %i[access], :my_qr
@@ -103,7 +103,7 @@ class Ability
     #---------------------------EN USUARIOS/SUCURSAL - ROL BASICO DEL COMERCIO (Cajeros, Mozos, etc)---------------------------
     if !user.branch_users.where(basic_role: true).blank?
       can :access, Customer, company: { user: user }
-      can %i[create read], Customer
+      can %i[create], Customer
       can :access, Movement, branch: { company: { user: user } }
       can %i[create read annulment_movement], Movement
       can %i[access], :my_qr

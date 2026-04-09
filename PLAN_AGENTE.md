@@ -155,15 +155,15 @@ Archivos modificados:
 - `app/views/shared/_items_left_side.html.erb` — Renderizar partial
 
 Tareas:
-- [ ] 5.1 Agregar en `app/helpers/sidebar_helper.rb`:
+- [x] 5.1 Agregar en `app/helpers/sidebar_helper.rb`:
   - `show_agent_requests?` — visible si can?(:access, AgentRequest) y hay company o branch
   - `pending_agent_requests_count` — conteo de pendientes
   - `show_agent_requests_badge?` — badge si hay pendientes
-- [ ] 5.2 Crear `app/views/shared/left_sidebar/_agent_requests_section.html.erb`
+- [x] 5.2 Crear `app/views/shared/left_sidebar/_agent_requests_section.html.erb`
   - Link a `agent_requests_path` con icono `mdi-account-star`
   - Badge con conteo de pendientes (igual que alerts_branch_section)
-- [ ] 5.3 Modificar `app/views/shared/_items_left_side.html.erb` — Agregar render del partial después de Alertas
-- [ ] 5.4 Testear visibilidad según roles (basic ve sidebar?, manager ve badge?)
+- [x] 5.3 Modificar `app/views/shared/_items_left_side.html.erb` — Agregar render del partial después de Alertas
+- [x] 5.4 Testear visibilidad según roles (basic ve sidebar?, manager ve badge?)
 
 ---
 
