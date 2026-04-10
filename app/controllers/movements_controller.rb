@@ -403,7 +403,7 @@ class MovementsController < ApplicationController
   # Validar datos comunes
   def validate_common_data(data)
     branch_setting = BranchSetting.find_by(branch: data[:branch], day: Time.now.strftime('%u'))
-    data[:conversion] = branch_setting.conversion
+    data[:conversion] = data[:customer].category_is_agente? ? branch_setting.conversion_agent : branch_setting.conversion
     data[:discount] = branch_setting.discount
 
     available_points = data[:customer].points_balance_amount(data[:customer].company).to_i

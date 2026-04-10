@@ -2,7 +2,7 @@
 
   <% if customer %>
     <!----------------------------Seleccion de tipo de Movimiento---------------------------------->
-    <div data-controller="movements" data-customer-id="<%= customer&.id %>" data-branch-id="<%= @branch&.id %>" class="mb-3 card tilebox-one card p-3 mt-2">
+    <div data-controller="movements" data-customer-id="<%= customer&.id %>" data-branch-id="<%= @branch&.id %>" data-customer-is-agent="<%= customer&.category_is_agente? %>" class="mb-3 card tilebox-one card p-3 mt-2">
       <label for="movement_type_select" class="form-label">Seleccione tipo de Movimiento</label>
       <select id="movement_type_select" class="form-select" name="movement_type" data-movements-target="movementTypeSelect" data-action="change->movements#handleMovementTypeChange">
         <option value="">Seleccione una opción</option>
@@ -25,7 +25,7 @@
             <div class="">
               <div class="row">
                 <div class="col-md-10 offset-md-1">
-                  <%= form_with(model: movement, data: { controller: 'movements' }, method: :post, html: { class: 'needs-validation', novalidate: true }) do |form| %>
+                  <%= form_with(model: movement, method: :post, html: { class: 'needs-validation', novalidate: true }) do |form| %>
 
                   <%= render "shared/error_messages", resource: form.object %>
 
@@ -152,7 +152,7 @@
             <div class="">
               <div class="row">
                 <div class="col-md-10 offset-md-1">
-                  <%= form_with(model: movement, data: { controller: 'movements' }, method: :post, html: { class: 'needs-validation', novalidate: true }) do |form| %>
+                  <%= form_with(model: movement,  method: :post, html: { class: 'needs-validation', novalidate: true }) do |form| %>
 
                     <%= render "shared/error_messages", resource: form.object %>
 

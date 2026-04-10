@@ -14,7 +14,7 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
 
-  static targets = [ 
+  static targets = [
     "branchValue", // sucursal seleccionada
     "amountValue", // importe de venta
     "amountDiscounted", // importe descontado 
@@ -49,16 +49,28 @@ export default class extends Controller {
 
 
   connect() {
-    if (this.hasAmountDiscountedTarget ) { this.amountDiscountedTarget.value = ``; }
-    if (this.hasAmountWithDiscountTarget ) { this.amountWithDiscountTarget.value = ``;}
-    if (this.hasPointsTarget ) { this.pointsTarget.value =  ``; }
-    if (this.hasTotalImportTarget ) { this.totalImportTarget.value = ``; }
-    if (this.hasBranchValueTarget ) { this.displayBranchSettings(); }
+    if (this.hasAmountDiscountedTarget) { this.amountDiscountedTarget.value = ``; }
+    if (this.hasAmountWithDiscountTarget) { this.amountWithDiscountTarget.value = ``; }
+    if (this.hasPointsTarget) { this.pointsTarget.value = ``; }
+    if (this.hasTotalImportTarget) { this.totalImportTarget.value = ``; }
+    if (this.hasBranchValueTarget) { this.displayBranchSettings(); }
 
     // Set initial form visibility based on select value
-    if (this.hasMovementTypeSelectTarget ) { this.handleMovementTypeChange(); }
+    if (this.hasMovementTypeSelectTarget) { this.handleMovementTypeChange(); }
   }
 
+  get isAgent() {
+    return this.element.dataset.customerIsAgent === "true";
+  }
+
+  get activeForm() {
+    if (this.hasSaleFormTarget && !this.saleFormTarget.classList.contains("d-none")) {
+      return this.saleFormTarget;
+    } else if (this.hasSaleExchangeFormTarget && !this.saleExchangeFormTarget.classList.contains("d-none")) {
+      return this.saleExchangeFormTarget;
+    }
+    return this.element;
+  }
 
   updateSubmitButtonState() {
     // Enable the submit button if a product is selected, disable otherwise
@@ -71,7 +83,7 @@ export default class extends Controller {
     this.hideAllForms();
     if (selectedType === "sale") {
       this.saleFormTarget.classList.remove("d-none");
-      
+
     } else if (selectedType === "sale-exchange") {
       this.saleExchangeFormTarget.classList.remove("d-none");
 
@@ -95,87 +107,92 @@ export default class extends Controller {
 
   // mostramos conversion y descuento de conf. de sucursales 
   async displayBranchSettings() {
-    const {discountValue, conversionValue } = await this.getBranchSetting();
-    this.discountParam = discountValue; // Store as instance variable
-    this.conversionParam = conversionValue; // Store as instance variable
-    this.showSettingsFormat(discountValue, conversionValue);
-    this.updateValues(discountValue, conversionValue);
+    const { discountValue, conversionValue, conversionAgentValue } = await this.getBranchSetting();
+    this.discountParam = discountValue;
+    this.conversionParam = conversionValue;
+    this.conversionAgentParam = conversionAgentValue;  // NUEVO
+    this.showSettingsFormat(discountValue, this.isAgent ? conversionAgentValue : conversionValue);  // CAMBIO: mostrar la conversión correcta
+    this.updateValues();
     this.clearValidationErrors();
   }
 
-  showSettingsFormat(discountParam, conversionParam){
-    if(discountParam!=-1 && conversionParam!=-1){
+  showSettingsFormat(discountParam, conversionParam) {
+    if (discountParam != -1 && conversionParam != -1) {
       const formattedDiscount = parseFloat(discountParam).toFixed(2).replace('.', ',');
       const parts = parseFloat(conversionParam).toFixed(2).split('.');
       let integerPart = parts[0];
       let decimalPart = parts[1];
       integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  
-      this.discountValueTarget.textContent = `${formattedDiscount}%`; // Descuento con formato
-      this.conversionValueTarget.textContent = `${integerPart}${','}${decimalPart}`;  // Conversion con formato
-    }else{
-      this.discountValueTarget.textContent = ``;
-      this.conversionValueTarget.textContent = ``;
+
+      this.discountValueTargets.forEach(el => el.textContent = `${formattedDiscount}%`);
+      this.conversionValueTargets.forEach(el => el.textContent = `${integerPart}${','}${decimalPart}`);
+    } else {
+      this.discountValueTargets.forEach(el => el.textContent = ``);
+      this.conversionValueTargets.forEach(el => el.textContent = ``);
     }
   }
 
-  async getBranchSetting(){
-    const branchId = this.branchValueTarget.value 
-    let discountValue = -1;   
+  async getBranchSetting() {
+    const branchId = this.branchValueTarget.value
+    let discountValue = -1;
     let conversionValue = -1;
+    let conversionAgentValue = -1;  // NUEVO
     if (branchId) {
       try {
-        //console.log("esto de abajo se debe descomentar")
         const response = await window.axios.get(`/branches/${branchId}/today_settings`);
-        const { discount, conversion } = response.data;
+        const { discount, conversion, conversion_agent } = response.data;
         discountValue = discount;
         conversionValue = conversion;
+        conversionAgentValue = conversion_agent;  // NUEVO
       } catch (error) {
         console.error("Error al obtener la configuración de la sucursal:", error);
       }
     }
-    return  { discountValue, conversionValue };
+    return { discountValue, conversionValue, conversionAgentValue };  // NUEVO
   }
 
   updateValues() {
-
-    if(this.discountParam!=-1 && this.conversionParam!=-1){
-      const amountValue = parseFloat(this.amountValueTarget.value) || 0;
-      const discountAmount = amountValue * (this.discountParam/100);
+    const effectiveConversion = this.isAgent ? this.conversionAgentParam : this.conversionParam;
+    const form = this.activeForm;
+    const amountEl = form.querySelector('[data-movements-target="amountValue"]');
+    const discountEl = form.querySelector('[data-movements-target="amountDiscounted"]');
+    const withDiscountEl = form.querySelector('[data-movements-target="amountWithDiscount"]');
+    const pointsEl = form.querySelector('[data-movements-target="points"]');
+    const exchangeEl = form.querySelector('[data-movements-target="exchangePoints"]');
+    const totalEl = form.querySelector('[data-movements-target="totalImport"]');
+    if (this.discountParam != -1 && effectiveConversion != -1 && amountEl) {
+      const amountValue = parseFloat(amountEl.value) || 0;
+      const discountAmount = amountValue * (this.discountParam / 100);
       const amountWithDiscount = amountValue - discountAmount;
-      const exchangePoints = parseInt(this.exchangePointsTarget.value.replace(/\D/g, ''), 10) || 0; // Asegurarse de inicializar
-
-      const points = Math.round(amountWithDiscount * this.conversionParam);
+      const exchangePoints = parseInt((exchangeEl?.value || '0').replace(/\D/g, ''), 10) || 0;
+      const points = Math.round(amountWithDiscount * effectiveConversion);
       const totalImport = amountWithDiscount - parseFloat(exchangePoints || 0);
-      //const exchangePoints = parseInt(this.exchangePointsTarget.value.replace(/\D/g, ''), 10);
-
-      this.amountDiscountedTarget.value = `${discountAmount.toFixed(2)}`;
-      this.amountWithDiscountTarget.value = `${amountWithDiscount.toFixed(2)}`; 
-      this.pointsTarget.value =  `${points}`; 
-      this.totalImportTarget.value = `${totalImport.toFixed(2)}`;
-      this.exchangePointsTarget.value = (isNaN(exchangePoints) || exchangePoints==='') ? 0 : exchangePoints;
-    }else{
-      this.amountDiscountedTarget.value = ``;
-      this.amountWithDiscountTarget.value = ``; 
-      this.pointsTarget.value =  ``; 
-      this.totalImportTarget.value = ``;
-      this.exchangePointsTarget.value = ``;
+      if (discountEl) discountEl.value = `${discountAmount.toFixed(2)}`;
+      if (withDiscountEl) withDiscountEl.value = `${amountWithDiscount.toFixed(2)}`;
+      if (pointsEl) pointsEl.value = `${points}`;
+      if (totalEl) totalEl.value = `${totalImport.toFixed(2)}`;
+      if (exchangeEl) exchangeEl.value = (isNaN(exchangePoints) || exchangePoints === '') ? 0 : exchangePoints;
+    } else {
+      if (discountEl) discountEl.value = ``;
+      if (withDiscountEl) withDiscountEl.value = ``;
+      if (pointsEl) pointsEl.value = ``;
+      if (totalEl) totalEl.value = ``;
+      if (exchangeEl) exchangeEl.value = ``;
     }
-
   }
 
-  validateBranch(){
+  validateBranch() {
     //event.preventDefault();
     //this.clearValidationErrors();
-    if (this.branchValueTarget.value.trim()==='') {
+    if (this.branchValueTarget.value.trim() === '') {
       this.showValidationError(this.branchValueTarget, "Es requerido seleccionar una sucursal", this.errorFeedbackBranchTarget);
     }
   }
 
-  validateAmount(){
+  validateAmount() {
     //event.preventDefault();
     //this.clearValidationErrors();
-    if (isNaN(this.amountValueTarget.value) || Number(this.amountValueTarget.value) <= 0) {   
+    if (isNaN(this.amountValueTarget.value) || Number(this.amountValueTarget.value) <= 0) {
       this.showValidationError(this.amountValueTarget, "Es requerido el valor de Importe", this.errorFeedbackAmountTarget);
     }
   }
@@ -183,7 +200,7 @@ export default class extends Controller {
   validateExchangePoints() {
     this.clearValidationErrors();
     let isValid = true;
-  
+
     if (Number(this.exchangePointsTarget.value) > Number(this.pointsBalanceTarget.value)) {
       this.showValidationError(
         this.exchangePointsTarget,
@@ -192,7 +209,7 @@ export default class extends Controller {
       );
       isValid = false;
     }
-  
+
     if (Number(this.exchangePointsTarget.value) > Number(this.amountWithDiscountTarget.value)) {
       this.showValidationError(
         this.exchangePointsTarget,
@@ -201,7 +218,7 @@ export default class extends Controller {
       );
       isValid = false;
     }
-  
+
     // Enable or disable the submit button based on validation
     this.submitButtonTarget.disabled = !isValid;
   }
@@ -210,13 +227,13 @@ export default class extends Controller {
   //   this.validateBranch();
   //   this.validateAmount();
   //   this.validateExchangePoints();
-    
+
   //   // Check if there are any validation errors
   //   const hasErrors = this.hasValidationErrors();
   //   this.submitButtonTarget.disabled = hasErrors;
   // }
 
-  validateInputs(){
+  validateInputs() {
     const selectedType = this.movementTypeSelectTarget.value;
 
     if (selectedType === "sale") {
@@ -265,14 +282,14 @@ export default class extends Controller {
   }
 
   hasValidationErrors() {
-    const form = this.element;  
-    const errors = form.querySelectorAll('.is-invalid'); 
-    
+    const form = this.element;
+    const errors = form.querySelectorAll('.is-invalid');
+
     console.log("Errores encontrados:", errors.length);
-    return errors.length > 0; 
+    return errors.length > 0;
   }
 
-  validateSubmitForm(event){
+  validateSubmitForm(event) {
     console.log("Validando el formulario...");
     const button = event.currentTarget;
     event.preventDefault();
@@ -281,10 +298,10 @@ export default class extends Controller {
     this.validateInputs();
     console.log(this.hasValidationErrors());
 
-    if (!this.hasValidationErrors()){
-      button.textContent = 'Enviando...'; 
+    if (!this.hasValidationErrors()) {
+      button.textContent = 'Enviando...';
       this.element.closest('form').submit();
     }
-    
+
   }
 }

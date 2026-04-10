@@ -207,7 +207,8 @@ class BranchesController < ApplicationController
     branch = Branch.find(params[:id])
     render json: {
       discount: branch.today_discount,
-      conversion: branch.today_conversion
+      conversion: branch.today_conversion,
+      conversion_agent: branch.today_conversion_agent
     }
   end
 
