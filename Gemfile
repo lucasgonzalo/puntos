@@ -61,7 +61,7 @@ gem 'apexcharts'
 # Para generar los excels
 gem 'caxlsx'
 gem 'caxlsx_rails'
-gem "roo", "~> 2.10.0" # Para leer contenido de excels
+gem "roo", "~> 3.0.0" # Para leer contenido de excels
 
 # Para onitoreo de la aplicacion
 gem "sentry-ruby"
